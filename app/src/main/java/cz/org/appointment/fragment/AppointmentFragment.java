@@ -86,8 +86,7 @@ public class AppointmentFragment extends LazyFragment {
             }
 
         });
-        seatTableView.setData(4, 15);
-
+        seatTableView.setData(10, 10);
 
     }
 

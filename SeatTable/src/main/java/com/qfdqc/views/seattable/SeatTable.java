@@ -311,19 +311,10 @@ public class SeatTable extends View {
 
     float xScale1 = 1;
     float yScale1 = 1;
-
-
+    float baseX = 1;
+    float baseY = 1;
 
     private void init() {
-//        spacing = (int) dip2Px(5);
-//        verSpacing = (int) dip2Px(10);
-//        defaultScreenWidth = (int) dip2Px(80);
-
-        float baseXWidth = 1;
-        float baseYWidth = 1;
-
-//        if(row==1)
-
         spacing = (int) dip2Px(5);
         verSpacing = (int) dip2Px(10);
         defaultScreenWidth = (int) dip2Px(80);
@@ -332,8 +323,15 @@ public class SeatTable extends View {
 
         float scaleX = defaultImgW / seatBitmap.getWidth();
         float scaleY = defaultImgH / seatBitmap.getHeight();
-        xScale1 = scaleX * baseXWidth;
-        yScale1 = scaleY * baseYWidth;
+
+
+        if (column <= 10) {
+            baseX = 2;
+            baseY = 2;
+        }
+
+        xScale1 = scaleX * baseX;
+        yScale1 = scaleY * baseY;
 
         seatHeight = (int) (seatBitmap.getHeight() * yScale1);
         seatWidth = (int) (seatBitmap.getWidth() * xScale1);
@@ -517,10 +515,17 @@ public class SeatTable extends View {
         tempMatrix.setScale(xScale1, yScale1);
         tempMatrix.postTranslate(soldSeatBitmapY, (headHeight - seatHeight) / 2);
         canvas.drawBitmap(seatSoldBitmap, tempMatrix, headPaint);
-        canvas.drawText("已售", soldSeatBitmapY + seatWidth + spacing1, txtY, headPaint);
+        canvas.drawText("占用", soldSeatBitmapY + seatWidth + spacing1, txtY, headPaint);
 
         float checkedSeatBitmapX = soldSeatBitmapY + seatSoldBitmap.getWidth() + spacing1 + txtWidth + spacing;
         tempMatrix.setScale(xScale1, yScale1);
+
+        if (baseX == 2) {
+            y = y - 10;
+        } else {
+            y = y + 5;
+        }
+
         tempMatrix.postTranslate(checkedSeatBitmapX, y);
         canvas.drawBitmap(checkedSeatBitmap, tempMatrix, headPaint);
         canvas.drawText("已选", checkedSeatBitmapX + spacing1 + seatWidth, txtY, headPaint);
@@ -889,17 +894,12 @@ public class SeatTable extends View {
 
     private void autoScale() {
 
-//        if (getMatrixScaleX() > 2.2*2) {
-//            zoomAnimate(getMatrixScaleX(), 2.0f*2);
-//        } else if (getMatrixScaleX() < 0.98*2) {
-//            zoomAnimate(getMatrixScaleX(), 1.0f*2);
-//        }
-
         if (getMatrixScaleX() > 2.2) {
             zoomAnimate(getMatrixScaleX(), 2.0f);
         } else if (getMatrixScaleX() < 0.98) {
             zoomAnimate(getMatrixScaleX(), 1.0f);
         }
+
     }
 
     Handler handler = new Handler();
