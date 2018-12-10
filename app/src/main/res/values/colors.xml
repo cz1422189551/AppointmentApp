@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorPrimaryText">#000000</color>
+    <color name="colorSecondText">#757575</color>
+    <color name="colorTabTextNoSelected">#757575</color>
+    <color name="colorTabTextSelected">#337FFF</color>
+
+    <color name="ColorDividerColor">#BDBDBD</color>
+    <color name="ColorDividerColor2">#e6e6e6</color>
+
+
+    <color name="tip">#9c9c9c</color>
+    <color name="bg_focus">#DDDDDD</color>
+    <color name="red_500">#ef4836</color>
+    <color name="gray">#9c9c94</color>
+
+
+    <color name="WhiteGey">#f6f4f4</color>
+    <color name="base_color">#707070</color>
+    <color name="ColorHeadColor">#e61D89E5</color>
+    <color name="HeadBlue">#609BFF</color>
+
+    <color name="windowBackgroundColor">#000000</color>
+
+</resources>
