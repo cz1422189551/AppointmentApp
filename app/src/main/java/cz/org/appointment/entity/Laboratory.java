@@ -18,7 +18,7 @@ public class Laboratory {
 
     private List<Seat> seatList;
 
-//    private LaboratoryType type;
+
 
     //排
 
@@ -110,5 +110,30 @@ public class Laboratory {
 
     public void setCloseDate(Date closeDate) {
         this.closeDate = closeDate;
+    }
+
+    public LaboratoryType getLaboratoryType() {
+        return laboratoryType;
+    }
+
+    public void setLaboratoryType(LaboratoryType laboratoryType) {
+        this.laboratoryType = laboratoryType;
+    }
+
+    private LaboratoryType laboratoryType;
+
+    public Laboratory(){}
+
+    public Laboratory(int id, User user, String name, List<Seat> seatList, int row, int col, boolean enable, Date openDate, Date closeDate, LaboratoryType laboratoryType) {
+        this.id = id;
+        this.user = user;
+        this.name = name;
+        this.seatList = seatList;
+        this.row = row;
+        this.col = col;
+        this.enable = enable;
+        this.openDate = openDate;
+        this.closeDate = closeDate;
+        this.laboratoryType = laboratoryType;
     }
 }
