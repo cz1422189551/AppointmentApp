@@ -538,6 +538,8 @@ public class SeatTable extends View {
 
     }
 
+    int screenBaseX = 100;
+
     /**
      * 绘制中间屏幕
      */
@@ -546,7 +548,7 @@ public class SeatTable extends View {
         pathPaint.setColor(Color.parseColor("#e2e2e2"));
         float startY = headHeight + borderHeight;
 
-        float centerX = seatBitmapWidth * getMatrixScaleX() / 2 + getTranslateX();
+        float centerX = seatBitmapWidth * getMatrixScaleX() / 2 + getTranslateX() + screenBaseX;
         float screenWidth = seatBitmapWidth * screenWidthScale * getMatrixScaleX();
         if (screenWidth < defaultScreenWidth) {
             screenWidth = defaultScreenWidth;
@@ -621,6 +623,7 @@ public class SeatTable extends View {
             Log.d("drawTime", "seatDrawTime:" + drawTime);
         }
     }
+
 
     private int getSeatType(int row, int column) {
 

@@ -28,5 +28,35 @@ public class Seat {
         this.colIndex = colIndex;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    public void setRowIndex(int rowIndex) {
+        this.rowIndex = rowIndex;
+    }
+
+    public int getColIndex() {
+        return colIndex;
+    }
+
+    public void setColIndex(int colIndex) {
+        this.colIndex = colIndex;
+    }
+
+    public String getRowName() {
+        return rowName;
+    }
+
+    public void setRowName(String rowName) {
+        this.rowName = rowName;
+    }
 }

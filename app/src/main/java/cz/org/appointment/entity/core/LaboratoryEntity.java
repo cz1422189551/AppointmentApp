@@ -23,4 +23,12 @@ public class LaboratoryEntity extends Laboratory {
     public LaboratoryEntity(Laboratory l, List<LaboratorySeat> seatInfoList) {
         this(l.getId(), l.getUser(), l.getName(), seatInfoList, l.getRow(), l.getCol(), l.isEnable(), l.getOpenDate(), l.getCloseDate(), l.getLaboratoryType());
     }
+
+    public List<LaboratorySeat> getSeatInfoList() {
+        return seatInfoList;
+    }
+
+    public void setSeatInfoList(List<LaboratorySeat> seatInfoList) {
+        this.seatInfoList = seatInfoList;
+    }
 }

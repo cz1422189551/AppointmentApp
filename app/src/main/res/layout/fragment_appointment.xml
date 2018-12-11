@@ -26,16 +26,28 @@
 
     <LinearLayout
         android:id="@+id/ll_seat_table"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="500dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <com.qfdqc.views.seattable.SeatTable
             android:id="@+id/seatView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交" />
     </LinearLayout>
 
 

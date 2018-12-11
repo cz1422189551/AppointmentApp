@@ -19,13 +19,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.api.LaboratoryService;
+import cz.org.appointment.entity.LaboratorySeat;
 import cz.org.appointment.entity.core.LaboratoryEntity;
 import cz.org.appointment.entity.core.LaboratoryTypeEntity;
+import cz.org.appointment.ui.SeatCheckerImpl;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +64,8 @@ public class AppointmentFragment extends LazyFragment {
 
     BaseAdapter laboratoryAdapter;
 
+    SeatCheckerImpl seatChecker = new SeatCheckerImpl(null);
+
     //该方法名和 变量名不能改动，否则懒加载失效
     public void onLazyLoadViewCreated(Bundle savedInstanceState) {
         //do something in here
@@ -94,55 +99,20 @@ public class AppointmentFragment extends LazyFragment {
                 Log.d(TAG, "onFailure: ");
             }
         });
-        initSeatTable();
+        setSeatTable(null);
     }
 
-    private void initSeatTable() {
-
-        seatTableView.setScreenName("实验室");//设置屏幕名称
-        seatTableView.setMaxSelected(1);//设置最多选中
-
-        Map<Integer, Map<Integer, Boolean>> map = new HashMap<>();
-        Map<Integer, Boolean> value = new HashMap<>();
-        for (int i = 0; i < 3; i++) {
-            value.put(i, true);
+    private void setSeatTable(LaboratoryEntity entity) {
+        if (entity == null) {
+            resetVibility();
+            return;
         }
-        map.put(0, value);
-
-        seatTableView.setSeatChecker(new SeatTable.SeatChecker() {
-
-            @Override
-            public boolean isValidSeat(int row, int column) {
-                return true;
-            }
-
-            @Override
-            public boolean isSold(int row, int column) {
-                Map<Integer, Boolean> rmp = map.get(row);
-                if (rmp == null) return false;
-                if (rmp.get(column) == null) return false;
-                return rmp.get(column).booleanValue();
-            }
-
-            @Override
-            public void checked(int row, int column) {
-                Log.d(TAG, "checked:  " + row + " col : " + column);
-                ArrayList<String> selectedSeat = seatTableView.getSelectedSeat();
-                Log.d(TAG, "selectSeat " + selectedSeat.toString());
-            }
-
-            @Override
-            public void unCheck(int row, int column) {
-
-            }
-
-            @Override
-            public String[] checkedSeatTxt(int row, int column) {
-                return null;
-            }
-
-        });
-        seatTableView.setData(10, 10);
+        seatTableView.setScreenName(entity.getName());//设置屏幕名称
+        seatTableView.setMaxSelected(1);//设置最多选中
+        seatChecker.setCurrentEntity(entity);
+        seatTableView.setSeatChecker(seatChecker);
+        seatTableView.setData(entity.getRow(), entity.getCol());
+        setVisibility();
     }
 
     private void setVisibility() {
@@ -173,6 +143,8 @@ public class AppointmentFragment extends LazyFragment {
                 entityList.removeAll(entityList);
                 entityList.addAll(currentType.getEntities());
                 laboratoryAdapter.notifyDataSetChanged();
+                resetVibility();
+                seatTableView.setSeatChecker(seatChecker);
                 Log.d(TAG, "onItemSelected: " + currentType.getName());
             }
 
@@ -197,7 +169,7 @@ public class AppointmentFragment extends LazyFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 currentEntity = (LaboratoryEntity) laboratoryAdapter.getItem(i);
-
+                setSeatTable(currentEntity);
                 Log.d(TAG, "onItemSelected: " + currentEntity.getName());
             }
 
@@ -205,8 +177,7 @@ public class AppointmentFragment extends LazyFragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        //设置默认值
-        laboratorySpinner.setVisibility(View.VISIBLE);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
