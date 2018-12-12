@@ -14,17 +14,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
+public abstract class BaseActivity extends AppCompatActivity {
 
-public abstract  class BaseActivity extends AppCompatActivity{
+    protected String TAG = getClass().getSimpleName();
 
-
-
-    private Unbinder unbinder ;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +32,7 @@ public abstract  class BaseActivity extends AppCompatActivity{
 
     }
 
-    private  void loadActivity(){
+    private void loadActivity() {
         setContentView(getLayout());
         ButterKnife.bind(getActivity());
         initViews();
@@ -49,15 +47,15 @@ public abstract  class BaseActivity extends AppCompatActivity{
 
     public abstract void loadData();
 
-    public static void  startToActivity(Activity activity, Class intentActivity){
+    public static void startToActivity(Activity activity, Class intentActivity) {
         Intent intent = new Intent();
-        intent.setClass(activity,intentActivity);
+        intent.setClass(activity, intentActivity);
         activity.startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
-        if(unbinder!=null) {
+        if (unbinder != null) {
             Log.d(this.getActivity().getClass().getSimpleName(), "onDestroy: 解绑");
             unbinder.unbind();
         }
@@ -66,7 +64,8 @@ public abstract  class BaseActivity extends AppCompatActivity{
 
 
     /**
-     *携带数据的页面跳转
+     * 携带数据的页面跳转
+     *
      * @param clz
      * @param bundle
      */

@@ -38,12 +38,12 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_my)
     LinearLayout mineLinearLayout;
 
-    @BindView(R.id.tv_news)
-    TextView newsTextView;
-    @BindView(R.id.tv_subscribe)
-    TextView subScribeTextView;
-    @BindView(R.id.tv_mine)
-    TextView mineTextView;
+//    @BindView(R.id.tv_news)
+//    TextView newsTextView;
+//    @BindView(R.id.tv_subscribe)
+//    TextView subScribeTextView;
+//    @BindView(R.id.tv_mine)
+//    TextView mineTextView;
 
     @BindView(R.id.iv_news)
     ImageView newsImageView;
@@ -95,24 +95,24 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 // TODO Auto-generated method stub
-                resetView();
+//                resetView();
                 resetPic();
                 switch (position) {
                     case 0:
-                        newsTextView.setTextColor(Color.parseColor("#337FFF"));
-                        newsTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                        newsTextView.setTextColor(Color.parseColor("#337FFF"));
+//                        newsTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
                         newsImageView.setBackgroundResource(R.drawable.news_1);
                         break;
                     case 1:
-                        subScribeTextView.setTextColor(Color.parseColor("#337FFF"));
-                        subScribeTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                        subScribeTextView.setTextColor(Color.parseColor("#337FFF"));
+//                        subScribeTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
                         subScribeImageView.setBackgroundResource(R.drawable.subscribe_1);
                         break;
                     case 2:
-                        mineTextView.setTextColor(Color.parseColor("#337FFF"));
-                        mineTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+//                        mineTextView.setTextColor(Color.parseColor("#337FFF"));
+//                        mineTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
                         mineImageView.setBackgroundResource(R.drawable.mine_1);
                         break;
@@ -143,11 +143,11 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    protected void resetView() {
-        newsTextView.setTextColor(Color.parseColor("#757575"));
-        subScribeTextView.setTextColor(Color.parseColor("#757575"));
-        mineTextView.setTextColor(Color.parseColor("#757575"));
-    }
+//    protected void resetView() {
+//        newsTextView.setTextColor(Color.parseColor("#757575"));
+//        subScribeTextView.setTextColor(Color.parseColor("#757575"));
+//        mineTextView.setTextColor(Color.parseColor("#757575"));
+//    }
 
     private class LinearLayoutListener implements View.OnClickListener {
         @Override
