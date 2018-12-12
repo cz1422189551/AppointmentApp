@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,9 @@ import cz.org.appointment.adapter.FragmentAdapter;
 import cz.org.appointment.fragment.AppointmentFragment;
 import cz.org.appointment.fragment.HomeFragment;
 import cz.org.appointment.fragment.MineFragment;
+import cz.org.appointment.util.IntentUtil;
+
+import static cz.org.appointment.MyApplication.user;
 
 
 public class HomeActivity extends BaseActivity {
@@ -102,19 +106,19 @@ public class HomeActivity extends BaseActivity {
                         newsTextView.setTextColor(Color.parseColor("#337FFF"));
                         newsTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
-                        newsImageView.setBackgroundResource(R.drawable.news_1);
+                        newsImageView.setBackgroundResource(R.mipmap.news_1);
                         break;
                     case 1:
                         subScribeTextView.setTextColor(Color.parseColor("#337FFF"));
                         subScribeTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
-                        subScribeImageView.setBackgroundResource(R.drawable.subscribe_1);
+                        subScribeImageView.setBackgroundResource(R.mipmap.subscribe_1);
                         break;
                     case 2:
                         mineTextView.setTextColor(Color.parseColor("#337FFF"));
                         mineTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
-                        mineImageView.setBackgroundResource(R.drawable.mine_1);
+                        mineImageView.setBackgroundResource(R.mipmap.mine_1);
                         break;
                 }
             }
@@ -132,14 +136,17 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-
+        if (user == null) {
+            IntentUtil.get().goActivity(this,LoginActivity.class);
+        }
+        Log.d(TAG, "loadData: "+user);
     }
 
 
     private void resetPic() {
-        newsImageView.setBackgroundResource(R.drawable.news_grey);
-        subScribeImageView.setBackgroundResource(R.drawable.subscribe);
-        mineImageView.setBackgroundResource(R.drawable.mine);
+        newsImageView.setBackgroundResource(R.mipmap.news_grey);
+        subScribeImageView.setBackgroundResource(R.mipmap.subscribe);
+        mineImageView.setBackgroundResource(R.mipmap.mine);
     }
 
 

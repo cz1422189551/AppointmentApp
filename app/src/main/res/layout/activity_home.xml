@@ -19,7 +19,7 @@
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal"
+        android:baselineAligned="false" android:orientation="horizontal"
        >
 
         <LinearLayout
@@ -30,11 +30,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="22dp"
+                android:layout_width="22dp" android:contentDescription="TODO" 
                 android:layout_height="22dp"
                 android:id="@+id/iv_news"
                 android:layout_gravity="center"
-                android:background="@drawable/news_1" />
+                android:background="@mipmap/news_1" />
 
             <TextView
                 android:id="@+id/tv_news"
@@ -56,11 +56,11 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="22dp"
+                android:layout_width="22dp" android:contentDescription="TODO" 
                 android:layout_height="22dp"
                 android:id="@+id/iv_subscribe"
                 android:layout_gravity="center"
-                android:background="@drawable/subscribe" />
+                android:background="@mipmap/subscribe" />
 
             <TextView
                 android:id="@+id/tv_subscribe"
@@ -83,11 +83,11 @@
 
 
             <ImageView
-                android:layout_width="22dp"
+                android:layout_width="22dp" android:contentDescription="TODO" 
                 android:layout_height="22dp"
                 android:id="@+id/iv_my"
                 android:layout_gravity="center"
-                android:background="@drawable/mine" />
+                android:background="@mipmap/mine" />
 
             <TextView
                 android:id="@+id/tv_mine"
