@@ -27,6 +27,7 @@ import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.entity.core.LaboratoryEntity;
 import cz.org.appointment.entity.core.LaboratoryTypeEntity;
 import cz.org.appointment.ui.SeatCheckerImpl;
+import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,11 +39,10 @@ public class AppointmentFragment extends LazyFragment {
     SeatTable seatTableView;
 
     @BindView(R.id.spinner_type)
-    Spinner typeSpinner;
+    MaterialSpinner typeSpinner;
 
     @BindView(R.id.spinner_laboratory)
     Spinner laboratorySpinner;
-
 
 
     @BindView(R.id.ll_seat_table)
@@ -145,6 +145,7 @@ public class AppointmentFragment extends LazyFragment {
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 0) return;
                 currentType = (LaboratoryTypeEntity) typeAdapter.getItem(i);
                 entityList.removeAll(entityList);
                 entityList.addAll(currentType.getEntities());

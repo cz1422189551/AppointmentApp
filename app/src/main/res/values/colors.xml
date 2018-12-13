@@ -25,5 +25,6 @@
     <color name="HeadBlue">#609BFF</color>
 
     <color name="windowBackgroundColor">#000000</color>
-
+    <color name="spinner_base_color">#44000000</color>
+    <color name="spinner_hint_text_color">#ffffcc</color>
 </resources>
