@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,11 +29,11 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    @BindView(R.id.et_user_name)
-    EditText etUserName;
+    @BindView(R.id.et_username)
+    MaterialEditText etUserName;
 
     @BindView(R.id.et_password)
-    EditText etPassword;
+    MaterialEditText etPassword;
 
     @BindView(R.id.btn_submit)
     Button button;
