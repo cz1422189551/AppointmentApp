@@ -26,7 +26,12 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask">
+
         </activity>
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"></activity>
 
     </application>
 

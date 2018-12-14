@@ -1,5 +1,6 @@
 package cz.org.appointment.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jkb.fragment.rigger.annotation.LazyLoad;
+import com.jkb.fragment.rigger.annotation.Puppet;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,6 +25,8 @@ import butterknife.Unbinder;
  *
  * @see #onFragmentVisibleChange(boolean)
  */
+@LazyLoad(true)
+@Puppet
 public abstract class LazyFragment extends Fragment {
 
     protected Unbinder unbinder;
@@ -51,7 +57,6 @@ public abstract class LazyFragment extends Fragment {
             rootView = inflater.inflate(getLayout(), container, false);
             unbinder = ButterKnife.bind(this, rootView);
             initViews(rootView);
-
             return rootView;
         }
         return rootView;
@@ -60,6 +65,18 @@ public abstract class LazyFragment extends Fragment {
     protected abstract int getLayout();
 
     protected abstract void initViews(View view);
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: ");
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

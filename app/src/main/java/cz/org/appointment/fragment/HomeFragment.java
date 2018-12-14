@@ -23,16 +23,19 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@LazyLoad(true)
-@Puppet
+import static cz.org.appointment.MyApplication.retrofit;
+
+
 public class HomeFragment extends LazyFragment {
 
     @BindView(R.id.tv_name)
     TextView textView;
 
+    LaboratoryService laboratoryService;
+
     //该方法名和 变量名不能改动，否则懒加载失效
     public void onLazyLoadViewCreated(Bundle savedInstanceState) {
-        //do something in here
+
     }
 
 
@@ -43,12 +46,8 @@ public class HomeFragment extends LazyFragment {
 
     @Override
     protected void initViews(View view) {
-        // 第2部分：在创建Retrofit实例时通过.baseUrl()设置
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.7.134:8080") //设置网络请求的Url地址
-                .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
-                .build();
-        LaboratoryService laboratoryService = retrofit.create(LaboratoryService.class);
+
+        laboratoryService = retrofit.create(LaboratoryService.class);
         Call<List<LaboratorySeat>> laboratorySeatCall = laboratoryService.laboratorySeatList("1");
         textView.setText("hello world");
         laboratorySeatCall.enqueue(new Callback<List<LaboratorySeat>>() {
@@ -57,7 +56,7 @@ public class HomeFragment extends LazyFragment {
                 List<LaboratorySeat> body = response.body();
                 body.size();
                 Integer stateType = body.get(0).getStateType();
-                textView.setText(stateType+"");
+                textView.setText(stateType + "");
             }
 
             @Override
@@ -71,9 +70,5 @@ public class HomeFragment extends LazyFragment {
     public void event() {
     }
 
-    @Override
-    public void onResume() {
-        Log.d(TAG, "onResume: ");
-        super.onResume();
-    }
+
 }

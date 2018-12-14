@@ -5,9 +5,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.jkb.fragment.rigger.annotation.LazyLoad;
 import com.qfdqc.views.seattable.SeatTable;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -16,19 +18,16 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.api.LaboratoryService;
-import cz.org.appointment.entity.LaboratorySeat;
 import cz.org.appointment.entity.core.LaboratoryEntity;
 import cz.org.appointment.entity.core.LaboratoryTypeEntity;
 import cz.org.appointment.ui.SeatCheckerImpl;
+import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,12 +39,13 @@ public class AppointmentFragment extends LazyFragment {
     SeatTable seatTableView;
 
     @BindView(R.id.spinner_type)
-    Spinner typeSpinner;
+    MaterialSpinner typeSpinner;
 
     @BindView(R.id.spinner_laboratory)
-    Spinner laboratorySpinner;
+    MaterialSpinner laboratorySpinner;
 
-    @BindView(R.id.ll_seat_table)
+
+    @BindView(R.id.ll_laboratory)
     LinearLayout linearLayout;
 
 
@@ -99,28 +99,41 @@ public class AppointmentFragment extends LazyFragment {
                 Log.d(TAG, "onFailure: ");
             }
         });
-        setSeatTable(null);
+//        setSeatTable(null);
     }
 
-    private void setSeatTable(LaboratoryEntity entity) {
-        if (entity == null) {
-            resetVibility();
-            return;
-        }
-        seatTableView.setScreenName(entity.getName());//设置屏幕名称
-        seatTableView.setMaxSelected(1);//设置最多选中
-        seatChecker.setCurrentEntity(entity);
-        seatTableView.setSeatChecker(seatChecker);
-        seatTableView.setData(entity.getRow(), entity.getCol());
-        setVisibility();
-    }
+//    private void setSeatTable(LaboratoryEntity entity) {
+//        if (entity == null) {
+//            resetVisibility();
+//            return;
+//        }
+//        seatTableView.setScreenName(entity.getName());//设置屏幕名称
+//        seatTableView.setMaxSelected(1);//设置最多选中
+//
+//        seatTableView.setSeatChecker(new SeatCheckerImpl(entity));
+//        seatTableView.setData(entity.getRow(), entity.getCol());
+////        setVisibility();
+//    }
 
     private void setVisibility() {
-        if (currentEntity == null) linearLayout.setVisibility(View.GONE);
-        else linearLayout.setVisibility(View.VISIBLE);
+        if (currentType == null) {
+            linearLayout.setVisibility(View.GONE);
+        } else {
+            if (currentType.getEntities() == null) {
+                linearLayout.setVisibility(View.GONE);
+            } else {
+                linearLayout.setVisibility(View.VISIBLE);
+            }
+        }
+
     }
 
-    private void resetVibility() {
+    private void resetVisibility() {
+        Log.d(TAG, "resetVisibility: 重置可见性 ：Gone");
+        currentType = null;
+        entityList.removeAll(entityList);
+        laboratoryAdapter.notifyDataSetChanged();
+
         linearLayout.setVisibility(View.GONE);
     }
 
@@ -136,30 +149,37 @@ public class AppointmentFragment extends LazyFragment {
         //将adapter 添加到spinner中
         typeSpinner.setAdapter(typeAdapter);
         //添加事件Spinner事件监听
+
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 0) return;
                 currentType = (LaboratoryTypeEntity) typeAdapter.getItem(i);
                 entityList.removeAll(entityList);
+                entityList.clear();
                 entityList.addAll(currentType.getEntities());
+                setVisibility();
                 laboratoryAdapter.notifyDataSetChanged();
-                resetVibility();
-                seatTableView.setSeatChecker(seatChecker);
-                Log.d(TAG, "onItemSelected: " + currentType.getName());
+                laboratorySpinner.setAdapter(laboratoryAdapter);
+//                resetVisibility();
+//                seatTableView.setSeatChecker(new SeatCheckerImpl(currentEntity));
+                Log.d(TAG, "Type -> onItemSelected: " + currentType.getName());
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+
         //设置默认值
         typeSpinner.setVisibility(View.VISIBLE);
 
         //将可选内容与ArrayAdapter连接起来
-        laboratoryAdapter = new CommonAdapter<LaboratoryEntity>(getActivity(), R.layout.laboratory_entity_layout, entityList) {
+        laboratoryAdapter = new CommonAdapter<LaboratoryEntity>(getActivity(), R.layout.spinner_layout, entityList) {
             @Override
             protected void convert(ViewHolder viewHolder, LaboratoryEntity item, int position) {
-                viewHolder.setText(R.id.tv_laboratory_entity_spinner, item.getName());
+                viewHolder.setText(R.id.tv_laboratory_spinner, item.getName());
             }
         };
         //将adapter 添加到spinner中
@@ -168,8 +188,10 @@ public class AppointmentFragment extends LazyFragment {
         laboratorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 0) return;
                 currentEntity = (LaboratoryEntity) laboratoryAdapter.getItem(i);
-                setSeatTable(currentEntity);
+
+//                setSeatTable(currentEntity);
                 Log.d(TAG, "onItemSelected: " + currentEntity.getName());
             }
 

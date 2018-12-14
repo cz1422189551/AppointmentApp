@@ -14,13 +14,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 
+import com.jkb.fragment.rigger.annotation.Puppet;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-
+@Puppet
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected String TAG = getClass().getSimpleName();
+    protected String TAG = this.getClass().getSimpleName();
 
     private Unbinder unbinder;
 
@@ -36,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         ButterKnife.bind(getActivity());
         initViews();
+        loadData();
     }
 
 

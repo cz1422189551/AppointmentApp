@@ -1,38 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:layout_margin="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/et_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="UserName"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="用户名"
+                app:met_primaryColor="#303F9F" />
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/et_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PassWord"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="密码"
+                app:met_primaryColor="#303F9F" />
+
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="登  录" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_marginRight="24dp"
+                android:id="@+id/btn_register"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="right"
+                android:text="注 册" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
-
 
 
 </LinearLayout>
