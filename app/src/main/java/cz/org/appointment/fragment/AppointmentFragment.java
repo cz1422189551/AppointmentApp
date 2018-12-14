@@ -42,7 +42,7 @@ public class AppointmentFragment extends LazyFragment {
     MaterialSpinner typeSpinner;
 
     @BindView(R.id.spinner_laboratory)
-    Spinner laboratorySpinner;
+    MaterialSpinner laboratorySpinner;
 
 
     @BindView(R.id.ll_seat_table)
@@ -163,10 +163,10 @@ public class AppointmentFragment extends LazyFragment {
         typeSpinner.setVisibility(View.VISIBLE);
 
         //将可选内容与ArrayAdapter连接起来
-        laboratoryAdapter = new CommonAdapter<LaboratoryEntity>(getActivity(), R.layout.laboratory_entity_layout, entityList) {
+        laboratoryAdapter = new CommonAdapter<LaboratoryEntity>(getActivity(), R.layout.spinner_layout, entityList) {
             @Override
             protected void convert(ViewHolder viewHolder, LaboratoryEntity item, int position) {
-                viewHolder.setText(R.id.tv_laboratory_entity_spinner, item.getName());
+                viewHolder.setText(R.id.tv_laboratory_spinner, item.getName());
             }
         };
         //将adapter 添加到spinner中
@@ -175,6 +175,7 @@ public class AppointmentFragment extends LazyFragment {
         laboratorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 0) return;
                 currentEntity = (LaboratoryEntity) laboratoryAdapter.getItem(i);
 
                 setSeatTable(currentEntity);
