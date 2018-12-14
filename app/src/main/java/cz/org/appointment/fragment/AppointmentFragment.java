@@ -45,7 +45,7 @@ public class AppointmentFragment extends LazyFragment {
     MaterialSpinner laboratorySpinner;
 
 
-    @BindView(R.id.ll_seat_table)
+    @BindView(R.id.ll_laboratory)
     LinearLayout linearLayout;
 
 
@@ -99,35 +99,42 @@ public class AppointmentFragment extends LazyFragment {
                 Log.d(TAG, "onFailure: ");
             }
         });
-        setSeatTable(null);
+//        setSeatTable(null);
     }
 
-    private void setSeatTable(LaboratoryEntity entity) {
-        if (entity == null) {
-            resetVisibility();
-            return;
-        }
-        seatTableView.setScreenName(entity.getName());//设置屏幕名称
-        seatTableView.setMaxSelected(1);//设置最多选中
-
-        seatTableView.setSeatChecker(new SeatCheckerImpl(entity));
-        seatTableView.setData(entity.getRow(), entity.getCol());
-        setVisibility();
-    }
+//    private void setSeatTable(LaboratoryEntity entity) {
+//        if (entity == null) {
+//            resetVisibility();
+//            return;
+//        }
+//        seatTableView.setScreenName(entity.getName());//设置屏幕名称
+//        seatTableView.setMaxSelected(1);//设置最多选中
+//
+//        seatTableView.setSeatChecker(new SeatCheckerImpl(entity));
+//        seatTableView.setData(entity.getRow(), entity.getCol());
+////        setVisibility();
+//    }
 
     private void setVisibility() {
-        if (currentEntity == null) {
-            Log.d(TAG, "setVisibility: +不可见");
+        if (currentType == null) {
             linearLayout.setVisibility(View.GONE);
         } else {
-            Log.d(TAG, "setVisibility: 可见");
-            linearLayout.setVisibility(View.VISIBLE);
+            if (currentType.getEntities() == null) {
+                linearLayout.setVisibility(View.GONE);
+            } else {
+                linearLayout.setVisibility(View.VISIBLE);
+            }
         }
+
     }
 
     private void resetVisibility() {
+        Log.d(TAG, "resetVisibility: 重置可见性 ：Gone");
+        currentType = null;
+        entityList.removeAll(entityList);
+        laboratoryAdapter.notifyDataSetChanged();
+
         linearLayout.setVisibility(View.GONE);
-        Log.d(TAG, "resetVisibility:  不可见");
     }
 
     //初始化下拉列表
@@ -142,14 +149,18 @@ public class AppointmentFragment extends LazyFragment {
         //将adapter 添加到spinner中
         typeSpinner.setAdapter(typeAdapter);
         //添加事件Spinner事件监听
+
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i < 0) return;
                 currentType = (LaboratoryTypeEntity) typeAdapter.getItem(i);
                 entityList.removeAll(entityList);
+                entityList.clear();
                 entityList.addAll(currentType.getEntities());
+                setVisibility();
                 laboratoryAdapter.notifyDataSetChanged();
+                laboratorySpinner.setAdapter(laboratoryAdapter);
 //                resetVisibility();
 //                seatTableView.setSeatChecker(new SeatCheckerImpl(currentEntity));
                 Log.d(TAG, "Type -> onItemSelected: " + currentType.getName());
@@ -159,6 +170,8 @@ public class AppointmentFragment extends LazyFragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+
         //设置默认值
         typeSpinner.setVisibility(View.VISIBLE);
 
@@ -178,7 +191,7 @@ public class AppointmentFragment extends LazyFragment {
                 if (i < 0) return;
                 currentEntity = (LaboratoryEntity) laboratoryAdapter.getItem(i);
 
-                setSeatTable(currentEntity);
+//                setSeatTable(currentEntity);
                 Log.d(TAG, "onItemSelected: " + currentEntity.getName());
             }
 

@@ -32,35 +32,33 @@
 
         <!--实验室-->
         <LinearLayout
-            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            android:id="@+id/ll_laboratory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
+
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_laboratory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="16dp"
+                app:ms_baseColor="@color/colorPrimary"
                 app:ms_floatingLabelColor="@color/colorPrimaryText"
                 app:ms_floatingLabelText="实验室"
-                app:ms_hint="请选择实验室"
                 app:ms_highlightColor="@color/colorPrimary"
-                app:ms_baseColor="@color/colorPrimary"
+                app:ms_hint="请选择实验室"
                 app:ms_multiline="true" />
-
-            <!--    -->
-
 
             <!--选座-->
             <LinearLayout
-                android:id="@+id/ll_seat_table"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/et_password"
@@ -75,11 +73,11 @@
                     app:met_primaryColor="#303F9F" />
 
                 <com.qfdqc.views.seattable.SeatTable
-                    android:visibility="gone"
                     android:id="@+id/seatView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff" />
+                    android:background="#ffffff"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>
