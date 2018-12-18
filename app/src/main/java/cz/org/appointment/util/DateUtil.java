@@ -1,6 +1,8 @@
 package cz.org.appointment.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,7 +10,8 @@ import java.util.List;
 
 public class DateUtil {
     static String TAG = DateUtil.class.getSimpleName();
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd ");
+    static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd ");
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd H:mm");
     //默认时间
     static int baseTime = 30;
     static int start = 8;
@@ -29,7 +32,7 @@ public class DateUtil {
             boolean isWeekend = instance.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || instance.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
             if (isWeekend) continue;
             Date time = instance.getTime();
-            resultList.add(sdf.format(time));
+            resultList.add(sdf2.format(time));
         }
         return resultList;
     }
@@ -64,5 +67,20 @@ public class DateUtil {
         return integerList;
     }
 
+    //字符串转Date 带时间
+    public static Date stringToDateWithTime(String dateStr) throws ParseException {
+
+        return sdf.parse(dateStr);
+    }
+
+    //字符串转Date
+    public static Date stringToDate(String dateStr) throws ParseException {
+        return sdf2.parse(dateStr);
+    }
+
+    //Date转字符串
+    public static String DateToString(Date date) {
+        return sdf.format(date);
+    }
 
 }

@@ -1,7 +1,6 @@
 package cz.org.appointment.entity;
 
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -15,18 +14,12 @@ public class Laboratory {
 
     private String name;
 
-
-    private List<Seat> seatList;
-
-
-
     //排
-
     private int row;
     //列
-
     private int col;
-
+    //座位数量
+    private int seatCount;
 
     //是否启用
 
@@ -64,13 +57,6 @@ public class Laboratory {
         this.name = name;
     }
 
-    public List<Seat> getSeatList() {
-        return seatList;
-    }
-
-    public void setSeatList(List<Seat> seatList) {
-        this.seatList = seatList;
-    }
 
     public int getRow() {
         return row;
@@ -122,13 +108,22 @@ public class Laboratory {
 
     private LaboratoryType laboratoryType;
 
-    public Laboratory(){}
+    public Laboratory() {
+    }
 
-    public Laboratory(int id, User user, String name, List<Seat> seatList, int row, int col, boolean enable, Date openDate, Date closeDate, LaboratoryType laboratoryType) {
+    public int getSeatCount() {
+        return seatCount;
+    }
+
+    public void setSeatCount(int seatCount) {
+        this.seatCount = seatCount;
+    }
+
+    public Laboratory(int id, User user, String name,int row, int col, boolean enable, Date openDate, Date closeDate, LaboratoryType laboratoryType) {
         this.id = id;
         this.user = user;
         this.name = name;
-        this.seatList = seatList;
+
         this.row = row;
         this.col = col;
         this.enable = enable;

@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.qfdqc.views.seattable.SeatTable;
@@ -18,12 +21,16 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
+import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.LaboratoryService;
+import cz.org.appointment.entity.Appointment;
 import cz.org.appointment.entity.core.LaboratoryEntity;
 import cz.org.appointment.entity.core.LaboratoryTypeEntity;
 import cz.org.appointment.ui.SeatCheckerImpl;
@@ -57,6 +64,13 @@ public class AppointmentFragment extends LazyFragment {
     @BindView(R.id.ll_laboratory)
     LinearLayout linearLayout;
 
+    @BindView(R.id.btn_available)
+    Button availableBtn;
+
+    @BindView(R.id.tx_available)
+    TextView availableTextView;
+
+
     //选择的时间
     LocalDateTime chooseDate;
 
@@ -72,9 +86,17 @@ public class AppointmentFragment extends LazyFragment {
 
     //当前选中的类型Type
     LaboratoryTypeEntity currentType = null;
-
     //当前选中的Entity
     LaboratoryEntity currentEntity = null;
+    //当前选中的日期
+    String date;
+    //当前选中的时段
+    String time;
+    //当前选中的时长
+    int minute;
+
+    //可用数量
+    int availCount = 0;
 
     BaseAdapter typeAdapter;
 
@@ -87,6 +109,10 @@ public class AppointmentFragment extends LazyFragment {
     BaseAdapter minuteAdapter;
 
     SeatCheckerImpl seatChecker = new SeatCheckerImpl(null);
+
+    LaboratoryService laboratoryService;
+    AppointmentService appointmentService;
+
 
     //该方法名和 变量名不能改动，否则懒加载失效
     public void onLazyLoadViewCreated(Bundle savedInstanceState) {
@@ -104,8 +130,12 @@ public class AppointmentFragment extends LazyFragment {
     protected void initViews(View view) {
         //初始化下拉列表
         initSpinner();
+
+        initBtn();
+
         //加载网络
-        LaboratoryService laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
+        laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
+        appointmentService = MyApplication.retrofit.create(AppointmentService.class);
         laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryTypeEntity>>() {
             @Override
             public void onResponse(Call<List<LaboratoryTypeEntity>> call, Response<List<LaboratoryTypeEntity>> response) {
@@ -224,6 +254,35 @@ public class AppointmentFragment extends LazyFragment {
         minuteSpinner.setAdapter(minuteAdapter);
 
     }
+
+    private void initBtn() {
+        availableBtn.setOnClickListener(view -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("laboratoryId", ((LaboratoryEntity) laboratorySpinner.getSelectedItem()).getId() + "");
+            map.put("date", dateSpinner.getSelectedItem().toString());
+            map.put("startDate", map.get("date") + " " + timeSpinner.getSelectedItem().toString());
+            map.put("minute", minuteSpinner.getSelectedItem().toString());
+
+
+            appointmentService.findAvailableInfo(map).enqueue(new Callback<List<Appointment>>() {
+                @Override
+                public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
+                    Log.d(TAG, "onResponse: ");
+                    List<Appointment> body = response.body();
+                    if (body != null && body.size() > 0)
+                        availCount = body.get(0).getLaboratory().getSeatCount() - body.size();
+                    availableTextView.setText(availCount + "/ " + ((LaboratoryEntity) laboratorySpinner.getSelectedItem()).getSeatCount());
+                }
+
+                @Override
+                public void onFailure(Call<List<Appointment>> call, Throwable t) {
+                    Toast.makeText(getActivity(), "查询失败", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onFailure: " + t.getMessage());
+                }
+            });
+        });
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void event() {

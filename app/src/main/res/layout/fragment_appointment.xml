@@ -56,8 +56,6 @@
         </LinearLayout>
 
 
-
-
         <!--选择时段-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,8 +65,8 @@
             <fr.ganfra.materialspinner.MaterialSpinner
                 android:id="@+id/spinner_date"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
@@ -80,11 +78,11 @@
 
 
             <fr.ganfra.materialspinner.MaterialSpinner
-                android:layout_marginLeft="8dp"
                 android:id="@+id/spinner_time"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
@@ -95,11 +93,11 @@
                 app:ms_multiline="true" />
 
             <fr.ganfra.materialspinner.MaterialSpinner
-                android:layout_marginLeft="8dp"
                 android:id="@+id/spinner_minute"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
@@ -113,12 +111,12 @@
 
         <!--选座-->
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/et_password"
@@ -141,15 +139,47 @@
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_marginTop="8dp">
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="提交" />
+                android:text="空闲数量"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="right">
+
+                <TextView
+                    android:textSize="24dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/tx_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+            </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/btn_available"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
