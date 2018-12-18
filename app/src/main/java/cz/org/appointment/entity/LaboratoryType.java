@@ -11,4 +11,28 @@ public class LaboratoryType {
     private String name;
 
     private List<Laboratory> laboratoryList;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Laboratory> getLaboratoryList() {
+        return laboratoryList;
+    }
+
+    public void setLaboratoryList(List<Laboratory> laboratoryList) {
+        this.laboratoryList = laboratoryList;
+    }
 }

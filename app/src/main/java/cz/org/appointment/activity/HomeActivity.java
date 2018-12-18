@@ -42,12 +42,6 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_my)
     LinearLayout mineLinearLayout;
 
-//    @BindView(R.id.tv_news)
-//    TextView newsTextView;
-//    @BindView(R.id.tv_subscribe)
-//    TextView subScribeTextView;
-//    @BindView(R.id.tv_mine)
-//    TextView mineTextView;
 
     @BindView(R.id.iv_news)
     ImageView newsImageView;
@@ -98,25 +92,19 @@ public class HomeActivity extends BaseActivity {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                // TODO Auto-generated method stub
-//                resetView();
                 resetPic();
                 switch (position) {
                     case 0:
-//                        newsTextView.setTextColor(Color.parseColor("#337FFF"));
-//                        newsTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                         resetPic();
                         newsImageView.setBackgroundResource(R.mipmap.news_1);
                         break;
                     case 1:
-//                        subScribeTextView.setTextColor(Color.parseColor("#337FFF"));
-//                        subScribeTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
                         resetPic();
                         subScribeImageView.setBackgroundResource(R.mipmap.subscribe_1);
                         break;
                     case 2:
-//                        mineTextView.setTextColor(Color.parseColor("#337FFF"));
-//                        mineTextView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+
                         resetPic();
                         mineImageView.setBackgroundResource(R.mipmap.mine_1);
                         break;
@@ -137,9 +125,9 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void loadData() {
         if (user == null) {
-            IntentUtil.get().goActivity(this,LoginActivity.class);
+            IntentUtil.get().goActivity(this, LoginActivity.class);
         }
-        Log.d(TAG, "loadData: "+user);
+        Log.d(TAG, "loadData: " + user);
     }
 
 
@@ -149,12 +137,6 @@ public class HomeActivity extends BaseActivity {
         mineImageView.setBackgroundResource(R.mipmap.mine);
     }
 
-
-//    protected void resetView() {
-//        newsTextView.setTextColor(Color.parseColor("#757575"));
-//        subScribeTextView.setTextColor(Color.parseColor("#757575"));
-//        mineTextView.setTextColor(Color.parseColor("#757575"));
-//    }
 
     private class LinearLayoutListener implements View.OnClickListener {
         @Override

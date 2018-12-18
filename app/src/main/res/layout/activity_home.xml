@@ -14,13 +14,13 @@
     </android.support.v4.view.ViewPager>
 
 
-
     <LinearLayout
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:baselineAligned="false" android:orientation="horizontal"
-       >
+        android:background="@color/colorPrimary"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
 
         <LinearLayout
             android:id="@+id/ll_news"
@@ -30,21 +30,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="22dp" android:contentDescription="TODO" 
-                android:layout_height="22dp"
                 android:id="@+id/iv_news"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/news_1" />
+                android:background="@mipmap/news_1"
+                android:contentDescription="TODO" />
 
-            <TextView
-                android:id="@+id/tv_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="xx"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -56,21 +48,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="22dp" android:contentDescription="TODO" 
-                android:layout_height="22dp"
                 android:id="@+id/iv_subscribe"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/subscribe" />
+                android:background="@mipmap/subscribe"
+                android:contentDescription="TODO" />
 
-            <TextView
-                android:id="@+id/tv_subscribe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="xx"
-                android:textColor="@color/colorPrimaryText"
-                android:textStyle="bold"
-                android:textSize="11sp" />
 
         </LinearLayout>
 
@@ -83,21 +67,12 @@
 
 
             <ImageView
-                android:layout_width="22dp" android:contentDescription="TODO" 
-                android:layout_height="22dp"
                 android:id="@+id/iv_my"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/mine" />
-
-            <TextView
-                android:id="@+id/tv_mine"
-                android:textColor="@color/colorPrimaryText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold"
-                android:text="xx"
-                android:textSize="11sp" />
+                android:background="@mipmap/mine"
+                android:contentDescription="TODO" />
 
 
         </LinearLayout>
