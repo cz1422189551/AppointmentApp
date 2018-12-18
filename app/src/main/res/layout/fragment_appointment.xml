@@ -107,79 +107,116 @@
                 app:ms_hint="请选择时长"
                 app:ms_multiline="true" />
 
+
+
+
         </LinearLayout>
 
-        <!--选座-->
+        <!-- 个人信息-->
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/et_password"
+            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PassWord"
-                android:textCursorDrawable="@null"
-                app:met_clearButton="true"
-                app:met_errorColor="#ff0000"
-                app:met_floatingLabel="normal"
-                app:met_floatingLabelText="密码"
-                app:met_primaryColor="#303F9F" />
+                android:layout_marginTop="8dp">
 
-            <com.qfdqc.views.seattable.SeatTable
-                android:id="@+id/seatView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:visibility="gone" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="空闲数量"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16dp" />
 
-        <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
+                    android:gravity="right">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="空闲数量"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16dp" />
+                    <TextView
+                        android:id="@+id/tx_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24dp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="8dp"
                 android:gravity="right">
 
-                <TextView
-                    android:textSize="24dp"
-                    android:textColor="@color/colorPrimary"
-                    android:id="@+id/tx_available"
+                <Button
+                    android:id="@+id/btn_available"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1" />
+                    android:text="查询" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:hint="姓名"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16dp"
+                    app:met_clearButton="true"
+                    app:met_errorColor="#ff0000"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="姓名"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_textColorHint="@color/colorPrimary" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="联系电话"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16dp"
+                    app:met_clearButton="true"
+                    app:met_errorColor="#ff0000"
+                    app:met_floatingLabel="normal"
+                    app:met_floatingLabelText="联系电话"
+                    app:met_primaryColor="@color/colorPrimary"
+                    app:met_textColorHint="@color/colorPrimary" />
+            </LinearLayout>
+
         </LinearLayout>
 
+        <!--提交-->
         <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="right">
+            android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_available"
+                android:id="@+id/btn_submit"
+                android:text="提交"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="查询" />
-        </LinearLayout>
+                android:layout_height="wrap_content" />
 
+        </LinearLayout>
 
     </LinearLayout>
 

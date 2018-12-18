@@ -6,7 +6,10 @@ import java.util.Date;
 
 public class Appointment {
 
+    private int id;
+
     private User user;
+
 
     private Laboratory laboratory;
 
@@ -19,13 +22,48 @@ public class Appointment {
     //结束时间
     private Date endDate;
 
-    //日期
+
     private Date date;
-    //时长
-    private int minute;
+
+    //分钟
+    private int minute = 30;
+
 
     //预约状态，1 预约中 ， 0 取消预约
     private int enable = 1;
+
+    public Appointment(){}
+
+    public Appointment(User user, Laboratory laboratory, Date createDate, Date appointmentDate, Date endDate, Date date, int minute, int enable) {
+        this.user = user;
+        this.laboratory = laboratory;
+        this.createDate = createDate;
+        this.appointmentDate = appointmentDate;
+        this.endDate = endDate;
+        this.date = date;
+        this.minute = minute;
+        this.enable = enable;
+    }
+
+    public Appointment(int id, User user, Laboratory laboratory, Date createDate, Date appointmentDate, Date endDate, Date date, int minute, int enable) {
+        this.id = id;
+        this.user = user;
+        this.laboratory = laboratory;
+        this.createDate = createDate;
+        this.appointmentDate = appointmentDate;
+        this.endDate = endDate;
+        this.date = date;
+        this.minute = minute;
+        this.enable = enable;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public User getUser() {
         return user;
@@ -89,5 +127,20 @@ public class Appointment {
 
     public void setEnable(int enable) {
         this.enable = enable;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", laboratory=" + laboratory +
+                ", createDate=" + createDate +
+                ", appointmentDate=" + appointmentDate +
+                ", endDate=" + endDate +
+                ", date=" + date +
+                ", minute=" + minute +
+                ", enable=" + enable +
+                '}';
     }
 }

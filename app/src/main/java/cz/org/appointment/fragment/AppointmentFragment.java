@@ -12,15 +12,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jzxiang.pickerview.TimePickerDialog;
+
 import com.qfdqc.views.seattable.SeatTable;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,20 +35,24 @@ import cz.org.appointment.R;
 import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.core.LaboratoryEntity;
-import cz.org.appointment.entity.core.LaboratoryTypeEntity;
-import cz.org.appointment.ui.SeatCheckerImpl;
+
+import cz.org.appointment.entity.Laboratory;
+import cz.org.appointment.entity.LaboratoryType;
+
 import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.JsonUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static cz.org.appointment.MyApplication.user;
+
 
 public class AppointmentFragment extends LazyFragment {
 
-    @BindView(R.id.seatView)
-    SeatTable seatTableView;
 
     @BindView(R.id.spinner_type)
     MaterialSpinner typeSpinner;
@@ -70,13 +78,20 @@ public class AppointmentFragment extends LazyFragment {
     @BindView(R.id.tx_available)
     TextView availableTextView;
 
+    @BindView(R.id.et_username)
+    MaterialEditText etUser;
+    @BindView(R.id.et_tel)
+    MaterialEditText etTel;
+
+    @BindView(R.id.btn_submit)
+    Button submitBtn;
 
     //选择的时间
     LocalDateTime chooseDate;
 
-    List<LaboratoryTypeEntity> typeEntityList = new ArrayList<>();
+    List<LaboratoryType> typeEntityList = new ArrayList<>();
 
-    List<LaboratoryEntity> entityList = new ArrayList<>();
+    List<Laboratory> entityList = new ArrayList<>();
 
     List<String> dateList = new ArrayList<>();
 
@@ -85,9 +100,9 @@ public class AppointmentFragment extends LazyFragment {
     List<Integer> minuteList = new ArrayList<>();
 
     //当前选中的类型Type
-    LaboratoryTypeEntity currentType = null;
+    LaboratoryType currentType = null;
     //当前选中的Entity
-    LaboratoryEntity currentEntity = null;
+    Laboratory currentEntity = null;
     //当前选中的日期
     String date;
     //当前选中的时段
@@ -108,7 +123,7 @@ public class AppointmentFragment extends LazyFragment {
 
     BaseAdapter minuteAdapter;
 
-    SeatCheckerImpl seatChecker = new SeatCheckerImpl(null);
+//    SeatCheckerImpl seatChecker = new SeatCheckerImpl(null);
 
     LaboratoryService laboratoryService;
     AppointmentService appointmentService;
@@ -130,22 +145,21 @@ public class AppointmentFragment extends LazyFragment {
     protected void initViews(View view) {
         //初始化下拉列表
         initSpinner();
-
         initBtn();
-
+        initEdit();
         //加载网络
         laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
         appointmentService = MyApplication.retrofit.create(AppointmentService.class);
-        laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryTypeEntity>>() {
+        laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryType>>() {
             @Override
-            public void onResponse(Call<List<LaboratoryTypeEntity>> call, Response<List<LaboratoryTypeEntity>> response) {
+            public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
                 Log.d(TAG, "onResponse: " + response.body());
                 typeEntityList.addAll(response.body());
                 typeAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<LaboratoryTypeEntity>> call, Throwable t) {
+            public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
@@ -156,7 +170,7 @@ public class AppointmentFragment extends LazyFragment {
         if (currentType == null) {
             linearLayout.setVisibility(View.GONE);
         } else {
-            if (currentType.getEntities() == null) {
+            if (currentType.getLaboratoryList() == null) {
                 linearLayout.setVisibility(View.GONE);
             } else {
                 linearLayout.setVisibility(View.VISIBLE);
@@ -179,9 +193,9 @@ public class AppointmentFragment extends LazyFragment {
 
     private void initSpinner() {
         //类型
-        typeAdapter = new CommonAdapter<LaboratoryTypeEntity>(getActivity(), R.layout.type_layout, typeEntityList) {
+        typeAdapter = new CommonAdapter<LaboratoryType>(getActivity(), R.layout.type_layout, typeEntityList) {
             @Override
-            protected void convert(ViewHolder viewHolder, LaboratoryTypeEntity item, int position) {
+            protected void convert(ViewHolder viewHolder, LaboratoryType item, int position) {
                 viewHolder.setText(R.id.tv_type_spinner, item.getName());
             }
         };
@@ -190,10 +204,10 @@ public class AppointmentFragment extends LazyFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i < 0) return;
-                currentType = (LaboratoryTypeEntity) typeAdapter.getItem(i);
+                currentType = (LaboratoryType) typeAdapter.getItem(i);
                 entityList.removeAll(entityList);
                 entityList.clear();
-                entityList.addAll(currentType.getEntities());
+                entityList.addAll(currentType.getLaboratoryList());
                 setVisibility();
                 laboratoryAdapter.notifyDataSetChanged();
                 laboratorySpinner.setAdapter(laboratoryAdapter);
@@ -205,9 +219,9 @@ public class AppointmentFragment extends LazyFragment {
             }
         });
         //实验室
-        laboratoryAdapter = new CommonAdapter<LaboratoryEntity>(getActivity(), R.layout.spinner_layout, entityList) {
+        laboratoryAdapter = new CommonAdapter<Laboratory>(getActivity(), R.layout.spinner_layout, entityList) {
             @Override
-            protected void convert(ViewHolder viewHolder, LaboratoryEntity item, int position) {
+            protected void convert(ViewHolder viewHolder, Laboratory item, int position) {
                 viewHolder.setText(R.id.tv_laboratory_spinner, item.getName());
             }
         };
@@ -216,7 +230,7 @@ public class AppointmentFragment extends LazyFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i < 0) return;
-                currentEntity = (LaboratoryEntity) laboratoryAdapter.getItem(i);
+                currentEntity = (Laboratory) laboratoryAdapter.getItem(i);
 //                setSeatTable(currentEntity);
                 Log.d(TAG, "onItemSelected: " + currentEntity.getName());
             }
@@ -258,12 +272,10 @@ public class AppointmentFragment extends LazyFragment {
     private void initBtn() {
         availableBtn.setOnClickListener(view -> {
             Map<String, String> map = new HashMap<>();
-            map.put("laboratoryId", ((LaboratoryEntity) laboratorySpinner.getSelectedItem()).getId() + "");
+            map.put("laboratoryId", ((Laboratory) laboratorySpinner.getSelectedItem()).getId() + "");
             map.put("date", dateSpinner.getSelectedItem().toString());
             map.put("startDate", map.get("date") + " " + timeSpinner.getSelectedItem().toString());
             map.put("minute", minuteSpinner.getSelectedItem().toString());
-
-
             appointmentService.findAvailableInfo(map).enqueue(new Callback<List<Appointment>>() {
                 @Override
                 public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
@@ -271,7 +283,10 @@ public class AppointmentFragment extends LazyFragment {
                     List<Appointment> body = response.body();
                     if (body != null && body.size() > 0)
                         availCount = body.get(0).getLaboratory().getSeatCount() - body.size();
-                    availableTextView.setText(availCount + "/ " + ((LaboratoryEntity) laboratorySpinner.getSelectedItem()).getSeatCount());
+                    else {
+                        availCount = ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount();
+                    }
+                    availableTextView.setText(availCount + "/ " + ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount());
                 }
 
                 @Override
@@ -281,6 +296,47 @@ public class AppointmentFragment extends LazyFragment {
                 }
             });
         });
+        submitBtn.setOnClickListener(view -> {
+            Laboratory laboratory = (Laboratory) laboratorySpinner.getSelectedItem();
+            date = dateSpinner.getSelectedItem().toString();
+            time = timeSpinner.getSelectedItem().toString();
+            time = date + " " + time;
+            minute = (int) minuteSpinner.getSelectedItem();
+            try {
+                Map<String, String> map = new HashMap<>();
+                map.put("appointment",
+                        JsonUtil.toJson(new Appointment(user, laboratory, new Date(), DateUtil.stringToDateWithTime(time), null, DateUtil.stringToDate(date), minute, 1))
+                );
+
+//                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonUtil.toJson(appointment));
+                appointmentService.appointment(map).enqueue(new Callback<Appointment>() {
+                    @Override
+                    public void onResponse(Call<Appointment> call, Response<Appointment> response) {
+                        Log.d(TAG, "onResponse: " + response.toString());
+                        Appointment body = response.body();
+                        if (body == null) {
+                            Toast.makeText(getActivity(), "没有空闲位置，预约失败", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getActivity(), "预约成功", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Appointment> call, Throwable t) {
+                        Log.d(TAG, "onFailure: " + t.getMessage());
+                        Toast.makeText(getActivity(), "预约错误", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void initEdit() {
+        etUser.setText(user.getName());
+        etTel.setText(user.getTel());
     }
 
 
