@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jkb.fragment.rigger.annotation.LazyLoad;
-import com.jkb.fragment.rigger.annotation.Puppet;
-import com.jkb.fragment.swiper.annotation.Swiper;
+
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,9 +25,7 @@ import butterknife.Unbinder;
  * <a href="http://blog.justkiddingbaby.com">Blog</a>
  * @since Nov 22,2017
  */
-@Swiper
-@LazyLoad(true)
-@Puppet
+
 public abstract class BaseFragment extends Fragment {
 
     public String TAG = getClass().getSimpleName();

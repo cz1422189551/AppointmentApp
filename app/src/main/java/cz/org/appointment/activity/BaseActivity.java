@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 
-import com.jkb.fragment.rigger.annotation.Puppet;
+
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-@Puppet
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected String TAG = this.getClass().getSimpleName();

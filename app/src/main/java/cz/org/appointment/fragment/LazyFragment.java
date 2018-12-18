@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.jkb.fragment.rigger.annotation.LazyLoad;
-import com.jkb.fragment.rigger.annotation.Puppet;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -25,8 +23,7 @@ import butterknife.Unbinder;
  *
  * @see #onFragmentVisibleChange(boolean)
  */
-@LazyLoad(true)
-@Puppet
+
 public abstract class LazyFragment extends Fragment {
 
     protected Unbinder unbinder;

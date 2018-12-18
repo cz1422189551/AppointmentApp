@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="姓名"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="姓名"
+                app:met_primaryColor="#303F9F" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="密码"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="密码"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="手机号"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="手机号"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_department"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="学院"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="学院"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_address"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="宿舍"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="宿舍"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="性别"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="性别"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="职称"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="职称"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_submit"
+                android:gravity="center"
+                android:text="保存" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_marginRight="24dp"
+                android:id="@+id/btn_register"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="right"
+                android:text="注 册" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

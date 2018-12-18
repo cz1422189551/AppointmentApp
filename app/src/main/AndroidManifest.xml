@@ -30,9 +30,14 @@
         </activity>
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.MineActivity"
             android:launchMode="singleTask"></activity>
-
+        <activity
+            android:name=".activity.AppointmentActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".activity.CommentActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

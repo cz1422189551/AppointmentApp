@@ -14,4 +14,7 @@ public interface UserService {
     @POST("/app/login")
     Call<User> login(@QueryMap Map<String, String> map);
 
+    @POST("/user/update")
+    Call<User> save(@QueryMap Map<String, String> map);
+
 }

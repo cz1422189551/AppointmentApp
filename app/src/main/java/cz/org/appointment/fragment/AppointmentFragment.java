@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jzxiang.pickerview.TimePickerDialog;
 
-import com.qfdqc.views.seattable.SeatTable;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -139,14 +137,13 @@ public class AppointmentFragment extends LazyFragment {
         return R.layout.fragment_appointment;
     }
 
-    TimePickerDialog mDialogAll;
 
     @Override
     protected void initViews(View view) {
         //初始化下拉列表
         initSpinner();
         initBtn();
-        initEdit();
+
         //加载网络
         laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
         appointmentService = MyApplication.retrofit.create(AppointmentService.class);
@@ -316,7 +313,7 @@ public class AppointmentFragment extends LazyFragment {
                         Appointment body = response.body();
                         if (body == null) {
                             Toast.makeText(getActivity(), "没有空闲位置，预约失败", Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             Toast.makeText(getActivity(), "预约成功", Toast.LENGTH_SHORT).show();
                         }
 
@@ -332,6 +329,13 @@ public class AppointmentFragment extends LazyFragment {
                 e.printStackTrace();
             }
         });
+    }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if (isVisible) {
+            initEdit();
+        }
     }
 
     private void initEdit() {
