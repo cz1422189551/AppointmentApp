@@ -4,23 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +26,7 @@ import cz.org.appointment.R;
 import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.util.IntentUtil;
+import cz.org.appointment.util.DateUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,7 +65,7 @@ public class AppointmentActivity extends BaseActivity {
     @Override
     public void initViews() {
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Appointment appointment = (Appointment) adapter.getItem(i );
+            Appointment appointment = (Appointment) adapter.getItem(i);
             Intent intent = new Intent(getActivity(), AppointmentInfoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("appoint", appointment);
@@ -83,7 +77,30 @@ public class AppointmentActivity extends BaseActivity {
         adapter = new CommonAdapter<Appointment>(this, R.layout.adapter_appoint, appointmentList) {
             @Override
             protected void convert(ViewHolder viewHolder, Appointment item, int position) {
-                viewHolder.setText(R.id.tv_name, item.getAppointmentDate().toString());
+                String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
+                String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
+                String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
+                String createTime = DateUtil.DateToString(item.getCreateDate());
+                String state = "";
+                switch (item.getState()) {
+                    case 1:
+                        state = "预约中";
+                        break;
+                    case 2:
+                        state = "已完成";
+                        break;
+                    case 3:
+                        state = "已取消";
+                        break;
+                }
+                viewHolder.setText(R.id.tv_title, title);
+                viewHolder.setText(R.id.tv_start_date, startTime);
+                viewHolder.setText(R.id.tx_end_date, endTime);
+                viewHolder.setText(R.id.tv_state, state);
+                viewHolder.setText(R.id.tv_create_date, createTime);
+                viewHolder.setOnClickListener(R.id.btn_cancel, view -> {
+                    Log.d(TAG, "convert:  cancel");
+                });
             }
         };
         setSwipeRefreshInfo();

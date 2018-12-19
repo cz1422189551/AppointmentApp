@@ -31,7 +31,7 @@ public class Appointment implements Serializable {
 
 
     //预约状态，1 预约中 ， 0 取消预约
-    private int enable = 1;
+    private int state = 1;
 
     public Appointment() {
     }
@@ -44,7 +44,7 @@ public class Appointment implements Serializable {
         this.endDate = endDate;
         this.date = date;
         this.minute = minute;
-        this.enable = enable;
+        this.state = enable;
     }
 
     public Appointment(int id, User user, Laboratory laboratory, Date createDate, Date appointmentDate, Date endDate, Date date, int minute, int enable) {
@@ -56,7 +56,7 @@ public class Appointment implements Serializable {
         this.endDate = endDate;
         this.date = date;
         this.minute = minute;
-        this.enable = enable;
+        this.state = enable;
     }
 
     public int getId() {
@@ -123,12 +123,12 @@ public class Appointment implements Serializable {
         this.minute = minute;
     }
 
-    public int getEnable() {
-        return enable;
+    public int getState() {
+        return state;
     }
 
-    public void setEnable(int enable) {
-        this.enable = enable;
+    public void setState(int state) {
+        this.state = state;
     }
 
     @Override
@@ -142,7 +142,7 @@ public class Appointment implements Serializable {
                 ", endDate=" + endDate +
                 ", date=" + date +
                 ", minute=" + minute +
-                ", enable=" + enable +
+                ", state=" + state +
                 '}';
     }
 }

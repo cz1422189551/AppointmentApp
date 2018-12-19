@@ -6,8 +6,8 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_margin="16dp"
-        android:background="@drawable/linear_borad"
+        android:layout_margin="32dp"
+        android:background="@mipmap/linear_borad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -18,7 +18,6 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="物理 —— 物理实验室一号"
                 android:textSize="16dp" />
         </LinearLayout>
@@ -48,6 +47,23 @@
                 android:text="12:00"
                 android:textSize="16dp" />
 
+
+            <LinearLayout
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginRight="32dp"
+                    android:textColor="@color/red_500"
+
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="状态"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -55,21 +71,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:layout_gravity="center"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="创建时间 :  "
+                android:textSize="16dp" />
+            <TextView
+                android:layout_gravity="center"
                 android:id="@+id/tv_create_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="创建时间：12-18 12:12"
+                android:text="2018-12-16 12:00 "
                 android:textSize="16dp" />
 
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <Button
-                    android:text="修改"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_gravity="center_vertical"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="取消"/>
 
         </LinearLayout>
 
