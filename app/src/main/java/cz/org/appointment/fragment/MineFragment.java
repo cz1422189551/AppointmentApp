@@ -11,11 +11,14 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
+import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.activity.AppointmentActivity;
 import cz.org.appointment.activity.CommentActivity;
+import cz.org.appointment.activity.LoginActivity;
 import cz.org.appointment.activity.MineActivity;
 import cz.org.appointment.util.IntentUtil;
+import cz.org.appointment.util.SharedPreferencesUtil;
 
 
 public class MineFragment extends LazyFragment {
@@ -29,10 +32,8 @@ public class MineFragment extends LazyFragment {
     @BindView(R.id.ll_mine_comment)
     LinearLayout myComment;
 
-    //该方法名和 变量名不能改动，否则懒加载失效
-    public void onLazyLoadViewCreated(Bundle savedInstanceState) {
-        //do something in here
-    }
+    @BindView(R.id.btn_exit)
+    Button exitBtn;
 
 
     @Override
@@ -54,10 +55,12 @@ public class MineFragment extends LazyFragment {
             IntentUtil intentUtil = IntentUtil.get();
             intentUtil.goActivity(getActivity(), CommentActivity.class);
         });
+        exitBtn.setOnClickListener(v -> {
+            MyApplication.user = null;
+            SharedPreferencesUtil.saveData(getActivity(), "user", "");
+            IntentUtil.get().goActivity(getActivity(), LoginActivity.class);
+        });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void event() {
-    }
 
 }

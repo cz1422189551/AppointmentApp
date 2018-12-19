@@ -39,6 +39,7 @@ import cz.org.appointment.entity.LaboratoryType;
 
 import cz.org.appointment.util.DateUtil;
 import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -46,6 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static cz.org.appointment.MyApplication.STUDENT;
 import static cz.org.appointment.MyApplication.user;
 
 
@@ -101,15 +103,7 @@ public class AppointmentFragment extends LazyFragment {
     LaboratoryType currentType = null;
     //当前选中的Entity
     Laboratory currentEntity = null;
-    //当前选中的日期
-    String date;
-    //当前选中的时段
-    String time;
-    //当前选中的时长
-    int minute;
 
-    //可用数量
-    int availCount = 0;
 
     BaseAdapter typeAdapter;
 
@@ -121,16 +115,11 @@ public class AppointmentFragment extends LazyFragment {
 
     BaseAdapter minuteAdapter;
 
-//    SeatCheckerImpl seatChecker = new SeatCheckerImpl(null);
-
     LaboratoryService laboratoryService;
     AppointmentService appointmentService;
 
-
-    //该方法名和 变量名不能改动，否则懒加载失效
-    public void onLazyLoadViewCreated(Bundle savedInstanceState) {
-        //do something in here
-    }
+    //判断是否能够提交
+    boolean availAppoint = false;
 
     @Override
     protected int getLayout() {
@@ -166,7 +155,6 @@ public class AppointmentFragment extends LazyFragment {
         laboratoryAdapter.notifyDataSetChanged();
         linearLayout.setVisibility(View.GONE);
     }
-
 
     //初始化下拉列表
 
@@ -251,21 +239,58 @@ public class AppointmentFragment extends LazyFragment {
     private void initBtn() {
         availableBtn.setOnClickListener(view -> {
             Map<String, String> map = new HashMap<>();
-            map.put("laboratoryId", ((Laboratory) laboratorySpinner.getSelectedItem()).getId() + "");
-            map.put("date", dateSpinner.getSelectedItem().toString());
-            map.put("startDate", map.get("date") + " " + timeSpinner.getSelectedItem().toString());
-            map.put("minute", minuteSpinner.getSelectedItem().toString());
+            Laboratory laboratory = ((Laboratory) laboratorySpinner.getSelectedItem());
+            String date = dateSpinner.getSelectedItem().toString();
+            String timeTmp = timeSpinner.getSelectedItem().toString();
+            String time = date + " " + timeTmp;
+            String minute = minuteSpinner.getSelectedItem().toString();
+            //提交前校验
+            if (laboratory == null || ValidateUtil.isEmpty(date) || ValidateUtil.isEmpty(timeTmp) || ValidateUtil.isEmpty(minute)) {
+                Toast.makeText(getActivity(), "请选择完整信息", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!availAppoint) {
+                Toast.makeText(getActivity(), "所选时段已无空位,请重新选择", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            map.put("laboratoryId", laboratory.getId() + "");
+            map.put("date", date);
+            map.put("startDate", time);
+            map.put("minute", minute);
+
             appointmentService.findAvailableInfo(map).enqueue(new Callback<List<Appointment>>() {
                 @Override
                 public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
-                    Log.d(TAG, "onResponse: ");
                     List<Appointment> body = response.body();
-                    if (body != null && body.size() > 0)
-                        availCount = body.get(0).getLaboratory().getSeatCount() - body.size();
-                    else {
-                        availCount = ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount();
+                    int studentLaboratory = laboratory.getAvailableType();
+                    //可用数量
+                    int availCount = 0;
+                    //选中实验室的座位数量
+                    int seatCount = ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount();
+                    if (body != null && body.size() > 0) {
+                        if (studentLaboratory != STUDENT) { //选中的是教师实验室
+                            String startDate = DateUtil.DateToStringWithoutYear(body.get(0).getAppointmentDate());
+                            String endDate = DateUtil.DateToStringOnlyHourMinute(body.get(0).getEndDate());
+                            availableTextView.setText(startDate + " 至 " + endDate + " 被某教师预约");
+                            availAppoint = false;
+                        } else { // 选中的是学生实验室， 显示还剩多少个座位
+                            availCount = body.get(0).getLaboratory().getSeatCount() - body.size();
+                            if (availCount == 0) {  //该时段已没有空闲座位
+                                availableTextView.setText("该时段已无位置");
+                                availAppoint = false;
+                            } else {
+                                availableTextView.setText(availCount + " / " + seatCount);
+                                availAppoint = true;
+                            }
+                        }
+                    } else { //该时段尚未有一个实验室被预约
+                        if (studentLaboratory != STUDENT) {
+                            availableTextView.setText("该时段尚未有教师预约");
+                        } else {
+                            availableTextView.setText(seatCount + " / " + seatCount);
+                        }
+                        availAppoint = true;
                     }
-                    availableTextView.setText(availCount + "/ " + ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount());
                 }
 
                 @Override
@@ -277,17 +302,23 @@ public class AppointmentFragment extends LazyFragment {
         });
         submitBtn.setOnClickListener(view -> {
             Laboratory laboratory = (Laboratory) laboratorySpinner.getSelectedItem();
-            date = dateSpinner.getSelectedItem().toString();
-            time = timeSpinner.getSelectedItem().toString();
-            time = date + " " + time;
-            minute = (int) minuteSpinner.getSelectedItem();
+            String date = dateSpinner.getSelectedItem().toString();
+
+            String timeTmp = timeSpinner.getSelectedItem().toString();
+            String time = date + " " + timeTmp;
+            int minute = (int) minuteSpinner.getSelectedItem();
+
+            //提交前校验
+            if (laboratory == null || ValidateUtil.isEmpty(date) || ValidateUtil.isEmpty(timeTmp) || minute == 0) {
+                Toast.makeText(getActivity(), "请选择完整信息", Toast.LENGTH_SHORT).show();
+                return;
+            }
             try {
                 Map<String, String> map = new HashMap<>();
                 map.put("appointment",
                         JsonUtil.toJson(new Appointment(user, laboratory, new Date(), DateUtil.stringToDateWithTime(time), null, DateUtil.stringToDate(date), minute, 1))
                 );
 
-//                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JsonUtil.toJson(appointment));
                 appointmentService.appointment(map).enqueue(new Callback<Appointment>() {
                     @Override
                     public void onResponse(Call<Appointment> call, Response<Appointment> response) {
@@ -298,7 +329,6 @@ public class AppointmentFragment extends LazyFragment {
                         } else {
                             Toast.makeText(getActivity(), "预约成功", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     @Override
@@ -317,10 +347,11 @@ public class AppointmentFragment extends LazyFragment {
     protected void onFragmentVisibleChange(boolean isVisible) {
         if (isVisible) {
             initEdit();
-            //加载网络
+            int userType = user.getUserType();
             laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
-            appointmentService = MyApplication.retrofit.create(AppointmentService.class);
-            laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryType>>() {
+            Map<String, Integer> map = new HashMap<>();
+            if (userType == 1) map.put("userType", userType);
+            laboratoryService.laboratoryAllType(map).enqueue(new Callback<List<LaboratoryType>>() {
                 @Override
                 public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
                     Log.d(TAG, "onResponse: " + response.body());
@@ -339,11 +370,6 @@ public class AppointmentFragment extends LazyFragment {
     private void initEdit() {
         etUser.setText(user.getName());
         etTel.setText(user.getTel());
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void event() {
     }
 
 

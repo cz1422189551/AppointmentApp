@@ -68,8 +68,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        //设置底部Tab字体中文加粗
-//        UIUtils.setChineseTextViewBold(newsTextView, subScribeTextView, mineTextView);
 
         //初始化切换Bottom的Tab的点击事件
         LinearLayoutListener linearLayoutListener = new LinearLayoutListener();

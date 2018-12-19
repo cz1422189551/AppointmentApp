@@ -136,6 +136,7 @@ public class MineActivity extends BaseActivity {
             Map<String, String> map = new HashMap<>();
             map.put("userType", userType + "");
             map.put("user", JsonUtil.toJson(u));
+            map.put("userType", userType + "");
             userService.save(map).enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {

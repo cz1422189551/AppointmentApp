@@ -26,13 +26,19 @@ public class Laboratory implements Serializable {
 
     private boolean enable;
 
-    //开放时间
 
+    //学生是否可用 1可用 ， 0不可用
+    private int availableType;
+
+    //开放时间
     private Date openDate;
 
     //关闭时间
 
     private Date closeDate;
+
+    //描述
+    private String description;
 
     public int getId() {
         return id;
@@ -120,7 +126,7 @@ public class Laboratory implements Serializable {
         this.seatCount = seatCount;
     }
 
-    public Laboratory(int id, User user, String name,int row, int col, boolean enable, Date openDate, Date closeDate, LaboratoryType laboratoryType) {
+    public Laboratory(int id, User user, String name, int row, int col, boolean enable, Date openDate, Date closeDate, LaboratoryType laboratoryType) {
         this.id = id;
         this.user = user;
         this.name = name;
@@ -131,5 +137,21 @@ public class Laboratory implements Serializable {
         this.openDate = openDate;
         this.closeDate = closeDate;
         this.laboratoryType = laboratoryType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getAvailableType() {
+        return availableType;
+    }
+
+    public void setAvailableType(int availableType) {
+        this.availableType = availableType;
     }
 }

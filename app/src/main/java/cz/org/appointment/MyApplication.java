@@ -9,7 +9,10 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
 import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import cz.org.appointment.entity.User;
@@ -23,25 +26,12 @@ public class MyApplication extends Application {
 
     public static User user;
 
+    public static final int STUDENT=1;
+    public static final int TEACHER=2;
     //static 代码段可以防止内存泄露
-    static {
-        //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
-                return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
-            }
-        });
-        //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                //指定为经典Footer，默认是 BallPulseFooter
-                return new ClassicsFooter(context).setDrawableSize(20);
-            }
-        });
-    }
+//    static {
+//
+//    }
 
 
     @Override
@@ -52,6 +42,17 @@ public class MyApplication extends Application {
                 .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
                 .build();
         user = readLocalUserInfo();
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+            //设置 Header 为 贝塞尔雷达 样式
+            return new BezierRadarHeader(MyApplication.this).setEnableHorizontalDrag(true);
+        });
+        //设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            //设置 Footer 为 球脉冲 样式
+            return new BallPulseFooter(MyApplication.this).setSpinnerStyle(SpinnerStyle.Scale);
+        });
     }
 
     //读取本地用户信息

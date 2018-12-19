@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="32dp"
+        android:background="@mipmap/linear_borad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimaryText"
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="物理 —— 物理实验室一号"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="描述："
+                android:textSize="16dp" />
+
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/tx_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="力学试验"
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="规模："
+                android:textSize="16dp" />
+
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/tx_seat_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学生可用："
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/tx_available_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="可用"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="负责人 :  "
+                android:textSize="16dp" />
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:id="@+id/tv_manger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张老师"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电话 :  "
+                android:textSize="16dp" />
+            <TextView
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:id="@+id/tv_tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="13197670831"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
