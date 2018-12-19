@@ -112,17 +112,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/et_gender"
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="性别"
-                android:textCursorDrawable="@null"
-                app:met_clearButton="true"
-                app:met_errorColor="#ff0000"
-                app:met_floatingLabel="normal"
-                app:met_floatingLabelText="性别"
-                app:met_primaryColor="#303F9F" />
+                app:ms_arrowColor="#0000FF"
+                app:ms_arrowSize="0dp"
+                app:ms_baseColor="@color/colorPrimary"
+                app:ms_floatingLabelColor="@color/colorPrimaryText"
+                app:ms_floatingLabelText="性别"
+                app:ms_highlightColor="@color/colorPrimary"
+                app:ms_hint="请选择性别"
+                app:ms_multiline="true" />
 
 
         </LinearLayout>
@@ -164,26 +165,6 @@
 
         </LinearLayout>
 
-
-
-        <LinearLayout
-            android:gravity="right"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_marginRight="24dp"
-                android:id="@+id/btn_register"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:gravity="right"
-                android:text="注 册" />
-
-        </LinearLayout>
 
 
     </LinearLayout>

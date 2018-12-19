@@ -1,11 +1,12 @@
 package cz.org.appointment.entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
-public class Laboratory {
+public class Laboratory implements Serializable {
 
 
     private int id;

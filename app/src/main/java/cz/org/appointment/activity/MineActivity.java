@@ -3,6 +3,8 @@ package cz.org.appointment.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,16 +12,23 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.zhy.adapter.abslistview.CommonAdapter;
+import com.zhy.adapter.abslistview.ViewHolder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.api.UserService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
+import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,8 +39,8 @@ public class MineActivity extends BaseActivity {
 
     @BindView(R.id.et_name)
     MaterialEditText nameEt;
-    @BindView(R.id.et_gender)
-    MaterialEditText genderEt;
+    @BindView(R.id.spinner_gender)
+    MaterialSpinner genderSpinner;
     @BindView(R.id.et_password)
     MaterialEditText passwordEt;
     @BindView(R.id.et_tel)
@@ -53,6 +62,8 @@ public class MineActivity extends BaseActivity {
     Button saveBtn;
 
     UserService userService;
+
+    int gender = 1;
 
     @Override
     public int getLayout() {
@@ -77,7 +88,38 @@ public class MineActivity extends BaseActivity {
         passwordEt.setText(user.getPassword());
         departmentEt.setText(user.getDepartment());
         telEt.setText(user.getTel());
-        genderEt.setText(user.getGender());
+
+        BaseAdapter adapter = new CommonAdapter<String>(this, R.layout.spinner_layout, Arrays.asList("男", "女")) {
+            @Override
+            protected void convert(ViewHolder viewHolder, String item, int position) {
+                viewHolder.setText(R.id.tv_laboratory_spinner, item);
+            }
+        };
+        genderSpinner.setAdapter(adapter);
+        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i < 0) return;
+                String s = (String) adapter.getItem(i);
+                switch (s) {
+                    case "男":
+                        gender = 1;
+                        break;
+                    case "女":
+                        gender = 0;
+                        break;
+                    default:
+                        gender = 1;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         saveBtn.setOnClickListener(v -> {
 
             int userType = user.getUserType();
@@ -88,10 +130,11 @@ public class MineActivity extends BaseActivity {
             //fixme: gender
             User u = new User(
                     id, nameEt.getText().toString(), userName, passwordEt.getText().toString(), telEt.getText().toString(),
-                    1, userType, createTime, addressEt.getText().toString(), classGrade, departmentEt.getText().toString(),
+                    gender, userType, createTime, addressEt.getText().toString(), classGrade, departmentEt.getText().toString(),
                     titleEt.getText().toString()
             );
             Map<String, String> map = new HashMap<>();
+            map.put("userType", userType + "");
             map.put("user", JsonUtil.toJson(u));
             userService.save(map).enqueue(new Callback<User>() {
                 @Override
@@ -117,6 +160,6 @@ public class MineActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-
+        userService = MyApplication.retrofit.create(UserService.class);
     }
 }

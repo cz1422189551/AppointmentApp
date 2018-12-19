@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Intent跳转封装
  * Created by Administrator on 2018/1/16 0016.
@@ -109,6 +111,8 @@ public class IntentUtil {
         _this.startActivity(intent);
         _this = null;
     }
+
+
 
     /**
      * 启动一个Activity

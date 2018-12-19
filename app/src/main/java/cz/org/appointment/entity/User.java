@@ -1,10 +1,11 @@
 package cz.org.appointment.entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class User {
+public class User implements Serializable {
 
     private int id;
     protected String name;

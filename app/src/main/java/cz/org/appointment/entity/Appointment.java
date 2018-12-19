@@ -1,10 +1,11 @@
 package cz.org.appointment.entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Appointment {
+public class Appointment implements Serializable {
 
     private int id;
 
@@ -32,7 +33,8 @@ public class Appointment {
     //预约状态，1 预约中 ， 0 取消预约
     private int enable = 1;
 
-    public Appointment(){}
+    public Appointment() {
+    }
 
     public Appointment(User user, Laboratory laboratory, Date createDate, Date appointmentDate, Date endDate, Date date, int minute, int enable) {
         this.user = user;

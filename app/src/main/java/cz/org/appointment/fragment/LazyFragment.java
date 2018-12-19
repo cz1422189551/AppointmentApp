@@ -56,6 +56,7 @@ public abstract class LazyFragment extends Fragment {
             initViews(rootView);
             return rootView;
         }
+        Log.d(TAG, "onCreateView: ");
         return rootView;
     }
 
@@ -73,6 +74,12 @@ public abstract class LazyFragment extends Fragment {
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop: ");
+        super.onStop();
     }
 
     @Override
@@ -141,6 +148,7 @@ public abstract class LazyFragment extends Fragment {
         if (unbinder == null) {
             unbinder.unbind();
         }
+        Log.d(TAG, "onDestroyView: ");
         super.onDestroyView();
     }
 }

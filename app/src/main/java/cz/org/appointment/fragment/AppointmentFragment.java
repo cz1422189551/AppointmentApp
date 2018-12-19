@@ -143,23 +143,6 @@ public class AppointmentFragment extends LazyFragment {
         //初始化下拉列表
         initSpinner();
         initBtn();
-
-        //加载网络
-        laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
-        appointmentService = MyApplication.retrofit.create(AppointmentService.class);
-        laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryType>>() {
-            @Override
-            public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
-                Log.d(TAG, "onResponse: " + response.body());
-                typeEntityList.addAll(response.body());
-                typeAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-            }
-        });
     }
 
 
@@ -181,7 +164,6 @@ public class AppointmentFragment extends LazyFragment {
         currentType = null;
         entityList.removeAll(entityList);
         laboratoryAdapter.notifyDataSetChanged();
-
         linearLayout.setVisibility(View.GONE);
     }
 
@@ -335,6 +317,22 @@ public class AppointmentFragment extends LazyFragment {
     protected void onFragmentVisibleChange(boolean isVisible) {
         if (isVisible) {
             initEdit();
+            //加载网络
+            laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
+            appointmentService = MyApplication.retrofit.create(AppointmentService.class);
+            laboratoryService.laboratoryAllType().enqueue(new Callback<List<LaboratoryType>>() {
+                @Override
+                public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
+                    Log.d(TAG, "onResponse: " + response.body());
+                    typeEntityList.addAll(response.body());
+                    typeAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
+                    Log.d(TAG, "onFailure: " + t.getMessage());
+                }
+            });
         }
     }
 
