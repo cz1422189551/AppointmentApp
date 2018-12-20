@@ -83,9 +83,9 @@ public class AppointmentFragment extends LazyFragment {
     TextView availableTextView;
 
     @BindView(R.id.et_username)
-    MaterialEditText etUser;
+    TextView etUser;
     @BindView(R.id.et_tel)
-    MaterialEditText etTel;
+    TextView etTel;
 
     @BindView(R.id.btn_submit)
     Button submitBtn;
@@ -124,6 +124,7 @@ public class AppointmentFragment extends LazyFragment {
 
     //判断是否能够提交
     boolean availAppoint = false;
+    private boolean isFirst = true;
 
     @Override
     protected int getLayout() {
@@ -134,8 +135,11 @@ public class AppointmentFragment extends LazyFragment {
     @Override
     protected void initViews(View view) {
         //初始化下拉列表
+        Log.d(TAG, "initViews: ");
         initSpinner();
         initBtn();
+        initEdit();
+
     }
 
 
@@ -223,13 +227,13 @@ public class AppointmentFragment extends LazyFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 long currentLong = System.currentTimeMillis();
-//                Date currentDate = DateUtil.longTimeToDate(currentLong);
-                Date currentDate = null;
-                try {
-                    currentDate = DateUtil.stringToDateWithTime("2018-12-20 8:10");
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                Date currentDate = DateUtil.longTimeToDate(currentLong);
+//                Date currentDate = null;
+//                try {
+////                    currentDate = DateUtil.stringToDateWithTime("2018-12-20 8:10");
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
                 String currentDateSrt = null;
                 try {
                     currentDateSrt = DateUtil.stringToDateOnyDate(currentDate);
@@ -316,11 +320,11 @@ public class AppointmentFragment extends LazyFragment {
                             availAppoint = false;
                         } else { // 选中的是学生实验室， 显示还剩多少个座位
                             availCount = body.get(0).getLaboratory().getSeatCount() - body.size();
-                            if (availCount == 0) {  //该时段已没有空闲座位
+                            if (availCount <= 0) {  //该时段已没有空闲座位
                                 availableTextView.setText("该时段已无位置");
                                 availAppoint = false;
                             } else {
-                                availableTextView.setText(availCount + " / " + seatCount);
+                                availableTextView.setText("剩余座位："+availCount + " / " + seatCount);
                                 availAppoint = true;
                             }
                         }
@@ -388,8 +392,8 @@ public class AppointmentFragment extends LazyFragment {
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (isVisible) {
-            initEdit();
+        if (isVisible && isFirst) {
+            Log.d(TAG, "onFragmentVisibleChange: " + isVisible);
             int userType = user.getUserType();
             laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
             Map<String, Integer> map = new HashMap<>();
@@ -398,6 +402,7 @@ public class AppointmentFragment extends LazyFragment {
                 @Override
                 public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
                     Log.d(TAG, "onResponse: " + response.body());
+                    isFirst = false;
                     typeEntityList.addAll(response.body());
                     typeAdapter.notifyDataSetChanged();
                 }
@@ -415,5 +420,15 @@ public class AppointmentFragment extends LazyFragment {
         etTel.setText(user.getTel());
     }
 
+    @Override
+    public void onStop() {
+        isFirst = false;
+        super.onStop();
+    }
 
+    @Override
+    public void onDestroyView() {
+        isFirst = true;
+        super.onDestroyView();
+    }
 }

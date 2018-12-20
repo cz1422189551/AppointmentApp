@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import cz.org.appointment.api.AnnouncementService;
 import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
@@ -39,20 +40,23 @@ public class MyApplication extends Application {
 
     public static final int CANCEL = -1;
 
-    public static final int SEAT_COUNT=20;
+    public static final int SEAT_COUNT = 20;
 
     public static AppointmentService appointmentService;
+    public static AnnouncementService announcementService;
+
+    public static final String ip = "http://192.168.43.170:8080";
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.7.134:8080") //设置网络请求的Url地址
+                .baseUrl(ip) //设置网络请求的Url地址
                 .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
                 .build();
         appointmentService = retrofit.create(AppointmentService.class);
-
+        announcementService = retrofit.create(AnnouncementService.class);
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
             layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色

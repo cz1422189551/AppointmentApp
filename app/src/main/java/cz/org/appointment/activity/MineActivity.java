@@ -28,42 +28,53 @@ import cz.org.appointment.R;
 import cz.org.appointment.api.UserService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.user;
+import static cz.org.appointment.util.ValidateUtil.isViewTextEmpty;
 
 public class MineActivity extends BaseActivity {
 
     @BindView(R.id.et_name)
     MaterialEditText nameEt;
-    @BindView(R.id.spinner_gender)
-    MaterialSpinner genderSpinner;
+    //    @BindView(R.id.spinner_gender)
+//    MaterialSpinner genderSpinner;
     @BindView(R.id.et_password)
     MaterialEditText passwordEt;
+
+    @BindView(R.id.et_again_password)
+    MaterialEditText twoPasswordEt;
+
     @BindView(R.id.et_tel)
     MaterialEditText telEt;
     @BindView(R.id.et_department)
     MaterialEditText departmentEt;
+    @BindView(R.id.et_class_grade)
+    MaterialEditText classGradeEt;
     @BindView(R.id.et_address)
     MaterialEditText addressEt;
     @BindView(R.id.et_title)
     MaterialEditText titleEt;
+    @BindView(R.id.et_gender)
+    MaterialEditText genderEt;
 
 
     @BindView(R.id.ll_address)
     LinearLayout addressLinearLayout;
     @BindView(R.id.ll_title)
     LinearLayout titleLinearLayout;
+    @BindView(R.id.ll_class_grade)
+    LinearLayout classGraldeLinearLyout;
 
     @BindView(R.id.btn_save)
     Button saveBtn;
 
     UserService userService;
 
-    int gender = 1;
 
     @Override
     public int getLayout() {
@@ -79,45 +90,57 @@ public class MineActivity extends BaseActivity {
     public void initViews() {
         if (user.getUserType() == 1) {
             addressLinearLayout.setVisibility(View.VISIBLE);
+            classGraldeLinearLyout.setVisibility(View.VISIBLE);
             addressEt.setText(user.getAddress());
+            classGradeEt.setText(user.getClassGrade());
         } else {
             titleLinearLayout.setVisibility(View.VISIBLE);
             titleEt.setText(user.getTitle());
         }
         nameEt.setText(user.getName());
         passwordEt.setText(user.getPassword());
+        twoPasswordEt.setText(passwordEt.getText().toString());
         departmentEt.setText(user.getDepartment());
         telEt.setText(user.getTel());
-
-        BaseAdapter adapter = new CommonAdapter<String>(this, R.layout.spinner_layout, Arrays.asList("男", "女")) {
-            @Override
-            protected void convert(ViewHolder viewHolder, String item, int position) {
-                viewHolder.setText(R.id.tv_laboratory_spinner, item);
-            }
-        };
-        genderSpinner.setAdapter(adapter);
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i < 0) return;
-                String s = (String) adapter.getItem(i);
-                switch (s) {
-                    case "男":
-                        gender = 1;
-                        break;
-                    case "女":
-                        gender = 0;
-                        break;
-                    default:
-                        gender = 1;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        String genderText = "";
+        switch (user.getGender()) {
+            case 1:
+                genderText = "男";
+                break;
+            case 2:
+                genderText = "女";
+                break;
+        }
+        genderEt.setText(genderText);
+//        BaseAdapter adapter = new CommonAdapter<String>(this, R.layout.spinner_layout, Arrays.asList("男", "女")) {
+//            @Override
+//            protected void convert(ViewHolder viewHolder, String item, int position) {
+//                viewHolder.setText(R.id.tv_laboratory_spinner, item);
+//            }
+//        };
+//        genderSpinner.setAdapter(adapter);
+//        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (i < 0) return;
+//                String s = (String) adapter.getItem(i);
+//                switch (s) {
+//                    case "男":
+//                        gender = 1;
+//                        break;
+//                    case "女":
+//                        gender = 0;
+//                        break;
+//                    default:
+//                        gender = 1;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
 
         saveBtn.setOnClickListener(v -> {
@@ -127,6 +150,18 @@ public class MineActivity extends BaseActivity {
             int id = user.getId();
             String userName = user.getUserName();
             String classGrade = user.getClassGrade();
+            int gender = getGenderByStr(genderEt.getText().toString());
+
+            if (isViewTextEmpty(nameEt) || isViewTextEmpty(twoPasswordEt)
+                    || isViewTextEmpty(telEt) || isViewTextEmpty(genderEt) || isViewTextEmpty(departmentEt)
+                    || isViewTextEmpty(passwordEt)) {
+                Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!passwordEt.getText().toString().equals(twoPasswordEt.getText().toString())) {
+                Toast.makeText(this, "两次密码不相同，请确认", Toast.LENGTH_SHORT).show();
+                return;
+            }
             //fixme: gender
             User u = new User(
                     id, nameEt.getText().toString(), userName, passwordEt.getText().toString(), telEt.getText().toString(),
@@ -157,6 +192,12 @@ public class MineActivity extends BaseActivity {
             });
 
         });
+    }
+
+    private int getGenderByStr(String genderStr) {
+        if ("男".contains(genderStr)) return 1;
+        else if ("女".contains(genderStr)) return 0;
+        else return 1;
     }
 
     @Override

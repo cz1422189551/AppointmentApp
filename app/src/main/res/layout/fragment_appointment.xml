@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,6 +14,7 @@
         android:orientation="vertical">
         <!--类别-->
         <LinearLayout
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -38,9 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+
+           >
 
             <fr.ganfra.materialspinner.MaterialSpinner
+
                 android:id="@+id/spinner_laboratory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,14 +70,14 @@
                 android:id="@+id/spinner_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
                 app:ms_floatingLabelColor="@color/colorPrimaryText"
                 app:ms_floatingLabelText="日期"
                 app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择日期"
+                app:ms_hint="日期"
                 app:ms_multiline="true" />
 
 
@@ -82,14 +86,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
                 app:ms_floatingLabelColor="@color/colorPrimaryText"
                 app:ms_floatingLabelText="时段"
                 app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择时段"
+                app:ms_hint="时段"
                 app:ms_multiline="true" />
 
             <fr.ganfra.materialspinner.MaterialSpinner
@@ -97,14 +101,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 app:ms_arrowColor="#0000FF"
                 app:ms_arrowSize="0dp"
                 app:ms_baseColor="@color/colorPrimary"
                 app:ms_floatingLabelColor="@color/colorPrimaryText"
                 app:ms_floatingLabelText="使用时间"
                 app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择时长"
+                app:ms_hint="时长"
                 app:ms_multiline="true" />
 
 
@@ -118,109 +122,142 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="空闲数量"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:gravity="right">
-
-                    <TextView
-                        android:id="@+id/tx_available"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="24dp" />
-                </LinearLayout>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="right">
+                android:gravity="center">
 
                 <Button
                     android:background="@drawable/button_submit"
                     android:id="@+id/btn_available"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="36dp"
                     android:text="查询" />
             </LinearLayout>
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="16dp">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/et_username"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:hint="姓名"
-                    android:textCursorDrawable="@null"
-                    android:textSize="16dp"
-                    app:met_clearButton="true"
-                    app:met_errorColor="#ff0000"
-                    app:met_floatingLabel="normal"
-                    app:met_floatingLabelText="姓名"
-                    app:met_primaryColor="@color/colorPrimary"
-                    app:met_textColorHint="@color/colorPrimary" />
+                    android:gravity="center">
 
+                    <TextView
+                        android:id="@+id/tx_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实验室信息"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="24dp" />
+                </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_height="wrap_content">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/et_tel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="联系电话"
-                    android:textCursorDrawable="@null"
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:text="姓名"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/et_username"
+                    android:text="HelloWorld"
                     android:textSize="16dp"
-                    app:met_clearButton="true"
-                    app:met_errorColor="#ff0000"
-                    app:met_floatingLabel="normal"
-                    app:met_floatingLabelText="联系电话"
-                    app:met_primaryColor="@color/colorPrimary"
-                    app:met_textColorHint="@color/colorPrimary" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
             </LinearLayout>
 
-        </LinearLayout>
 
-        <!--提交-->
-        <LinearLayout
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:text="联系电话"
+                    android:textColor="@color/colorPrimaryText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <Button
-                android:background="@drawable/button_submit"
-                android:id="@+id/btn_submit"
-                android:text="提交"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:id="@+id/et_tel"
+                    android:text="18807772672"
+                    android:textSize="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!--提交-->
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:gravity="center"
+            android:background="@drawable/button_submit"
+            android:id="@+id/btn_submit"
+            android:text="提交"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

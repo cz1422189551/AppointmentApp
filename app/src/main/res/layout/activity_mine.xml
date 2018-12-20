@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -35,6 +38,7 @@
             android:layout_height="wrap_content">
 
             <com.rengwuxian.materialedittext.MaterialEditText
+                android:password="true"
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,6 +48,26 @@
                 app:met_errorColor="#ff0000"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="密码"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:password="true"
+                android:id="@+id/et_again_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="确认密码"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="确认密码"
                 app:met_primaryColor="#303F9F" />
 
 
@@ -85,6 +109,26 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_class_grade"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_class_grade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="班级"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="班级"
+                app:met_primaryColor="#303F9F" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_address"
@@ -107,22 +151,38 @@
 
         </LinearLayout>
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_gender"
+            <!--<fr.ganfra.materialspinner.MaterialSpinner-->
+                <!--android:id="@+id/spinner_gender"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:ms_arrowColor="#0000FF"-->
+                <!--app:ms_arrowSize="0dp"-->
+                <!--d-->
+                <!--app:ms_baseColor="@color/colorPrimary"-->
+                <!--app:ms_floatingLabelColor="#FF888888"-->
+                <!--app:ms_floatingLabelText="性别"-->
+                <!--app:ms_highlightColor="@color/colorPrimary"-->
+                <!--app:ms_hint="请选择性别"-->
+                <!--app:ms_hintColor="@color/colorPrimaryText"-->
+                <!--app:ms_multiline="true" />-->
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/et_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="0dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="性别"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择性别"
-                app:ms_multiline="true" />
+                android:hint="姓名"
+                android:textCursorDrawable="@null"
+                app:met_clearButton="true"
+                app:met_errorColor="#ff0000"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="性别"
+                app:met_primaryColor="#303F9F" />
 
 
         </LinearLayout>
@@ -149,8 +209,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="32dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center">
 
             <Button
@@ -163,9 +224,9 @@
 
         </LinearLayout>
 
-
-
     </LinearLayout>
+
+
 
 
 </LinearLayout>

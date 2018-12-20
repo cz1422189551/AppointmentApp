@@ -41,7 +41,8 @@ public class HomeActivity extends BaseActivity {
     LinearLayout subScribeLinearLayout;
     @BindView(R.id.ll_my)
     LinearLayout mineLinearLayout;
-
+    @BindView(R.id.tv_announcement)
+    TextView announcementTx;
 
     @BindView(R.id.iv_news)
     ImageView newsImageView;
@@ -74,6 +75,7 @@ public class HomeActivity extends BaseActivity {
         newsLinearLayout.setOnClickListener(linearLayoutListener);
         subScribeLinearLayout.setOnClickListener(linearLayoutListener);
         mineLinearLayout.setOnClickListener(linearLayoutListener);
+        announcementTx.setOnClickListener( v->IntentUtil.get().goActivity(HomeActivity.this,AnnouncementActivity.class));
         //bottomViewPager
         homeFragment = new HomeFragment();
         appointmentFragment = new AppointmentFragment();
@@ -94,17 +96,17 @@ public class HomeActivity extends BaseActivity {
                 switch (position) {
                     case 0:
                         resetPic();
-                        newsImageView.setBackgroundResource(R.mipmap.news_1);
+                        newsImageView.setBackgroundResource(R.drawable.shouye);
                         break;
                     case 1:
 
                         resetPic();
-                        subScribeImageView.setBackgroundResource(R.mipmap.subscribe_1);
+                        subScribeImageView.setBackgroundResource(R.drawable.shenqing);
                         break;
                     case 2:
 
                         resetPic();
-                        mineImageView.setBackgroundResource(R.mipmap.mine_1);
+                        mineImageView.setBackgroundResource(R.drawable.wode);
                         break;
                 }
             }
@@ -130,9 +132,9 @@ public class HomeActivity extends BaseActivity {
 
 
     private void resetPic() {
-        newsImageView.setBackgroundResource(R.mipmap.news_grey);
-        subScribeImageView.setBackgroundResource(R.mipmap.subscribe);
-        mineImageView.setBackgroundResource(R.mipmap.mine);
+        newsImageView.setBackgroundResource(R.drawable.shouye_grey);
+        subScribeImageView.setBackgroundResource(R.drawable.shenqing_grey);
+        mineImageView.setBackgroundResource(R.drawable.wode_grey);
     }
 
 

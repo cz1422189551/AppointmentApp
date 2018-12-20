@@ -5,6 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appointment"/>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_announcement"
+                android:layout_marginLeft="126dp"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公告"/>
+        </LinearLayout>
+    </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
@@ -34,7 +61,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/news_1"
+                android:background="@drawable/shouye"
                 android:contentDescription="TODO" />
 
 
@@ -52,7 +79,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/subscribe"
+                android:background="@drawable/shenqing_grey"
                 android:contentDescription="TODO" />
 
 
@@ -71,7 +98,7 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:background="@mipmap/mine"
+                android:background="@drawable/wode_grey"
                 android:contentDescription="TODO" />
 
 
