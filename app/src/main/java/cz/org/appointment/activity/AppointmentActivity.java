@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,11 +27,16 @@ import cz.org.appointment.R;
 import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
+import cz.org.appointment.entity.ResponseEntity;
 import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.JsonUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static cz.org.appointment.MyApplication.APPOINTING;
+import static cz.org.appointment.MyApplication.CANCEL;
+import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.retrofit;
 import static cz.org.appointment.MyApplication.user;
 
@@ -43,7 +49,6 @@ public class AppointmentActivity extends BaseActivity {
 
     BaseAdapter adapter;
 
-    AppointmentService appointmentService;
 
     List<Appointment> appointmentList = new ArrayList<>();
 
@@ -73,7 +78,7 @@ public class AppointmentActivity extends BaseActivity {
             intent.putExtras(bundle);
             startActivity(intent);
         });
-        appointmentService = retrofit.create(AppointmentService.class);
+
         adapter = new CommonAdapter<Appointment>(this, R.layout.adapter_appoint, appointmentList) {
             @Override
             protected void convert(ViewHolder viewHolder, Appointment item, int position) {
@@ -83,24 +88,47 @@ public class AppointmentActivity extends BaseActivity {
                 String createTime = DateUtil.DateToString(item.getCreateDate());
                 String state = "";
                 switch (item.getState()) {
-                    case 1:
+                    case APPOINTING:
                         state = "预约中";
+                        viewHolder.setText(R.id.tv_state, state);
+
                         break;
                     case 2:
                         state = "已完成";
+                        viewHolder.setText(R.id.tv_state, state);
                         break;
-                    case 3:
+                    case CANCEL:
                         state = "已取消";
+                        viewHolder.setText(R.id.tv_state, state);
+                        viewHolder.setTextColor(R.id.tv_state, R.color.ColorDividerColor2);
                         break;
                 }
                 viewHolder.setText(R.id.tv_title, title);
                 viewHolder.setText(R.id.tv_start_date, startTime);
                 viewHolder.setText(R.id.tx_end_date, endTime);
-                viewHolder.setText(R.id.tv_state, state);
+
                 viewHolder.setText(R.id.tv_create_date, createTime);
                 viewHolder.setOnClickListener(R.id.btn_cancel, view -> {
                     Log.d(TAG, "convert:  cancel");
+                    Map<String, String> map = new HashMap<>();
+                    map.put("myAppointment", JsonUtil.toJson(item));
+                    appointmentService.cancelAppointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
+                        @Override
+                        public void onResponse(Call<ResponseEntity<Appointment>> call, Response<ResponseEntity<Appointment>> response) {
+                            ResponseEntity<Appointment> body = response.body();
+                            if (body != null) {
+                                Toast.makeText(AppointmentActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseEntity<Appointment>> call, Throwable t) {
+                            Log.d(TAG, "onFailure: " + t.getMessage());
+                            Toast.makeText(AppointmentActivity.this, "取消错误", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 });
+                if (item.getState() != APPOINTING) viewHolder.setVisible(R.id.btn_cancel, false);
             }
         };
         setSwipeRefreshInfo();
@@ -108,10 +136,6 @@ public class AppointmentActivity extends BaseActivity {
     }
 
     private void setSwipeRefreshInfo() {
-        //设置 Header 为 贝塞尔雷达 样式
-        refreshLayout.setRefreshHeader(new BezierRadarHeader(this).setEnableHorizontalDrag(true));
-        //设置 Footer 为 球脉冲 样式
-        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             requestData(1);
             refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
@@ -167,5 +191,6 @@ public class AppointmentActivity extends BaseActivity {
 
     @Override
     public void loadData() {
+        refreshLayout.autoRefresh();
     }
 }

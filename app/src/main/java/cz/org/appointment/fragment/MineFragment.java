@@ -57,7 +57,7 @@ public class MineFragment extends LazyFragment {
         });
         exitBtn.setOnClickListener(v -> {
             MyApplication.user = null;
-            SharedPreferencesUtil.saveData(getActivity(), "user", "");
+            SharedPreferencesUtil.saveData(getActivity(), "userInfo", "");
             IntentUtil.get().goActivity(getActivity(), LoginActivity.class);
         });
     }

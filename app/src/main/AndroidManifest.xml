@@ -14,7 +14,7 @@
 
 
         <activity
-            android:name=".activity.HomeActivity"
+            android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.HomeActivity"
             android:launchMode="singleTask">
 
         </activity>

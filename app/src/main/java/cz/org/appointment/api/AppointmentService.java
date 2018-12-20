@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 
-
 import cz.org.appointment.entity.Appointment;
+import cz.org.appointment.entity.ResponseEntity;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -21,7 +22,10 @@ public interface AppointmentService {
     Call<List<Appointment>> findAvailableInfo(@QueryMap Map<String, String> map);
 
     @POST("/appointment/add")
-    Call<Appointment> appointment(@QueryMap Map<String, String> map);
+    Call<ResponseEntity<Appointment>> appointment(@QueryMap Map<String, String> map);
+
+    @POST("/appointment/cancel")
+    Call<ResponseEntity<Appointment>> cancelAppointment(@QueryMap Map<String, String> map);
 
     @GET("/appointment/getList")
     Call<Result<Appointment>> appointmentList(@QueryMap Map<String, Integer> map);

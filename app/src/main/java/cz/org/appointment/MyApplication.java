@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
 import cz.org.appointment.util.SharedPreferencesUtil;
@@ -26,12 +27,21 @@ public class MyApplication extends Application {
 
     public static User user;
 
-    public static final int STUDENT=1;
-    public static final int TEACHER=2;
-    //static 代码段可以防止内存泄露
-//    static {
-//
-//    }
+    public static final int STUDENT = 1;
+
+    public static final int TEACHER = 2;
+
+    public static final int ADMIN = 3;
+
+    public static final int APPOINTING = 1;
+
+    public static final int FINISH = 3;
+
+    public static final int CANCEL = -1;
+
+    public static final int SEAT_COUNT=20;
+
+    public static AppointmentService appointmentService;
 
 
     @Override
@@ -41,7 +51,8 @@ public class MyApplication extends Application {
                 .baseUrl("http://192.168.7.134:8080") //设置网络请求的Url地址
                 .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
                 .build();
-        user = readLocalUserInfo();
+        appointmentService = retrofit.create(AppointmentService.class);
+
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
             layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色

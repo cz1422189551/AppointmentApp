@@ -6,4 +6,9 @@ public class ValidateUtil {
         if (str != null && !"".equals(str)) return false;
         return true;
     }
+
+    public static boolean isNull(Object o) {
+        if (o == null) return true;
+        return false;
+    }
 }

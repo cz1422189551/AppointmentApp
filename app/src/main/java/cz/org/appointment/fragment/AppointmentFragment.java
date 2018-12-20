@@ -37,6 +37,8 @@ import cz.org.appointment.entity.Appointment;
 import cz.org.appointment.entity.Laboratory;
 import cz.org.appointment.entity.LaboratoryType;
 
+import cz.org.appointment.entity.ResponseEntity;
+import cz.org.appointment.ui.OnItemSelectedListenerImpl;
 import cz.org.appointment.util.DateUtil;
 import cz.org.appointment.util.JsonUtil;
 import cz.org.appointment.util.ValidateUtil;
@@ -48,7 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
+import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.user;
+import static cz.org.appointment.util.ValidateUtil.isNull;
 
 
 public class AppointmentFragment extends LazyFragment {
@@ -116,7 +120,7 @@ public class AppointmentFragment extends LazyFragment {
     BaseAdapter minuteAdapter;
 
     LaboratoryService laboratoryService;
-    AppointmentService appointmentService;
+//    AppointmentService appointmentService;
 
     //判断是否能够提交
     boolean availAppoint = false;
@@ -215,8 +219,43 @@ public class AppointmentFragment extends LazyFragment {
             }
         };
         dateSpinner.setAdapter(dateAdapter);
-        //时间
-        timeList = DateUtil.initAvailableTime();
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                long currentLong = System.currentTimeMillis();
+//                Date currentDate = DateUtil.longTimeToDate(currentLong);
+                Date currentDate = null;
+                try {
+                    currentDate = DateUtil.stringToDateWithTime("2018-12-20 8:10");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String currentDateSrt = null;
+                try {
+                    currentDateSrt = DateUtil.stringToDateOnyDate(currentDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String selectedStr = (String) adapterView.getSelectedItem();
+
+
+                timeList.removeAll(timeList);
+                if (currentDateSrt.equals(selectedStr)) { // 根据当前时间，来显示
+                    timeList.addAll(DateUtil.currentAvailableTime(currentDate, currentDateSrt));
+                } else {
+                    timeList.addAll(DateUtil.initAvailableTime());
+                }
+                timeAdapter.notifyDataSetChanged();
+                timeSpinner.setAdapter(timeAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         timeAdapter = new CommonAdapter<String>(getActivity(), R.layout.spinner_time, timeList) {
             @Override
             protected void convert(ViewHolder viewHolder, String item, int position) {
@@ -224,6 +263,7 @@ public class AppointmentFragment extends LazyFragment {
             }
         };
         timeSpinner.setAdapter(timeAdapter);
+        timeSpinner.setOnItemSelectedListener(new OnItemSelectedListenerImpl(availAppoint));
         //分钟
         minuteList = DateUtil.initAvailableMinutes();
         minuteAdapter = new CommonAdapter<Integer>(getActivity(), R.layout.spinner_minute, minuteList) {
@@ -233,30 +273,30 @@ public class AppointmentFragment extends LazyFragment {
             }
         };
         minuteSpinner.setAdapter(minuteAdapter);
-
+        minuteSpinner.setOnItemSelectedListener(new OnItemSelectedListenerImpl(availAppoint));
     }
 
     private void initBtn() {
         availableBtn.setOnClickListener(view -> {
             Map<String, String> map = new HashMap<>();
-            Laboratory laboratory = ((Laboratory) laboratorySpinner.getSelectedItem());
-            String date = dateSpinner.getSelectedItem().toString();
-            String timeTmp = timeSpinner.getSelectedItem().toString();
-            String time = date + " " + timeTmp;
-            String minute = minuteSpinner.getSelectedItem().toString();
-            //提交前校验
-            if (laboratory == null || ValidateUtil.isEmpty(date) || ValidateUtil.isEmpty(timeTmp) || ValidateUtil.isEmpty(minute)) {
+            Object laboratoryO = laboratorySpinner.getSelectedItem();
+            Object dateO = dateSpinner.getSelectedItem();
+            Object timeO = timeSpinner.getSelectedItem();
+            Object minuteO = minuteSpinner.getSelectedItem();
+            if (isNull(laboratoryO) || isNull(dateO) || isNull(timeO) || isNull(minuteO)) {
                 Toast.makeText(getActivity(), "请选择完整信息", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!availAppoint) {
-                Toast.makeText(getActivity(), "所选时段已无空位,请重新选择", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            String date = (String) dateO;
+            Laboratory laboratory = (Laboratory) laboratoryO;
+            String timeTmp = (String) timeO;
+            String time = date + " " + timeTmp;
+            int minute = (Integer) minuteO;
+
             map.put("laboratoryId", laboratory.getId() + "");
             map.put("date", date);
             map.put("startDate", time);
-            map.put("minute", minute);
+            map.put("minute", minute + "");
 
             appointmentService.findAvailableInfo(map).enqueue(new Callback<List<Appointment>>() {
                 @Override
@@ -266,8 +306,9 @@ public class AppointmentFragment extends LazyFragment {
                     //可用数量
                     int availCount = 0;
                     //选中实验室的座位数量
-                    int seatCount = ((Laboratory) laboratorySpinner.getSelectedItem()).getSeatCount();
+
                     if (body != null && body.size() > 0) {
+                        int seatCount = body.get(0).getLaboratory().getSeatCount();
                         if (studentLaboratory != STUDENT) { //选中的是教师实验室
                             String startDate = DateUtil.DateToStringWithoutYear(body.get(0).getAppointmentDate());
                             String endDate = DateUtil.DateToStringOnlyHourMinute(body.get(0).getEndDate());
@@ -287,7 +328,7 @@ public class AppointmentFragment extends LazyFragment {
                         if (studentLaboratory != STUDENT) {
                             availableTextView.setText("该时段尚未有教师预约");
                         } else {
-                            availableTextView.setText(seatCount + " / " + seatCount);
+                            availableTextView.setText("都是空位");
                         }
                         availAppoint = true;
                     }
@@ -313,26 +354,28 @@ public class AppointmentFragment extends LazyFragment {
                 Toast.makeText(getActivity(), "请选择完整信息", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (!availAppoint) {
+                Toast.makeText(getActivity(), "所选时段已无空位,请重新选择", Toast.LENGTH_SHORT).show();
+                return;
+            }
             try {
                 Map<String, String> map = new HashMap<>();
                 map.put("appointment",
                         JsonUtil.toJson(new Appointment(user, laboratory, new Date(), DateUtil.stringToDateWithTime(time), null, DateUtil.stringToDate(date), minute, 1))
                 );
 
-                appointmentService.appointment(map).enqueue(new Callback<Appointment>() {
+                appointmentService.appointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
                     @Override
-                    public void onResponse(Call<Appointment> call, Response<Appointment> response) {
+                    public void onResponse(Call<ResponseEntity<Appointment>> call, Response<ResponseEntity<Appointment>> response) {
                         Log.d(TAG, "onResponse: " + response.toString());
-                        Appointment body = response.body();
-                        if (body == null) {
-                            Toast.makeText(getActivity(), "没有空闲位置，预约失败", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "预约成功", Toast.LENGTH_SHORT).show();
+                        ResponseEntity entity = response.body();
+                        if (entity != null) {
+                            Toast.makeText(getActivity(), entity.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Appointment> call, Throwable t) {
+                    public void onFailure(Call<ResponseEntity<Appointment>> call, Throwable t) {
                         Log.d(TAG, "onFailure: " + t.getMessage());
                         Toast.makeText(getActivity(), "预约错误", Toast.LENGTH_SHORT).show();
                     }

@@ -17,12 +17,14 @@ import butterknife.BindView;
 
 import static cz.org.appointment.MyApplication.*;
 
+import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.api.UserService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.JsonUtil;
 import cz.org.appointment.util.SharedPreferencesUtil;
+import cz.org.appointment.util.ValidateUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +85,10 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-
+        String userJson = (String) SharedPreferencesUtil.getData(this, "userInfo", "");
+        if (!ValidateUtil.isEmpty(userJson)) {
+            MyApplication.user = (User) JsonUtil.fromJson(userJson, User.class);
+            IntentUtil.get().goActivity(this, HomeActivity.class);
+        }
     }
 }

@@ -36,6 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static cz.org.appointment.MyApplication.STUDENT;
 import static cz.org.appointment.MyApplication.retrofit;
 import static cz.org.appointment.MyApplication.user;
 
@@ -59,6 +60,8 @@ public class HomeFragment extends LazyFragment {
 
     Result<Laboratory> result;
 
+    //标记是否是第一次进入， 第一次进入才刷新， 之后切换到主页不刷新
+    boolean isFirst = true;
 
     @Override
     protected int getLayout() {
@@ -73,7 +76,7 @@ public class HomeFragment extends LazyFragment {
                 String title = item.getLaboratoryType().getName() + "——" + item.getName();
                 String description = item.getDescription();
                 int seatCount = item.getSeatCount();
-                String availableType = "可用";
+                String availableType = item.getAvailableType() == STUDENT ? "可用" : "不可用";
                 String managerPerson = item.getUser().getName();
                 String tel = item.getUser().getTel();
                 viewHolder.setText(R.id.tv_title, title);
@@ -97,10 +100,18 @@ public class HomeFragment extends LazyFragment {
         }
     }
 
-    //fixme :切换tab时 ,会不会再次刷新
     private void loadData() {
         laboratoryService = retrofit.create(LaboratoryService.class);
-        refreshLayout.autoRefresh();
+        if (isFirst) {
+            refreshLayout.autoRefresh();
+            isFirst = false;
+        }
+    }
+
+    @Override
+    public void onStop() {
+        isFirst = false;
+        super.onStop();
     }
 
     private void setSwipeRefreshInfo() {
