@@ -138,7 +138,7 @@ public class AppointmentFragment extends LazyFragment {
         Log.d(TAG, "initViews: ");
         initSpinner();
         initBtn();
-        initEdit();
+
 
     }
 
@@ -324,7 +324,7 @@ public class AppointmentFragment extends LazyFragment {
                                 availableTextView.setText("该时段已无位置");
                                 availAppoint = false;
                             } else {
-                                availableTextView.setText("剩余座位："+availCount + " / " + seatCount);
+                                availableTextView.setText("剩余座位：" + availCount + " / " + seatCount);
                                 availAppoint = true;
                             }
                         }
@@ -392,27 +392,32 @@ public class AppointmentFragment extends LazyFragment {
 
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
-        if (isVisible && isFirst) {
-            Log.d(TAG, "onFragmentVisibleChange: " + isVisible);
-            int userType = user.getUserType();
-            laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
-            Map<String, Integer> map = new HashMap<>();
-            if (userType == 1) map.put("userType", userType);
-            laboratoryService.laboratoryAllType(map).enqueue(new Callback<List<LaboratoryType>>() {
-                @Override
-                public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
-                    Log.d(TAG, "onResponse: " + response.body());
-                    isFirst = false;
-                    typeEntityList.addAll(response.body());
-                    typeAdapter.notifyDataSetChanged();
-                }
+        Log.d(TAG, "onFragmentVisibleChange: " + isVisible);
+        if (isVisible) {
+            initEdit();
+            if (isFirst) {
+                Log.d(TAG, "onFragmentVisibleChange: 第一次");
+                int userType = user.getUserType();
+                laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
+                Map<String, Integer> map = new HashMap<>();
+                if (userType == 1) map.put("userType", userType);
+                laboratoryService.laboratoryAllType(map).enqueue(new Callback<List<LaboratoryType>>() {
+                    @Override
+                    public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
+                        Log.d(TAG, "onResponse: " + response.body());
+                        isFirst = false;
+                        typeEntityList.addAll(response.body());
+                        typeAdapter.notifyDataSetChanged();
+                    }
 
-                @Override
-                public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
-                    Log.d(TAG, "onFailure: " + t.getMessage());
-                }
-            });
+                    @Override
+                    public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
+                        Log.d(TAG, "onFailure: " + t.getMessage());
+                    }
+                });
+            }
         }
+
     }
 
     private void initEdit() {

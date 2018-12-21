@@ -117,7 +117,7 @@ public class HomeFragment extends LazyFragment {
     private void setSwipeRefreshInfo() {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             requestData(1);
-            refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
+            refreshlayout.finishRefresh(500/*,false*/);//传入false表示刷新失败
         });
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             if (totalPage == 0 || pageNumber > totalPage) {
@@ -125,7 +125,7 @@ public class HomeFragment extends LazyFragment {
             } else {
                 requestData(pageNumber);
             }
-            refreshlayout.finishLoadMore(1500/*,false*/);//传入false表示加载失败
+            refreshlayout.finishLoadMore(500/*,false*/);//传入false表示加载失败
         });
     }
 

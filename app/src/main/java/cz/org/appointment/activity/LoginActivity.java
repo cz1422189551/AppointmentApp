@@ -40,6 +40,9 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.btn_submit)
     Button button;
 
+    @BindView(R.id.btn_register)
+    Button register;
+
     UserService service;
 
     @Override
@@ -81,6 +84,8 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
+
+        register.setOnClickListener(v -> IntentUtil.get().goActivity(LoginActivity.this,RegisterActivity.class));
     }
 
     @Override

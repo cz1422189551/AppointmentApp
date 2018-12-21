@@ -82,7 +82,7 @@ public class AnnouncementActivity extends BaseActivity {
     private void setSwipeRefreshInfo() {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             requestData(1);
-            refreshlayout.finishRefresh(1000/*,false*/);//传入false表示刷新失败
+            refreshlayout.finishRefresh(500/*,false*/);//传入false表示刷新失败
         });
         refreshLayout.setOnLoadMoreListener(refreshlayout -> {
             if (totalPage == 0 || pageNumber > totalPage) {
@@ -90,7 +90,7 @@ public class AnnouncementActivity extends BaseActivity {
             } else {
                 requestData(pageNumber);
             }
-            refreshlayout.finishLoadMore(1000/*,false*/);//传入false表示加载失败
+            refreshlayout.finishLoadMore(500/*,false*/);//传入false表示加载失败
         });
     }
 
@@ -104,7 +104,7 @@ public class AnnouncementActivity extends BaseActivity {
             public void onResponse(Call<Result<Announcement>> call, Response<Result<Announcement>> response) {
                 Result<Announcement> body = response.body();
                 result = body;
-                if (result != null) {
+                if (result != null && result.getResult() != null) {
                     List<Announcement> repList = result.getResult();
                     totalPage = body.getTotalPage();
                     pageNumber = body.getPageNumber() + 1;
@@ -117,11 +117,13 @@ public class AnnouncementActivity extends BaseActivity {
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 }
+                Toast.makeText(AnnouncementActivity.this, "刷新结束，没有记录", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<Result<Announcement>> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
+                Toast.makeText(AnnouncementActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -25,9 +25,12 @@ import java.util.Map;
 import butterknife.BindView;
 import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
+import cz.org.appointment.api.DefaultCallbackImpl;
 import cz.org.appointment.api.UserService;
+import cz.org.appointment.entity.ResponseEntity;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
@@ -35,6 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.user;
+import static cz.org.appointment.util.FomatUtil.getGenderByStr;
 import static cz.org.appointment.util.ValidateUtil.isViewTextEmpty;
 
 public class MineActivity extends BaseActivity {
@@ -146,7 +150,6 @@ public class MineActivity extends BaseActivity {
         saveBtn.setOnClickListener(v -> {
 
             int userType = user.getUserType();
-            Date createTime = user.getCreateTime();
             int id = user.getId();
             String userName = user.getUserName();
             String classGrade = user.getClassGrade();
@@ -165,39 +168,24 @@ public class MineActivity extends BaseActivity {
             //fixme: gender
             User u = new User(
                     id, nameEt.getText().toString(), userName, passwordEt.getText().toString(), telEt.getText().toString(),
-                    gender, userType, createTime, addressEt.getText().toString(), classGrade, departmentEt.getText().toString(),
+                    gender, userType, addressEt.getText().toString(), classGrade, departmentEt.getText().toString(),
                     titleEt.getText().toString()
             );
             Map<String, String> map = new HashMap<>();
             map.put("userType", userType + "");
             map.put("user", JsonUtil.toJson(u));
-            map.put("userType", userType + "");
-            userService.save(map).enqueue(new Callback<User>() {
+            userService.save(map).enqueue(new DefaultCallbackImpl<ResponseEntity<User>>(this) {
                 @Override
-                public void onResponse(Call<User> call, Response<User> response) {
-                    if (response.isSuccessful()) {
-                        user = response.body();
-                        Toast.makeText(MineActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(MineActivity.this, "保存失败", Toast.LENGTH_SHORT).show();
+                public void onResponse(Call<ResponseEntity<User>> call, Response<ResponseEntity<User>> response) {
+                    ResponseEntity<User> body = response.body();
+                    Toast.makeText(MineActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
+                    if (body.getData() != null) {
+                        SharedPreferencesUtil.saveData(MineActivity.this, "user", JsonUtil.toJson(body));
+                        user = body.getData();
                     }
-
-                }
-
-                @Override
-                public void onFailure(Call<User> call, Throwable t) {
-                    Log.d(TAG, "onFailure: " + t.getMessage());
-                    Toast.makeText(MineActivity.this, "保存错误", Toast.LENGTH_SHORT).show();
                 }
             });
-
         });
-    }
-
-    private int getGenderByStr(String genderStr) {
-        if ("男".contains(genderStr)) return 1;
-        else if ("女".contains(genderStr)) return 0;
-        else return 1;
     }
 
     @Override

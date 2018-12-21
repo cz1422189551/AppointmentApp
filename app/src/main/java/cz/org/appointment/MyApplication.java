@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import cz.org.appointment.api.AnnouncementService;
 import cz.org.appointment.api.AppointmentService;
+import cz.org.appointment.api.UserService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
 import cz.org.appointment.util.SharedPreferencesUtil;
@@ -42,11 +43,16 @@ public class MyApplication extends Application {
 
     public static final int SEAT_COUNT = 20;
 
+    public static UserService userService;
     public static AppointmentService appointmentService;
     public static AnnouncementService announcementService;
 
-    public static final String ip = "http://192.168.43.170:8080";
+//        public static final String ip = "http://132.232.119.142:8080";
 
+
+//    public static final String ip = "http://192.168.43.170:8080";
+
+    public static final String ip = "http://192.168.7.134:8080";
 
     @Override
     public void onCreate() {
@@ -55,6 +61,7 @@ public class MyApplication extends Application {
                 .baseUrl(ip) //设置网络请求的Url地址
                 .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
                 .build();
+        userService = retrofit.create(UserService.class);
         appointmentService = retrofit.create(AppointmentService.class);
         announcementService = retrofit.create(AnnouncementService.class);
         //设置全局的Header构建器
@@ -70,10 +77,10 @@ public class MyApplication extends Application {
         });
     }
 
-    //读取本地用户信息
-    private User readLocalUserInfo() {
-        String json = (String) SharedPreferencesUtil.getData(this, "userInfo", "");
-        if (json == "") return null;
-        return (User) JsonUtil.fromJson(json, User.class);
-    }
+//    //读取本地用户信息
+//    private User readLocalUserInfo() {
+//        String json = (String) SharedPreferencesUtil.getData(this, "userInfo", "");
+//        if (json == "") return null;
+//        return (User) JsonUtil.fromJson(json, User.class);
+//    }
 }

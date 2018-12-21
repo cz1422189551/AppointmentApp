@@ -28,7 +28,9 @@
             android:launchMode="singleTask">
 
         </activity>
-
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".activity.MineActivity"
             android:launchMode="singleTask"></activity>
@@ -40,6 +42,9 @@
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".activity.AppointmentInfoActivity"
+            android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".activity.AnnouncementActivity"
             android:launchMode="singleTask"></activity>
     </application>
 
