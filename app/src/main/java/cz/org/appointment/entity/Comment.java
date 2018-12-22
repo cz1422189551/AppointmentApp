@@ -17,7 +17,18 @@ public class Comment implements Serializable {
     private User user;
 
 
-//    private Comment parentComment;
+    public Comment(){}
+
+    public Comment(int id, Laboratory laboratory, User user, String commentContent, Date time) {
+        this.id = id;
+        this.laboratory = laboratory;
+        this.user = user;
+        this.commentContent = commentContent;
+        this.time = time;
+    }
+
+
+    //    private Comment parentComment;
 
 
     //评论内容

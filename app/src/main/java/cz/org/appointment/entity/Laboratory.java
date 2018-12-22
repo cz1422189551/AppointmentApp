@@ -33,6 +33,16 @@ public class Laboratory implements Serializable {
     //开放时间
     private Date openDate;
 
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     //关闭时间
 
     private Date closeDate;

@@ -20,6 +20,7 @@ import java.util.Map;
 import butterknife.BindView;
 import cz.org.appointment.R;
 import cz.org.appointment.activity.LaboratoryInfoActivity;
+import cz.org.appointment.adapter.LaboratoryAdapter;
 import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Laboratory;
@@ -28,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
+import static cz.org.appointment.MyApplication.laboratoryService;
 import static cz.org.appointment.MyApplication.retrofit;
 import static cz.org.appointment.activity.HomeActivity.homeTitle;
 
@@ -43,7 +45,7 @@ public class HomeFragment extends LazyFragment {
 
     List<Laboratory> laboratoryList = new ArrayList<>();
 
-    LaboratoryService laboratoryService;
+
 
     static int pageSize = 10;
     static int pageNumber = 1;
@@ -62,24 +64,25 @@ public class HomeFragment extends LazyFragment {
     @Override
     protected void initViews(View view) {
 
-        adapter = new CommonAdapter<Laboratory>(getActivity(), R.layout.adapter_labory_info, laboratoryList) {
-            @Override
-            protected void convert(ViewHolder viewHolder, Laboratory item, int position) {
-                String title = item.getLaboratoryType().getName() + "——" + item.getName();
-                String description = item.getDescription();
-                int seatCount = item.getSeatCount();
-                String availableType = item.getAvailableType() == STUDENT ? "可用" : "不可用";
-                String managerPerson = item.getUser().getName();
-                String tel = item.getUser().getTel();
-                viewHolder.setText(R.id.tv_title, title);
-                viewHolder.setText(R.id.tx_description, description);
-                viewHolder.setText(R.id.tx_seat_count, seatCount + "");
-                viewHolder.setText(R.id.tx_available_type, availableType);
-                viewHolder.setText(R.id.tv_manger, managerPerson);
-                viewHolder.setText(R.id.tx_available_type, availableType);
-                viewHolder.setText(R.id.tv_tel, tel);
-            }
-        };
+//        adapter = new CommonAdapter<Laboratory>(getActivity(), R.layout.adapter_labory_info, laboratoryList) {
+//            @Override
+//            protected void convert(ViewHolder viewHolder, Laboratory item, int position) {
+//                String title = item.getLaboratoryType().getName() + "——" + item.getName();
+//                String description = item.getDescription();
+//                int seatCount = item.getSeatCount();
+//                String availableType = item.getAvailableType() == STUDENT ? "可用" : "不可用";
+//                String managerPerson = item.getUser().getName();
+//                String tel = item.getUser().getTel();
+//                viewHolder.setText(R.id.tv_title, title);
+//                viewHolder.setText(R.id.tx_description, description);
+//                viewHolder.setText(R.id.tx_seat_count, seatCount + "");
+//                viewHolder.setText(R.id.tx_available_type, availableType);
+//                viewHolder.setText(R.id.tv_manger, managerPerson);
+//                viewHolder.setText(R.id.tx_available_type, availableType);
+//                viewHolder.setText(R.id.tv_tel, tel);
+//            }
+//        };
+        adapter = new LaboratoryAdapter(laboratoryList, getActivity());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             Log.d(TAG, "onItemClick: " + position);
@@ -105,7 +108,7 @@ public class HomeFragment extends LazyFragment {
     }
 
     private void loadData() {
-        laboratoryService = retrofit.create(LaboratoryService.class);
+
         if (isFirst) {
             refreshLayout.autoRefresh();
             isFirst = false;

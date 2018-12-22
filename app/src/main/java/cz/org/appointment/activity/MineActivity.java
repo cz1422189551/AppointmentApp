@@ -37,6 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static cz.org.appointment.MyApplication.USER_KEY;
 import static cz.org.appointment.MyApplication.user;
 import static cz.org.appointment.util.FomatUtil.getGenderByStr;
 import static cz.org.appointment.util.ValidateUtil.isViewTextEmpty;
@@ -155,6 +156,8 @@ public class MineActivity extends BaseActivity {
             String classGrade = user.getClassGrade();
             int gender = getGenderByStr(genderEt.getText().toString());
 
+            String tel = telEt.getText().toString();
+
             if (isViewTextEmpty(nameEt) || isViewTextEmpty(twoPasswordEt)
                     || isViewTextEmpty(telEt) || isViewTextEmpty(genderEt) || isViewTextEmpty(departmentEt)
                     || isViewTextEmpty(passwordEt)) {
@@ -180,7 +183,7 @@ public class MineActivity extends BaseActivity {
                     ResponseEntity<User> body = response.body();
                     Toast.makeText(MineActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
                     if (body.getData() != null) {
-                        SharedPreferencesUtil.saveData(MineActivity.this, "user", JsonUtil.toJson(body));
+                        SharedPreferencesUtil.saveData(MineActivity.this, USER_KEY, JsonUtil.toJson(body));
                         user = body.getData();
                     }
                 }

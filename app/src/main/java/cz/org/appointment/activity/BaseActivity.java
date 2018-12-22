@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cz.org.appointment.MyApplication;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -34,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         loadActivity();
-
+        MyApplication.addActivity(this);
     }
 
     private void loadActivity() {

@@ -4,6 +4,7 @@ import java.util.Map;
 
 
 import cz.org.appointment.entity.Comment;
+import cz.org.appointment.entity.ResponseEntity;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
@@ -15,4 +16,7 @@ public interface CommentService {
 
     @GET("/comment/getList/laboratory")
     Call<Result<Comment>> getListInLaboratory(@QueryMap Map<String, String> map);
+
+    @GET("/comment/add")
+    Call<ResponseEntity<Comment>> comment(@QueryMap Map<String, String> map);
 }

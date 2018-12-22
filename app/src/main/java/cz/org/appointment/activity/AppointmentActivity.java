@@ -20,6 +20,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 import cz.org.appointment.R;
+import cz.org.appointment.adapter.AppointmentAdapter;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
 import cz.org.appointment.entity.ResponseEntity;
@@ -73,58 +74,59 @@ public class AppointmentActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        adapter = new CommonAdapter<Appointment>(this, R.layout.adapter_appoint, appointmentList) {
-            @Override
-            protected void convert(ViewHolder viewHolder, Appointment item, int position) {
-                String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
-                String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
-                String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
-                String createTime = DateUtil.DateToString(item.getCreateDate());
-                String state = "";
-                switch (item.getState()) {
-                    case APPOINTING:
-                        state = "预约中";
-                        viewHolder.setText(R.id.tv_state, state);
-
-                        break;
-                    case 2:
-                        state = "已完成";
-                        viewHolder.setText(R.id.tv_state, state);
-                        break;
-                    case CANCEL:
-                        state = "已取消";
-                        viewHolder.setText(R.id.tv_state, state);
-                        viewHolder.setTextColor(R.id.tv_state, R.color.ColorDividerColor2);
-                        break;
-                }
-                viewHolder.setText(R.id.tv_title, title);
-                viewHolder.setText(R.id.tv_start_date, startTime);
-                viewHolder.setText(R.id.tx_end_date, endTime);
-
-                viewHolder.setText(R.id.tv_create_date, createTime);
-                viewHolder.setOnClickListener(R.id.btn_cancel, view -> {
-                    Log.d(TAG, "convert:  cancel");
-                    Map<String, String> map = new HashMap<>();
-                    map.put("myAppointment", JsonUtil.toJson(item));
-                    appointmentService.cancelAppointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
-                        @Override
-                        public void onResponse(Call<ResponseEntity<Appointment>> call, Response<ResponseEntity<Appointment>> response) {
-                            ResponseEntity<Appointment> body = response.body();
-                            if (body != null) {
-                                Toast.makeText(AppointmentActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseEntity<Appointment>> call, Throwable t) {
-                            Log.d(TAG, "onFailure: " + t.getMessage());
-                            Toast.makeText(AppointmentActivity.this, "取消错误", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                });
-                if (item.getState() != APPOINTING) viewHolder.setVisible(R.id.btn_cancel, false);
-            }
-        };
+//        adapter = new CommonAdapter<Appointment>(this, R.layout.adapter_appoint, appointmentList) {
+//            @Override
+//            protected void convert(ViewHolder viewHolder, Appointment item, int position) {
+//                String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
+//                String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
+//                String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
+//                String createTime = DateUtil.DateToString(item.getCreateDate());
+//                String state = "";
+//                switch (item.getState()) {
+//                    case APPOINTING:
+//                        state = "预约中";
+//                        viewHolder.setText(R.id.tv_state, state);
+//
+//                        break;
+//                    case 2:
+//                        state = "已完成";
+//                        viewHolder.setText(R.id.tv_state, state);
+//                        break;
+//                    case CANCEL:
+//                        state = "已取消";
+//                        viewHolder.setText(R.id.tv_state, state);
+//                        viewHolder.setTextColor(R.id.tv_state, R.color.ColorDividerColor2);
+//                        break;
+//                }
+//                viewHolder.setText(R.id.tv_title, title);
+//                viewHolder.setText(R.id.tv_start_date, startTime);
+//                viewHolder.setText(R.id.tx_end_date, endTime);
+//
+//                viewHolder.setText(R.id.tv_create_date, createTime);
+//                viewHolder.setOnClickListener(R.id.btn_cancel, view -> {
+//                    Log.d(TAG, "convert:  cancel");
+//                    Map<String, String> map = new HashMap<>();
+//                    map.put("myAppointment", JsonUtil.toJson(item));
+//                    appointmentService.cancelAppointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
+//                        @Override
+//                        public void onResponse(Call<ResponseEntity<Appointment>> call, Response<ResponseEntity<Appointment>> response) {
+//                            ResponseEntity<Appointment> body = response.body();
+//                            if (body != null) {
+//                                Toast.makeText(AppointmentActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ResponseEntity<Appointment>> call, Throwable t) {
+//                            Log.d(TAG, "onFailure: " + t.getMessage());
+//                            Toast.makeText(AppointmentActivity.this, "取消错误", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                });
+//                if (item.getState() != APPOINTING) viewHolder.setVisible(R.id.btn_cancel, false);
+//            }
+//        };
+        adapter = new AppointmentAdapter(appointmentList, this,refreshLayout);
         setSwipeRefreshInfo();
 
     }
@@ -167,7 +169,7 @@ public class AppointmentActivity extends BaseActivity {
                         appointmentList.addAll(result);
                     }
                     adapter.notifyDataSetChanged();
-                    listView.setAdapter(adapter);
+//                    listView.setAdapter(adapter);
                 }
             }
 

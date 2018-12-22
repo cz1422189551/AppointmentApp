@@ -16,6 +16,7 @@ import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +24,15 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.BindViews;
 import cz.org.appointment.R;
+import cz.org.appointment.adapter.CommentInfoAdapter;
 import cz.org.appointment.api.DefaultCallbackImpl;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Comment;
 import cz.org.appointment.entity.Laboratory;
+import cz.org.appointment.entity.ResponseEntity;
 import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.ValidateUtil;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -99,19 +104,43 @@ public class LaboratoryInfoActivity extends BaseActivity {
     public void initViews() {
         laboratory = (Laboratory) getIntent().getSerializableExtra("laboratory");
         Log.d(TAG, "initViews: " + laboratory);
-        adapter = new CommonAdapter<Comment>(this, R.layout.adapter_my_comment, list) {
-            @Override
-            protected void convert(ViewHolder viewHolder, Comment item, int position) {
-                String time = DateUtil.DateToString(item.getTime());
-                String content = item.getCommentContent();
-                String from = item.getLaboratory().getName();
-                viewHolder.setText(R.id.tv_comment_date, time);
-                viewHolder.setText(R.id.tv_comment_content, content);
-                viewHolder.setText(R.id.tv_from, from);
-            }
-        };
+//        adapter = new CommonAdapter<Comment>(this, R.layout.adapter_laboratory_comment, list) {
+//            @Override
+//            protected void convert(ViewHolder viewHolder, Comment item, int position) {
+//                Log.d(TAG, "convert: "+item.getCommentContent());
+//                String time = DateUtil.DateToString(item.getTime());
+//                String content = item.getCommentContent();
+//                String name = item.getUser().getName();
+//                viewHolder.setText(R.id.tv_comment_date, time);
+//                viewHolder.setText(R.id.tv_comment_content, content);
+//                viewHolder.setText(R.id.tv_name, name);
+//            }
+//        };
+        adapter = new CommentInfoAdapter(list, this);
         listView.setAdapter(adapter);
         setSwipeRefreshInfo();
+        commentBtn.setOnClickListener(v -> {
+            if (!ValidateUtil.isViewTextEmpty(commentEt)) {
+                String commentStr = commentEt.getText().toString();
+                Comment comment = new Comment(0, laboratory, user, commentStr, new Date());
+                Map<String, String> map = new HashMap<>();
+                map.put("comment", JsonUtil.toJson(comment));
+                commentService.comment(map).enqueue(new DefaultCallbackImpl<ResponseEntity<Comment>>(this) {
+                    @Override
+                    public void onResponse(Call<ResponseEntity<Comment>> call, Response<ResponseEntity<Comment>> response) {
+                        ResponseEntity<Comment> body = response.body();
+                        if (body != null || body.getData() != null) {
+                            Toast.makeText(LaboratoryInfoActivity.this, "留言成功", Toast.LENGTH_SHORT).show();
+                            list.add(0, comment);
+                            showCommentLayout();
+                            adapter.notifyDataSetChanged();
+                            commentEt.setText("");
+                            listView.setAdapter(adapter);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void showLaboratoryInfo() {
@@ -121,6 +150,7 @@ public class LaboratoryInfoActivity extends BaseActivity {
         String availableType = laboratory.getAvailableType() == STUDENT ? "可用" : "不可用";
         String managerPerson = laboratory.getUser().getName();
         String tel = laboratory.getUser().getTel();
+        addressTx.setText("" + laboratory.getAddress());
         titleTx.setText(title);
         descriptionTx.setText(description);
         seatTx.setText(seatCount + "");
@@ -162,15 +192,9 @@ public class LaboratoryInfoActivity extends BaseActivity {
                     } else {
                         list.addAll(repList);
                     }
-                    if (list.size() < 1) {
-                        noCommentLayout.setVisibility(View.VISIBLE);
-                        commentLayout.setVisibility(View.GONE);
-                    } else {
-                        noCommentLayout.setVisibility(View.GONE);
-                        commentLayout.setVisibility(View.VISIBLE);
-                    }
+                    showCommentLayout();
                     adapter.notifyDataSetChanged();
-                    listView.setAdapter(adapter);
+//                    listView.setAdapter(adapter);
 
                 } else {
                     Toast.makeText(LaboratoryInfoActivity.this, "刷新结束，没有记录", Toast.LENGTH_SHORT).show();
@@ -189,6 +213,15 @@ public class LaboratoryInfoActivity extends BaseActivity {
 
     }
 
+    private void showCommentLayout() {
+        if (list.size() < 1) {
+            noCommentLayout.setVisibility(View.VISIBLE);
+            commentLayout.setVisibility(View.GONE);
+        } else {
+            noCommentLayout.setVisibility(View.GONE);
+            commentLayout.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void loadData() {

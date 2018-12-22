@@ -52,6 +52,7 @@ import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
 import static cz.org.appointment.MyApplication.appointmentService;
+import static cz.org.appointment.MyApplication.laboratoryService;
 import static cz.org.appointment.MyApplication.user;
 import static cz.org.appointment.activity.HomeActivity.homeTitle;
 import static cz.org.appointment.util.ValidateUtil.isNull;
@@ -121,7 +122,7 @@ public class AppointmentFragment extends LazyFragment {
 
     BaseAdapter minuteAdapter;
 
-    LaboratoryService laboratoryService;
+
 //    AppointmentService appointmentService;
 
     //判断是否能够提交
@@ -349,12 +350,22 @@ public class AppointmentFragment extends LazyFragment {
             });
         });
         submitBtn.setOnClickListener(view -> {
-            Laboratory laboratory = (Laboratory) laboratorySpinner.getSelectedItem();
-            String date = dateSpinner.getSelectedItem().toString();
+            Object laboratoryO = laboratorySpinner.getSelectedItem();
 
-            String timeTmp = timeSpinner.getSelectedItem().toString();
+
+            Object dateO = dateSpinner.getSelectedItem();
+            Object timeO = timeSpinner.getSelectedItem();
+            Object minuteO = minuteSpinner.getSelectedItem();
+            if (isNull(laboratoryO) || isNull(dateO) || isNull(timeO) || isNull(minuteO)) {
+                Toast.makeText(getActivity(), "请选择完整信息", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String date = (String) dateO;
+            Laboratory laboratory = (Laboratory) laboratoryO;
+            String timeTmp = (String) timeO;
             String time = date + " " + timeTmp;
-            int minute = (int) minuteSpinner.getSelectedItem();
+            int minute = (Integer) minuteO;
 
             //提交前校验
             if (laboratory == null || ValidateUtil.isEmpty(date) || ValidateUtil.isEmpty(timeTmp) || minute == 0) {
@@ -369,7 +380,7 @@ public class AppointmentFragment extends LazyFragment {
                 Map<String, String> map = new HashMap<>();
                 Date startDate = DateUtil.stringToDateWithTime(time);
                 String json = JsonUtil.toJson(new Appointment(user, laboratory, new Date(), startDate, null, DateUtil.stringToDate(date), minute, 1));
-                map.put("appointment",json
+                map.put("appointment", json
                 );
 
                 appointmentService.appointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
@@ -402,7 +413,7 @@ public class AppointmentFragment extends LazyFragment {
             if (isFirst) {
                 Log.d(TAG, "onFragmentVisibleChange: 第一次");
                 int userType = user.getUserType();
-                laboratoryService = MyApplication.retrofit.create(LaboratoryService.class);
+
                 Map<String, Integer> map = new HashMap<>();
                 if (userType == 1) map.put("userType", userType);
                 laboratoryService.laboratoryAllType(map).enqueue(new Callback<List<LaboratoryType>>() {

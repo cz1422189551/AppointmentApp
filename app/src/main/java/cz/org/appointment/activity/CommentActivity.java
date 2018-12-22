@@ -6,8 +6,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.zhy.adapter.abslistview.CommonAdapter;
-import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,26 +15,24 @@ import java.util.Map;
 import butterknife.BindView;
 import cz.org.appointment.R;
 import cz.org.appointment.api.DefaultCallbackImpl;
-import cz.org.appointment.api.ParamMapUtil;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Comment;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.adapter.MyCommentAdapter;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static cz.org.appointment.MyApplication.announcementService;
 import static cz.org.appointment.MyApplication.commentService;
 import static cz.org.appointment.MyApplication.user;
 
 public class CommentActivity extends BaseActivity {
 
-    @BindView(R.id.refreshLayout)
+    @BindView(R.id.refreshLayout_comment)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.lv_appoint)
+    @BindView(R.id.lv_comment)
     ListView listView;
 
     BaseAdapter adapter;
-
+    MyCommentAdapter commentAdapter;
 
     List<Comment> list = new ArrayList<>();
 
@@ -57,17 +53,19 @@ public class CommentActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        adapter = new CommonAdapter<Comment>(this, R.layout.adapter_my_comment, list) {
-            @Override
-            protected void convert(ViewHolder viewHolder, Comment item, int position) {
-                String time = DateUtil.DateToString(item.getTime());
-                String content = item.getCommentContent();
-                String from = item.getLaboratory().getName();
-                viewHolder.setText(R.id.tv_comment_date, time);
-                viewHolder.setText(R.id.tv_comment_content, content);
-                viewHolder.setText(R.id.tv_from, from);
-            }
-        };
+        adapter= new MyCommentAdapter(list,this);
+//        adapter = new CommonAdapter<Comment>(this, R.layout.adapter_my_comment, list) {
+//            @Override
+//            protected void convert(ViewHolder viewHolder, Comment item, int position) {
+//                Log.d(TAG, "convert: " + item.getCommentContent());
+//                String time = DateUtil.DateToString(item.getTime());
+//                String content = item.getCommentContent();
+//                String from = item.getLaboratory().getName();
+//                viewHolder.setText(R.id.tv_comment_date_my, time);
+//                viewHolder.setText(R.id.tv_comment_content_my, content);
+//                viewHolder.setText(R.id.tv_from_my, from);
+//            }
+//        };
         listView.setAdapter(adapter);
         setSwipeRefreshInfo();
     }
@@ -102,15 +100,18 @@ public class CommentActivity extends BaseActivity {
                     totalPage = body.getTotalPage();
                     pageNumber = body.getPageNumber() + 1;
                     if (pn == 1) {
-                        list.removeAll(list);
+                        list.clear();
                         list.addAll(repList);
                     } else {
                         list.addAll(repList);
                     }
+
                     adapter.notifyDataSetChanged();
-                    listView.setAdapter(adapter);
+//                    listView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(CommentActivity.this, "刷新结束，没有记录", Toast.LENGTH_SHORT).show();
+
                 }
-                Toast.makeText(CommentActivity.this, "刷新结束，没有记录", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -120,5 +121,6 @@ public class CommentActivity extends BaseActivity {
     @Override
     public void loadData() {
         refreshLayout.autoRefresh();
+
     }
 }

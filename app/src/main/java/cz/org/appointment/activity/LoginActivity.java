@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
                     }
                     //保存用户信息
                     user = response.body();
-                    SharedPreferencesUtil.saveData(LoginActivity.this, "userInfo", JsonUtil.toJson(user));
+                    SharedPreferencesUtil.saveData(LoginActivity.this, USER_KEY, JsonUtil.toJson(user));
                     IntentUtil.get().goActivity(LoginActivity.this, HomeActivity.class);
                 }
 
@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        String userJson = (String) SharedPreferencesUtil.getData(this, "userInfo", "");
+        String userJson = (String) SharedPreferencesUtil.getData(this, USER_KEY, "");
         if (!ValidateUtil.isEmpty(userJson)) {
             MyApplication.user = (User) JsonUtil.fromJson(userJson, User.class);
             IntentUtil.get().goActivity(this, HomeActivity.class);

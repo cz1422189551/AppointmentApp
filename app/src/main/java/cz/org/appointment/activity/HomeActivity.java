@@ -3,20 +3,25 @@ package cz.org.appointment.activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.adapter.FragmentAdapter;
 import cz.org.appointment.fragment.AppointmentFragment;
@@ -159,4 +164,37 @@ public class HomeActivity extends BaseActivity {
         }
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",Toast.LENGTH_SHORT).show();
+                    //利用handler延迟发送更改状态信息
+                    handler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            MyApplication.finish();
+//            System.exit(0);
+            System.exit(0);
+        }
+    }
+
+    //定义一个变量，来标识是否退出
+    private static boolean isExit = false;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
 }

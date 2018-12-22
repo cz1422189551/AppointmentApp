@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <me.codeboy.android.aligntextview.AlignTextView
-                android:id="@+id/tv_comment_date"
+                android:id="@+id/tv_comment_date_my"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2018-12-22 12:24"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <me.codeboy.android.aligntextview.AlignTextView
-                android:id="@+id/tv_comment_content"
+                android:id="@+id/tv_comment_content_my"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -55,7 +55,7 @@
                 android:text="来自："
                 android:textSize="16dp" />
             <me.codeboy.android.aligntextview.AlignTextView
-                android:id="@+id/tv_from"
+                android:id="@+id/tv_from_my"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
