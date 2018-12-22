@@ -44,6 +44,9 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.tv_announcement)
     TextView announcementTx;
 
+
+    public static TextView homeTitle;
+
     @BindView(R.id.iv_news)
     ImageView newsImageView;
     @BindView(R.id.iv_subscribe)
@@ -70,12 +73,13 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void initViews() {
 
+        homeTitle = findViewById(R.id.tv_home_title);
         //初始化切换Bottom的Tab的点击事件
         LinearLayoutListener linearLayoutListener = new LinearLayoutListener();
         newsLinearLayout.setOnClickListener(linearLayoutListener);
         subScribeLinearLayout.setOnClickListener(linearLayoutListener);
         mineLinearLayout.setOnClickListener(linearLayoutListener);
-        announcementTx.setOnClickListener( v->IntentUtil.get().goActivity(HomeActivity.this,AnnouncementActivity.class));
+        announcementTx.setOnClickListener(v -> IntentUtil.get().goActivity(HomeActivity.this, AnnouncementActivity.class));
         //bottomViewPager
         homeFragment = new HomeFragment();
         appointmentFragment = new AppointmentFragment();

@@ -3,16 +3,16 @@ package cz.org.appointment.entity;
 
 import java.util.Date;
 
+public class Announcement   {
 
-public class Announcement {
 
-    private int id;
+    private  int id;
+
     private String title;
 
     private String content;
 
     private String pushMan;
-
 
     private Date pushDate;
 

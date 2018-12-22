@@ -1,7 +1,6 @@
 package cz.org.appointment.activity;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -11,27 +10,19 @@ import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import cz.org.appointment.R;
+import cz.org.appointment.api.DefaultCallbackImpl;
+import cz.org.appointment.api.ParamMapUtil;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Announcement;
-import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.ResponseEntity;
 import cz.org.appointment.util.DateUtil;
-import cz.org.appointment.util.JsonUtil;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
-import static cz.org.appointment.MyApplication.APPOINTING;
-import static cz.org.appointment.MyApplication.CANCEL;
 import static cz.org.appointment.MyApplication.announcementService;
-import static cz.org.appointment.MyApplication.appointmentService;
-import static cz.org.appointment.MyApplication.user;
 
 public class AnnouncementActivity extends BaseActivity {
 
@@ -95,11 +86,7 @@ public class AnnouncementActivity extends BaseActivity {
     }
 
     private void requestData(int pn) {
-
-        Map<String, Integer> map = new HashMap<>();
-        map.put("pageNum", pn);
-        map.put("pageSize", pageSize);
-        announcementService.getList(map).enqueue(new Callback<Result<Announcement>>() {
+        announcementService.getList(ParamMapUtil.pageMap(pn, pageSize)).enqueue(new DefaultCallbackImpl<Result<Announcement>>(this) {
             @Override
             public void onResponse(Call<Result<Announcement>> call, Response<Result<Announcement>> response) {
                 Result<Announcement> body = response.body();
@@ -119,13 +106,8 @@ public class AnnouncementActivity extends BaseActivity {
                 }
                 Toast.makeText(AnnouncementActivity.this, "刷新结束，没有记录", Toast.LENGTH_SHORT).show();
             }
-
-            @Override
-            public void onFailure(Call<Result<Announcement>> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-                Toast.makeText(AnnouncementActivity.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
-            }
         });
+
     }
 
     @Override

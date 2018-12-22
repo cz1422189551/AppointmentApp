@@ -17,6 +17,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 import cz.org.appointment.api.AnnouncementService;
 import cz.org.appointment.api.AppointmentService;
+import cz.org.appointment.api.CommentService;
 import cz.org.appointment.api.UserService;
 import cz.org.appointment.entity.User;
 import cz.org.appointment.util.JsonUtil;
@@ -46,13 +47,13 @@ public class MyApplication extends Application {
     public static UserService userService;
     public static AppointmentService appointmentService;
     public static AnnouncementService announcementService;
-
+    public static CommentService commentService;
 //        public static final String ip = "http://132.232.119.142:8080";
 
 
-//    public static final String ip = "http://192.168.43.170:8080";
+    public static final String ip = "http://192.168.43.170:8080";
 
-    public static final String ip = "http://192.168.7.134:8080";
+//    public static final String ip = "http://192.168.7.134:8080";
 
     @Override
     public void onCreate() {
@@ -64,6 +65,7 @@ public class MyApplication extends Application {
         userService = retrofit.create(UserService.class);
         appointmentService = retrofit.create(AppointmentService.class);
         announcementService = retrofit.create(AnnouncementService.class);
+        commentService = retrofit.create(CommentService.class);
         //设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
             layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色

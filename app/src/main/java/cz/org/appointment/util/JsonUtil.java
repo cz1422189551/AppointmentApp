@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 
 public class JsonUtil {
 
-    static Gson gson = new GsonBuilder().create();
+    static Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm")
+            .create();
 
 
     public static String toJson(Object target) {
@@ -20,27 +20,8 @@ public class JsonUtil {
     }
 
 
-    public static Object fromJson(String json, Class<?> targetClazz, Class GenericClazz) {
-        return fromJson(json, targetClazz, new Class[]{GenericClazz});
-    }
-
-    public static Object fromJson(String json,Class clazz) {
+    public static Object fromJson(String json, Class clazz) {
         return gson.fromJson(json, clazz);
-    }
-
-    public static Object fromJson(String json, Class<?> targetClazz, Class[] genericClazz) {
-
-        ParameterizedTypeImpl subType = null;
-        ParameterizedTypeImpl resultType = null;
-        if (genericClazz.length >= 2) {
-            for (int i = 0; i < genericClazz.length; i = i + 2) {
-                subType = new ParameterizedTypeImpl(genericClazz[i], new Type[]{genericClazz[i + 1]});
-            }
-            resultType = new ParameterizedTypeImpl(targetClazz, new Type[]{subType});
-        } else {
-            resultType = new ParameterizedTypeImpl(targetClazz, new Type[]{genericClazz[0]});
-        }
-        return gson.fromJson(json, resultType);
     }
 
 

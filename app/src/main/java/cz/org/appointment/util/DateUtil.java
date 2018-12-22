@@ -11,9 +11,9 @@ import java.util.List;
 public class DateUtil {
     static String TAG = DateUtil.class.getSimpleName();
     static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd ");
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd H:mm");
-    static SimpleDateFormat sdf3 = new SimpleDateFormat("MM-dd H:mm");
-    static SimpleDateFormat sdf4 = new SimpleDateFormat("H:mm");
+    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    static SimpleDateFormat sdf3 = new SimpleDateFormat("MM-dd HH:mm");
+    static SimpleDateFormat sdf4 = new SimpleDateFormat("HH:mm");
 
     //默认时间
     static int baseTime = 30;

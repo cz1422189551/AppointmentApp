@@ -20,6 +20,8 @@ import cz.org.appointment.activity.MineActivity;
 import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.SharedPreferencesUtil;
 
+import static cz.org.appointment.activity.HomeActivity.homeTitle;
+
 
 public class MineFragment extends LazyFragment {
 
@@ -43,6 +45,9 @@ public class MineFragment extends LazyFragment {
 
     @Override
     protected void initViews(View view) {
+
+
+
         myInfo.setOnClickListener(v -> {
             IntentUtil intentUtil = IntentUtil.get();
             intentUtil.goActivity(getActivity(), MineActivity.class);
@@ -62,5 +67,10 @@ public class MineFragment extends LazyFragment {
         });
     }
 
-
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if(isVisible){
+            homeTitle.setText("个人信息");
+        }
+    }
 }

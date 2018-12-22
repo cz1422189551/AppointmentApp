@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="24dp"
+        android:background="@mipmap/linear_borad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <me.codeboy.android.aligntextview.AlignTextView
+                android:id="@+id/tv_comment_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018-12-22 12:24"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <me.codeboy.android.aligntextview.AlignTextView
+                android:id="@+id/tv_comment_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:minLines="2"
+
+                android:text="内容" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <me.codeboy.android.aligntextview.AlignTextView
+                android:layout_marginLeft="8dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="来自："
+                android:textSize="16dp" />
+            <me.codeboy.android.aligntextview.AlignTextView
+                android:id="@+id/tv_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:minLines="2"
+                android:textColor="@color/colorPrimaryText"
+                android:text="实验室名称" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

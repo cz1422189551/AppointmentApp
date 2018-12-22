@@ -41,11 +41,12 @@
             android:name=".activity.CommentActivity"
             android:launchMode="singleTask"></activity>
         <activity
-            android:name=".activity.AppointmentInfoActivity"
+            android:name=".activity.LaboratoryInfoActivity"
             android:launchMode="singleTask"></activity>
         <activity
             android:name=".activity.AnnouncementActivity"
             android:launchMode="singleTask"></activity>
+
     </application>
 
 </manifest>

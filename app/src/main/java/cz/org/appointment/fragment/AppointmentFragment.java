@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.GsonBuilder;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -52,6 +53,7 @@ import retrofit2.Response;
 import static cz.org.appointment.MyApplication.STUDENT;
 import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.user;
+import static cz.org.appointment.activity.HomeActivity.homeTitle;
 import static cz.org.appointment.util.ValidateUtil.isNull;
 
 
@@ -136,6 +138,7 @@ public class AppointmentFragment extends LazyFragment {
     protected void initViews(View view) {
         //初始化下拉列表
         Log.d(TAG, "initViews: ");
+
         initSpinner();
         initBtn();
 
@@ -364,8 +367,9 @@ public class AppointmentFragment extends LazyFragment {
             }
             try {
                 Map<String, String> map = new HashMap<>();
-                map.put("appointment",
-                        JsonUtil.toJson(new Appointment(user, laboratory, new Date(), DateUtil.stringToDateWithTime(time), null, DateUtil.stringToDate(date), minute, 1))
+                Date startDate = DateUtil.stringToDateWithTime(time);
+                String json = JsonUtil.toJson(new Appointment(user, laboratory, new Date(), startDate, null, DateUtil.stringToDate(date), minute, 1));
+                map.put("appointment",json
                 );
 
                 appointmentService.appointment(map).enqueue(new Callback<ResponseEntity<Appointment>>() {
@@ -421,6 +425,7 @@ public class AppointmentFragment extends LazyFragment {
     }
 
     private void initEdit() {
+        homeTitle.setText("预约");
         etUser.setText(user.getName());
         etTel.setText(user.getTel());
     }

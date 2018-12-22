@@ -4,15 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -24,7 +20,6 @@ import java.util.Map;
 import butterknife.BindView;
 
 import cz.org.appointment.R;
-import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
 import cz.org.appointment.entity.ResponseEntity;
@@ -37,7 +32,6 @@ import retrofit2.Response;
 import static cz.org.appointment.MyApplication.APPOINTING;
 import static cz.org.appointment.MyApplication.CANCEL;
 import static cz.org.appointment.MyApplication.appointmentService;
-import static cz.org.appointment.MyApplication.retrofit;
 import static cz.org.appointment.MyApplication.user;
 
 public class AppointmentActivity extends BaseActivity {
@@ -71,7 +65,7 @@ public class AppointmentActivity extends BaseActivity {
     public void initViews() {
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Appointment appointment = (Appointment) adapter.getItem(i);
-            Intent intent = new Intent(getActivity(), AppointmentInfoActivity.class);
+            Intent intent = new Intent(getActivity(), LaboratoryInfoActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable("appoint", appointment);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -9,4 +9,11 @@ public class ParamMapUtil {
         Map<String, Integer> map = new HashMap<>();
         return map;
     }
+
+    public static Map<String,Integer> pageMap(int pageNum , int pageSize){
+        Map<String, Integer> map = new HashMap<>();
+        map.put("pageNum", pageNum);
+        map.put("pageSize", pageSize);
+        return map;
+    }
 }

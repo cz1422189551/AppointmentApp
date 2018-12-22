@@ -1,22 +1,16 @@
 package cz.org.appointment.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,20 +19,17 @@ import java.util.Map;
 
 import butterknife.BindView;
 import cz.org.appointment.R;
-import cz.org.appointment.activity.AppointmentActivity;
-import cz.org.appointment.api.AppointmentService;
+import cz.org.appointment.activity.LaboratoryInfoActivity;
 import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.api.Result;
-import cz.org.appointment.entity.Appointment;
 import cz.org.appointment.entity.Laboratory;
-import cz.org.appointment.util.DateUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
 import static cz.org.appointment.MyApplication.retrofit;
-import static cz.org.appointment.MyApplication.user;
+import static cz.org.appointment.activity.HomeActivity.homeTitle;
 
 
 public class HomeFragment extends LazyFragment {
@@ -70,6 +61,7 @@ public class HomeFragment extends LazyFragment {
 
     @Override
     protected void initViews(View view) {
+
         adapter = new CommonAdapter<Laboratory>(getActivity(), R.layout.adapter_labory_info, laboratoryList) {
             @Override
             protected void convert(ViewHolder viewHolder, Laboratory item, int position) {
@@ -88,6 +80,17 @@ public class HomeFragment extends LazyFragment {
                 viewHolder.setText(R.id.tv_tel, tel);
             }
         };
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            Log.d(TAG, "onItemClick: " + position);
+            Intent intent = new Intent(getActivity(), LaboratoryInfoActivity.class);
+            Bundle bundle = new Bundle();
+            Laboratory laboratory = (Laboratory) adapter.getItem(position);
+            bundle.putSerializable("laboratory", laboratory);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtras(bundle);
+            getActivity().startActivity(intent);
+        });
         //初始化刷新，加载控件
         setSwipeRefreshInfo();
     }
@@ -96,6 +99,7 @@ public class HomeFragment extends LazyFragment {
     @Override
     protected void onFragmentVisibleChange(boolean isVisible) {
         if (isVisible) {
+            homeTitle.setText("实验室信息");
             loadData();
         }
     }

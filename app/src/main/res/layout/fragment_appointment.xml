@@ -155,7 +155,7 @@
                         android:id="@+id/tx_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="实验室信息"
+                        android:text="预约状况"
                         android:textColor="@color/colorPrimary"
                         android:textSize="24dp" />
                 </LinearLayout>

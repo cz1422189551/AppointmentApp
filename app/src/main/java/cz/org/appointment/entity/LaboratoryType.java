@@ -1,10 +1,11 @@
 package cz.org.appointment.entity;//package com.lq.laboratory.entity;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class LaboratoryType {
+public class LaboratoryType implements Serializable {
 
     private int id;
 
