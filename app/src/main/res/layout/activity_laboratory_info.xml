@@ -48,7 +48,9 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         android:background="@mipmap/linear_borad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -179,6 +181,7 @@
                 android:text="地址 :  "
                 android:textSize="16dp" />
             <me.codeboy.android.aligntextview.AlignTextView
+                android:textColor="@color/colorPrimary"
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,6 +205,7 @@
                 android:textSize="16dp" />
 
             <me.codeboy.android.aligntextview.AlignTextView
+                android:textColor="@color/colorPrimary"
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

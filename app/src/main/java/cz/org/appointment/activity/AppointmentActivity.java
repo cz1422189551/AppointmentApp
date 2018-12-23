@@ -127,6 +127,7 @@ public class AppointmentActivity extends BaseActivity {
 //            }
 //        };
         adapter = new AppointmentAdapter(appointmentList, this,refreshLayout);
+        listView.setAdapter(adapter);
         setSwipeRefreshInfo();
 
     }

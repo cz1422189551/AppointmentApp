@@ -61,9 +61,9 @@ public class MyApplication extends Application {
     public static CommentService commentService;
     public static LaboratoryService laboratoryService;
 
-//        public static final String ip = "http://132.232.119.142:8080";
+        public static final String ip = "http://132.232.119.142:8080";
 
-    public static final String ip = "http://192.168.43.170:8080";
+//    public static final String ip = "http://192.168.43.170:8080";
 
     //    public static final String ip = "http://192.168.7.134:8080";
 

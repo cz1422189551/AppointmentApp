@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
@@ -31,7 +32,9 @@ import java.util.Map;
 import butterknife.BindView;
 import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
+import cz.org.appointment.activity.LoginActivity;
 import cz.org.appointment.api.AppointmentService;
+import cz.org.appointment.api.DefaultCallbackImpl;
 import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.entity.Appointment;
 
@@ -39,9 +42,12 @@ import cz.org.appointment.entity.Laboratory;
 import cz.org.appointment.entity.LaboratoryType;
 
 import cz.org.appointment.entity.ResponseEntity;
+import cz.org.appointment.entity.User;
 import cz.org.appointment.ui.OnItemSelectedListenerImpl;
 import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import okhttp3.MediaType;
@@ -51,6 +57,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
+import static cz.org.appointment.MyApplication.USER_KEY;
+import static cz.org.appointment.MyApplication.addActivity;
 import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.laboratoryService;
 import static cz.org.appointment.MyApplication.user;
@@ -92,6 +100,9 @@ public class AppointmentFragment extends LazyFragment {
 
     @BindView(R.id.btn_submit)
     Button submitBtn;
+
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
 
     //选择的时间
     LocalDateTime chooseDate;
@@ -140,6 +151,11 @@ public class AppointmentFragment extends LazyFragment {
         //初始化下拉列表
         Log.d(TAG, "initViews: ");
 
+        refreshLayout.setOnRefreshListener(refreshlayout -> {
+            requestData();
+            refreshlayout.finishRefresh(1500/*,false*/);//传入false表示刷新失败
+        });
+        refreshLayout.setEnableLoadMore(false);
         initSpinner();
         initBtn();
 
@@ -379,6 +395,11 @@ public class AppointmentFragment extends LazyFragment {
             try {
                 Map<String, String> map = new HashMap<>();
                 Date startDate = DateUtil.stringToDateWithTime(time);
+                if (user == null) {
+                    Toast.makeText(getActivity(), "账号信息过期", Toast.LENGTH_SHORT).show();
+                    IntentUtil.get().goActivity(getActivity(), LoginActivity.class);
+                    return;
+                }
                 String json = JsonUtil.toJson(new Appointment(user, laboratory, new Date(), startDate, null, DateUtil.stringToDate(date), minute, 1));
                 map.put("appointment", json
                 );
@@ -411,28 +432,34 @@ public class AppointmentFragment extends LazyFragment {
         if (isVisible) {
             initEdit();
             if (isFirst) {
-                Log.d(TAG, "onFragmentVisibleChange: 第一次");
-                int userType = user.getUserType();
-
-                Map<String, Integer> map = new HashMap<>();
-                if (userType == 1) map.put("userType", userType);
-                laboratoryService.laboratoryAllType(map).enqueue(new Callback<List<LaboratoryType>>() {
-                    @Override
-                    public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
-                        Log.d(TAG, "onResponse: " + response.body());
-                        isFirst = false;
-                        typeEntityList.addAll(response.body());
-                        typeAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<LaboratoryType>> call, Throwable t) {
-                        Log.d(TAG, "onFailure: " + t.getMessage());
-                    }
-                });
+                requestData();
             }
         }
 
+    }
+
+    private void requestData() {
+        Log.d(TAG, "onFragmentVisibleChange: 第一次");
+        int userType = user.getUserType();
+
+        Map<String, Integer> map = new HashMap<>();
+        if (userType == 1) map.put("userType", userType);
+        laboratoryService.laboratoryAllType(map).enqueue(new DefaultCallbackImpl<List<LaboratoryType>>(getActivity()) {
+            @Override
+            public void onResponse(Call<List<LaboratoryType>> call, Response<List<LaboratoryType>> response) {
+                Log.d(TAG, "onResponse: " + response.body());
+                isFirst = false;
+                typeEntityList.removeAll(typeEntityList);
+                typeEntityList.addAll(response.body());
+
+                entityList.removeAll(entityList);
+                laboratoryAdapter.notifyDataSetChanged();
+                laboratorySpinner.setAdapter(laboratoryAdapter);
+
+                typeAdapter.notifyDataSetChanged();
+                typeSpinner.setAdapter(typeAdapter);
+            }
+        });
     }
 
     private void initEdit() {

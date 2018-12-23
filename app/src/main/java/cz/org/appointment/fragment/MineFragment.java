@@ -84,6 +84,8 @@ public class MineFragment extends LazyFragment {
     ListView listView;
     boolean isFirst = true;
 
+
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_mine;

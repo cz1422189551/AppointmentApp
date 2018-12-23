@@ -176,7 +176,7 @@
                 android:id="@+id/et_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="姓名"
+                android:hint="性别"
                 android:textCursorDrawable="@null"
                 app:met_clearButton="true"
                 app:met_errorColor="#ff0000"

@@ -31,7 +31,9 @@ import cz.org.appointment.entity.Comment;
 import cz.org.appointment.entity.Laboratory;
 import cz.org.appointment.entity.ResponseEntity;
 import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.JsonUtil;
+import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -122,6 +124,13 @@ public class LaboratoryInfoActivity extends BaseActivity {
         commentBtn.setOnClickListener(v -> {
             if (!ValidateUtil.isViewTextEmpty(commentEt)) {
                 String commentStr = commentEt.getText().toString();
+
+                if (user == null) {
+                    Toast.makeText(this, "账号信息已过期,重新登录", Toast.LENGTH_SHORT).show();
+                    IntentUtil.get().goActivity(LaboratoryInfoActivity.this, LoginActivity.class);
+                    return;
+                }
+
                 Comment comment = new Comment(0, laboratory, user, commentStr, new Date());
                 Map<String, String> map = new HashMap<>();
                 map.put("comment", JsonUtil.toJson(comment));

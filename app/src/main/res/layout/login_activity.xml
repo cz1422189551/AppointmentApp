@@ -61,7 +61,8 @@
 
             <Button
                 android:id="@+id/btn_submit"
-                android:layout_width="80dp"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:gravity="center"
@@ -78,9 +79,10 @@
             android:orientation="horizontal">
 
             <Button
-                android:layout_marginRight="24dp"
+                android:layout_marginRight="8dp"
                 android:id="@+id/btn_register"
-                android:layout_width="80dp"
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:gravity="right"

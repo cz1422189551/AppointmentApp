@@ -1,263 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical">
-        <!--类别-->
-        <LinearLayout
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="16dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="实验室类别"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择实验室类别"
-                app:ms_multiline="true" />
-        </LinearLayout>
-
-        <!--实验室-->
-        <LinearLayout
-            android:id="@+id/ll_laboratory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-
-           >
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-
-                android:id="@+id/spinner_laboratory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="16dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="实验室"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="请选择实验室"
-                app:ms_multiline="true" />
-
-        </LinearLayout>
-
-
-        <!--选择时段-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="0dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="日期"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="日期"
-                app:ms_multiline="true" />
-
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1.5"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="0dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="时段"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="时段"
-                app:ms_multiline="true" />
-
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_minute"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1.5"
-                app:ms_arrowColor="#0000FF"
-                app:ms_arrowSize="0dp"
-                app:ms_baseColor="@color/colorPrimary"
-                app:ms_floatingLabelColor="@color/colorPrimaryText"
-                app:ms_floatingLabelText="使用时间"
-                app:ms_highlightColor="@color/colorPrimary"
-                app:ms_hint="时长"
-                app:ms_multiline="true" />
-
-
-
-
-        </LinearLayout>
-
-        <!-- 个人信息-->
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <!--类别-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center">
+                android:orientation="horizontal">
 
-                <Button
-                    android:background="@drawable/button_submit"
-                    android:id="@+id/btn_available"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="查询" />
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="#0000FF"
+                    app:ms_arrowSize="16dp"
+                    app:ms_baseColor="@color/colorPrimary"
+                    app:ms_floatingLabelColor="@color/colorPrimaryText"
+                    app:ms_floatingLabelText="实验室类别"
+                    app:ms_highlightColor="@color/colorPrimary"
+                    app:ms_hint="请选择实验室类别"
+                    app:ms_multiline="true" />
             </LinearLayout>
 
+            <!--实验室-->
             <LinearLayout
-
+                android:id="@+id/ll_laboratory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+
+                >
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+
+                    android:id="@+id/spinner_laboratory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_arrowColor="#0000FF"
+                    app:ms_arrowSize="16dp"
+                    app:ms_baseColor="@color/colorPrimary"
+                    app:ms_floatingLabelColor="@color/colorPrimaryText"
+                    app:ms_floatingLabelText="实验室"
+                    app:ms_highlightColor="@color/colorPrimary"
+                    app:ms_hint="请选择实验室"
+                    app:ms_multiline="true" />
+
+            </LinearLayout>
+
+
+            <!--选择时段-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:ms_arrowColor="#0000FF"
+                    app:ms_arrowSize="0dp"
+                    app:ms_baseColor="@color/colorPrimary"
+                    app:ms_floatingLabelColor="@color/colorPrimaryText"
+                    app:ms_floatingLabelText="日期"
+                    app:ms_highlightColor="@color/colorPrimary"
+                    app:ms_hint="日期"
+                    app:ms_multiline="true" />
+
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1.5"
+                    app:ms_arrowColor="#0000FF"
+                    app:ms_arrowSize="0dp"
+                    app:ms_baseColor="@color/colorPrimary"
+                    app:ms_floatingLabelColor="@color/colorPrimaryText"
+                    app:ms_floatingLabelText="时段"
+                    app:ms_highlightColor="@color/colorPrimary"
+                    app:ms_hint="时段"
+                    app:ms_multiline="true" />
+
+                <fr.ganfra.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_minute"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1.5"
+                    app:ms_arrowColor="#0000FF"
+                    app:ms_arrowSize="0dp"
+                    app:ms_baseColor="@color/colorPrimary"
+                    app:ms_floatingLabelColor="@color/colorPrimaryText"
+                    app:ms_floatingLabelText="使用时间"
+                    app:ms_highlightColor="@color/colorPrimary"
+                    app:ms_hint="时长"
+                    app:ms_multiline="true" />
+
+
+            </LinearLayout>
+
+            <!-- 个人信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:layout_marginTop="8dp"
                     android:gravity="center">
 
+                    <Button
+                        android:id="@+id/btn_available"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:background="@drawable/button_submit"
+                        android:text="查询" />
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tx_available"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="预约状况"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24dp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
                     <TextView
-                        android:id="@+id/tx_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="预约状况"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="24dp" />
+                        android:layout_marginLeft="8dp"
+                        android:text="姓名"
+                        android:textColor="@color/colorPrimaryText" />
+
                 </LinearLayout>
-            </LinearLayout>
 
-            <View
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimary"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="8dp"
-                    android:text="姓名"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="8dp"
-                    android:id="@+id/et_username"
-                    android:text="HelloWorld"
-                    android:textSize="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_marginTop="8dp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimary"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/et_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="HelloWorld"
+                        android:textSize="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="8dp"
-                    android:text="联系电话"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginLeft="8dp"
-                    android:id="@+id/et_tel"
-                    android:text="18807772672"
-                    android:textSize="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <View
-                    android:layout_marginTop="8dp"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/colorPrimary"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="联系电话"
+                        android:textColor="@color/colorPrimaryText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/et_tel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="18807772672"
+                        android:textSize="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorPrimary" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
+            <!--提交-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <Button
+                    android:layout_marginTop="32dp"
+                    android:id="@+id/btn_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_submit"
+                    android:gravity="center"
+                    android:text="提交" />
 
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
 
-    <!--提交-->
-    <LinearLayout
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:gravity="center"
-            android:background="@drawable/button_submit"
-            android:id="@+id/btn_submit"
-            android:text="提交"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

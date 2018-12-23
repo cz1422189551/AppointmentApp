@@ -87,6 +87,8 @@ public class AppointmentInfoAdapter extends BaseAdapter {
         viewHolder.tvStartDate = convertView.findViewById(R.id.tv_start_date);
         viewHolder.tvEndDate = convertView.findViewById(R.id.tx_end_date);
         viewHolder.tvCreateDate = convertView.findViewById(R.id.tv_create_date);
+        viewHolder.tvMinute = convertView.findViewById(R.id.tx_minute);
+        viewHolder.tvName = convertView.findViewById(R.id.tv_name);
 //        viewHolder.tvState = convertView.findViewById(R.id.tv_state);
         convertView.setTag(viewHolder);
 //        switch (item.getState()) {
@@ -104,9 +106,12 @@ public class AppointmentInfoAdapter extends BaseAdapter {
 //        }
 //        viewHolder.tvState.setText(state);
 
-
-
-
+        if (item.getUser() != null) {
+            viewHolder.tvName.setText(item.getUser().getName());
+        } else {
+            viewHolder.tvName.setVisibility(View.GONE);
+        }
+        viewHolder.tvMinute.setText(item.getMinute()+"");
         viewHolder.tvTitle.setText(title);
         viewHolder.tvStartDate.setText(startTime);
         viewHolder.tvEndDate.setText(endTime);
@@ -120,7 +125,8 @@ public class AppointmentInfoAdapter extends BaseAdapter {
         public TextView tvStartDate;
         public TextView tvEndDate;
         public TextView tvCreateDate;
-        public TextView tvState;
+        public TextView tvName;
+        public TextView tvMinute;
         TextView tvTitle, tvContent, tvTime;
 
     }
