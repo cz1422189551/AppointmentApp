@@ -12,6 +12,7 @@ import retrofit2.http.QueryMap;
 
 public interface UserService {
 
+
     @POST("/app/login")
     Call<User> login(@QueryMap Map<String, String> map);
 

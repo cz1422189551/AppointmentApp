@@ -9,6 +9,7 @@ import retrofit2.http.QueryMap;
 
 public interface AnnouncementService {
 
+    //公告列表
     @GET("/announcement/getList")
     Call<Result<Announcement>> getList(@QueryMap Map<String, Integer> map);
 

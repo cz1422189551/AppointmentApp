@@ -17,7 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import cz.org.appointment.R;
 import cz.org.appointment.adapter.AnnocmentAdapter;
-import cz.org.appointment.adapter.AnnouncementAdapter;
+
 import cz.org.appointment.api.DefaultCallbackImpl;
 import cz.org.appointment.api.ParamMapUtil;
 import cz.org.appointment.api.Result;

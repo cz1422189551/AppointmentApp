@@ -19,15 +19,20 @@ import retrofit2.http.QueryMap;
 
 public interface AppointmentService {
 
+    //查询实验室座位数量
     @POST("/appointment/available")
     Call<List<Appointment>> findAvailableInfo(@QueryMap Map<String, String> map);
 
+    //提交预约
     @POST("/appointment/add")
     Call<ResponseEntity<Appointment>> appointment(@QueryMap Map<String, String> map);
 
+    //取消预约
     @POST("/appointment/cancel")
     Call<ResponseEntity> cancelAppointment(@QueryMap Map<String, String> map);
 
+
+    //获取预约列表
     @GET("/appointment/getList")
     Call<Result<Appointment>> appointmentList(@QueryMap Map<String, Integer> map);
 

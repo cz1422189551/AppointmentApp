@@ -13,8 +13,6 @@ import retrofit2.http.QueryMap;
 
 public interface LaboratoryService {
 
-    @GET("laboratory/one/{id}")
-    Call<Laboratory> laboratorySeatList(@Path("id") String id);
 
 
     //获取所有实验室类型
