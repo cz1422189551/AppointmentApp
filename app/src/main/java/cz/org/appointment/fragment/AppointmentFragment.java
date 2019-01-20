@@ -4,10 +4,12 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -133,8 +135,8 @@ public class AppointmentFragment extends LazyFragment {
 
     BaseAdapter minuteAdapter;
 
-
-//    AppointmentService appointmentService;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
 
     //判断是否能够提交
     boolean availAppoint = false;
@@ -150,6 +152,7 @@ public class AppointmentFragment extends LazyFragment {
     protected void initViews(View view) {
         //初始化下拉列表
         Log.d(TAG, "initViews: ");
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> refreshLayout.setEnabled(scrollView.getScrollY() == 0));
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             requestData();
