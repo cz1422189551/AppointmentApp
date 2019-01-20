@@ -47,6 +47,8 @@ public class MyApplication extends Application {
 
     public static final int APPOINTING = 1;
 
+    public static final int USING = 2;
+
     public static final int FINISH = 3;
 
     public static final int CANCEL = -1;

@@ -30,6 +30,8 @@ import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.APPOINTING;
 import static cz.org.appointment.MyApplication.CANCEL;
+import static cz.org.appointment.MyApplication.FINISH;
+import static cz.org.appointment.MyApplication.USING;
 import static cz.org.appointment.MyApplication.appointmentService;
 
 
@@ -96,7 +98,10 @@ public class AppointmentAdapter extends BaseAdapter {
             case APPOINTING:
                 state = "预约中";
                 break;
-            case 3:
+            case USING:
+                state = "正在使用";
+                break;
+            case FINISH:
                 state = "已完成";
                 break;
             case CANCEL:
