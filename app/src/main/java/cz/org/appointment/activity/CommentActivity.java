@@ -58,7 +58,7 @@ public class CommentActivity extends BaseActivity {
 //            @Override
 //            protected void convert(ViewHolder viewHolder, Comment item, int position) {
 //                Log.d(TAG, "convert: " + item.getCommentContent());
-//                String time = DateUtil.DateToString(item.getTime());
+//                String time = DateUtilByAndroid.DateToString(item.getTime());
 //                String content = item.getCommentContent();
 //                String from = item.getLaboratory().getName();
 //                viewHolder.setText(R.id.tv_comment_date_my, time);

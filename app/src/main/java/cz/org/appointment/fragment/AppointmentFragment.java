@@ -1,7 +1,5 @@
 package cz.org.appointment.fragment;
 
-import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -14,14 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.google.gson.GsonBuilder;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -32,35 +26,26 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import cz.org.appointment.MyApplication;
 import cz.org.appointment.R;
 import cz.org.appointment.activity.LoginActivity;
-import cz.org.appointment.api.AppointmentService;
 import cz.org.appointment.api.DefaultCallbackImpl;
-import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.entity.Appointment;
 
 import cz.org.appointment.entity.Laboratory;
 import cz.org.appointment.entity.LaboratoryType;
 
 import cz.org.appointment.entity.ResponseEntity;
-import cz.org.appointment.entity.User;
 import cz.org.appointment.ui.OnItemSelectedListenerImpl;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.JsonUtil;
-import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.STUDENT;
-import static cz.org.appointment.MyApplication.USER_KEY;
-import static cz.org.appointment.MyApplication.addActivity;
 import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.laboratoryService;
 import static cz.org.appointment.MyApplication.user;
@@ -238,7 +223,7 @@ public class AppointmentFragment extends LazyFragment {
             }
         });
         //日期
-        dateList = DateUtil.initAvailableDate();
+        dateList = DateUtilByAndroid.initAvailableDate();
         dateAdapter = new CommonAdapter<String>(getActivity(), R.layout.spinner_date, dateList) {
             @Override
             protected void convert(ViewHolder viewHolder, String item, int position) {
@@ -250,16 +235,16 @@ public class AppointmentFragment extends LazyFragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 long currentLong = System.currentTimeMillis();
-                Date currentDate = DateUtil.longTimeToDate(currentLong);
+                Date currentDate = DateUtilByAndroid.longTimeToDate(currentLong);
 //                Date currentDate = null;
 //                try {
-////                    currentDate = DateUtil.stringToDateWithTime("2018-12-20 8:10");
+////                    currentDate = DateUtilByAndroid.stringToDateWithTime("2018-12-20 8:10");
 //                } catch (ParseException e) {
 //                    e.printStackTrace();
 //                }
                 String currentDateSrt = null;
                 try {
-                    currentDateSrt = DateUtil.stringToDateOnyDate(currentDate);
+                    currentDateSrt = DateUtilByAndroid.stringToDateOnyDate(currentDate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -268,9 +253,9 @@ public class AppointmentFragment extends LazyFragment {
 
                 timeList.removeAll(timeList);
                 if (currentDateSrt.equals(selectedStr)) { // 根据当前时间，来显示
-                    timeList.addAll(DateUtil.currentAvailableTime(currentDate, currentDateSrt));
+                    timeList.addAll(DateUtilByAndroid.currentAvailableTime(currentDate, currentDateSrt));
                 } else {
-                    timeList.addAll(DateUtil.initAvailableTime());
+                    timeList.addAll(DateUtilByAndroid.initAvailableTime());
                 }
                 timeAdapter.notifyDataSetChanged();
                 timeSpinner.setAdapter(timeAdapter);
@@ -292,7 +277,7 @@ public class AppointmentFragment extends LazyFragment {
         timeSpinner.setAdapter(timeAdapter);
         timeSpinner.setOnItemSelectedListener(new OnItemSelectedListenerImpl(availAppoint));
         //分钟
-        minuteList = DateUtil.initAvailableMinutes();
+        minuteList = DateUtilByAndroid.initAvailableMinutes();
         minuteAdapter = new CommonAdapter<Integer>(getActivity(), R.layout.spinner_minute, minuteList) {
             @Override
             protected void convert(ViewHolder viewHolder, Integer item, int position) {
@@ -337,8 +322,8 @@ public class AppointmentFragment extends LazyFragment {
                     if (body != null && body.size() > 0) {
                         int seatCount = body.get(0).getLaboratory().getSeatCount();
                         if (studentLaboratory != STUDENT) { //选中的是教师实验室
-                            String startDate = DateUtil.DateToStringWithoutYear(body.get(0).getAppointmentDate());
-                            String endDate = DateUtil.DateToStringOnlyHourMinute(body.get(0).getEndDate());
+                            String startDate = DateUtilByAndroid.DateToStringWithoutYear(body.get(0).getAppointmentDate());
+                            String endDate = DateUtilByAndroid.DateToStringOnlyHourMinute(body.get(0).getEndDate());
                             availableTextView.setText(startDate + " 至 " + endDate + " 被某教师预约");
                             availAppoint = false;
                         } else { // 选中的是学生实验室， 显示还剩多少个座位
@@ -397,13 +382,13 @@ public class AppointmentFragment extends LazyFragment {
             }
             try {
                 Map<String, String> map = new HashMap<>();
-                Date startDate = DateUtil.stringToDateWithTime(time);
+                Date startDate = DateUtilByAndroid.stringToDateWithTime(time);
                 if (user == null) {
                     Toast.makeText(getActivity(), "账号信息过期", Toast.LENGTH_SHORT).show();
                     IntentUtil.get().goActivity(getActivity(), LoginActivity.class);
                     return;
                 }
-                String json = JsonUtil.toJson(new Appointment(user, laboratory, new Date(), startDate, null, DateUtil.stringToDate(date), minute, 1));
+                String json = JsonUtil.toJson(new Appointment(user, laboratory, new Date(), startDate, null, DateUtilByAndroid.stringToDate(date), minute, 1));
                 map.put("appointment", json
                 );
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 import cz.org.appointment.R;
 import cz.org.appointment.entity.Announcement;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 import me.codeboy.android.aligntextview.AlignTextView;
 
 
@@ -63,7 +63,7 @@ public class AnnocmentAdapter extends BaseAdapter {
         convertView.setTag(viewHolder);
 
         viewHolder.tvTitle.setText(list.get(position).getTitle());
-        viewHolder.tvTime.setText(DateUtil.DateToString(list.get(position).getPushDate()));
+        viewHolder.tvTime.setText(DateUtilByAndroid.DateToString(list.get(position).getPushDate()));
         viewHolder.tvContent.setText(list.get(position).getContent());
         viewHolder.tvAdmin.setText(list.get(position).getPushMan());
 

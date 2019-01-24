@@ -22,7 +22,7 @@ import cz.org.appointment.api.DefaultCallbackImpl;
 import cz.org.appointment.api.ParamMapUtil;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Announcement;
-import cz.org.appointment.util.DateUtil;
+
 import retrofit2.Call;
 import retrofit2.Response;
 

@@ -54,19 +54,19 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     implementation 'com.zhy:base-adapter:3.0.3'
 
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 
 
 
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
 
 //    compile 'in.srain.cube:ptr-load-more:1.0.6'
-    compile 'cn.finalteam.loadingviewfinal:loading-more-view:1.0.1'
-    compile 'cn.finalteam.loadingviewfinal:ultra-pull-to-refresh:1.0.1'
+    implementation 'cn.finalteam.loadingviewfinal:loading-more-view:1.0.1'
+    implementation 'cn.finalteam.loadingviewfinal:ultra-pull-to-refresh:1.0.1'
 
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
 
-    compile ('com.github.ganfra:material-spinner:2.0.0'){
+
+    implementation ('com.github.ganfra:material-spinner:2.0.0'){
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 

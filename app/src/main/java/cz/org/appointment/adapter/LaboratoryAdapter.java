@@ -10,10 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cz.org.appointment.R;
-import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.Comment;
 import cz.org.appointment.entity.Laboratory;
-import cz.org.appointment.util.DateUtil;
 
 import static cz.org.appointment.MyApplication.STUDENT;
 

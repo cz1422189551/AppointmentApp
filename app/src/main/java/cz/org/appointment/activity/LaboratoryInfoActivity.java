@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.BindViews;
 import cz.org.appointment.R;
 import cz.org.appointment.adapter.CommentInfoAdapter;
 import cz.org.appointment.api.DefaultCallbackImpl;
@@ -30,10 +29,8 @@ import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Comment;
 import cz.org.appointment.entity.Laboratory;
 import cz.org.appointment.entity.ResponseEntity;
-import cz.org.appointment.util.DateUtil;
 import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.JsonUtil;
-import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -110,7 +107,7 @@ public class LaboratoryInfoActivity extends BaseActivity {
 //            @Override
 //            protected void convert(ViewHolder viewHolder, Comment item, int position) {
 //                Log.d(TAG, "convert: "+item.getCommentContent());
-//                String time = DateUtil.DateToString(item.getTime());
+//                String time = DateUtilByAndroid.DateToString(item.getTime());
 //                String content = item.getCommentContent();
 //                String name = item.getUser().getName();
 //                viewHolder.setText(R.id.tv_comment_date, time);

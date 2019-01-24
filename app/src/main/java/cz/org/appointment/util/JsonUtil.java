@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 
 public class JsonUtil {
 
-    static Gson gson = new GsonBuilder()
+    public static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm")
             .create();
 

@@ -1,19 +1,17 @@
 package cz.org.appointment.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import cz.org.appointment.R;
 import cz.org.appointment.entity.Comment;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 
 
 /**
@@ -66,7 +64,7 @@ public class MyCommentAdapter extends BaseAdapter {
 
         viewHolder.tvTitle.setText(list.get(position).getLaboratory().getName());
         viewHolder.tvContent.setText(list.get(position).getCommentContent());
-        viewHolder.tvTime.setText(DateUtil.DateToString(list.get(position).getTime()));
+        viewHolder.tvTime.setText(DateUtilByAndroid.DateToString(list.get(position).getTime()));
 
 
         return convertView;

@@ -1,7 +1,5 @@
 package cz.org.appointment.fragment;
 
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -15,9 +13,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.zhy.adapter.abslistview.CommonAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,26 +25,20 @@ import cz.org.appointment.activity.AppointmentActivity;
 import cz.org.appointment.activity.CommentActivity;
 import cz.org.appointment.activity.LoginActivity;
 import cz.org.appointment.activity.MineActivity;
-import cz.org.appointment.adapter.AppointmentAdapter;
 import cz.org.appointment.adapter.AppointmentInfoAdapter;
 import cz.org.appointment.api.DefaultCallbackImpl;
-import cz.org.appointment.api.LaboratoryService;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.Laboratory;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 import cz.org.appointment.util.IntentUtil;
 import cz.org.appointment.util.SharedPreferencesUtil;
 import cz.org.appointment.util.ValidateUtil;
 import fr.ganfra.materialspinner.MaterialSpinner;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static cz.org.appointment.MyApplication.USER_KEY;
 import static cz.org.appointment.MyApplication.appointmentService;
-import static cz.org.appointment.MyApplication.laboratoryService;
-import static cz.org.appointment.MyApplication.user;
 import static cz.org.appointment.activity.HomeActivity.homeTitle;
 
 
@@ -113,7 +102,7 @@ public class MineFragment extends LazyFragment {
             IntentUtil.get().goActivity(getActivity(), LoginActivity.class);
         });
         //日期
-        dateList = DateUtil.initAvailableDate();
+        dateList = DateUtilByAndroid.initAvailableDate();
         dateAdapter = new CommonAdapter<String>(getActivity(), R.layout.spinner_date, dateList) {
             @Override
             protected void convert(ViewHolder viewHolder, String item, int position) {

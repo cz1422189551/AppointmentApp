@@ -63,11 +63,11 @@ public class MyApplication extends Application {
     public static CommentService commentService;
     public static LaboratoryService laboratoryService;
 
-        public static final String ip = "http://132.232.119.142:8080";
+//        public static final String ip = "http://132.232.119.142:8080";
 
 //    public static final String ip = "http://192.168.43.170:8080";
 
-    //    public static final String ip = "http://192.168.7.134:8080";
+    public static final String ip = "http://192.168.7.134:8080";
 
 
     private static final OkHttpClient client = new OkHttpClient.Builder().
@@ -84,7 +84,7 @@ public class MyApplication extends Application {
         retrofit = new Retrofit.Builder()
                 .baseUrl(ip) //设置网络请求的Url地址
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create()) //设置数据解析器
+                .addConverterFactory(GsonConverterFactory.create(JsonUtil.gson))
                 .build();
         userService = retrofit.create(UserService.class);
         appointmentService = retrofit.create(AppointmentService.class);

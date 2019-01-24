@@ -1,6 +1,8 @@
 package cz.org.appointment.entity;
 
 
+import com.google.gson.annotations.JsonAdapter;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,11 +20,11 @@ public class Appointment implements Serializable {
     private Date createDate;
 
     //预约的时间
+
     private Date appointmentDate;
 
     //结束时间
     private Date endDate;
-
 
     private Date date;
 

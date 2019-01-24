@@ -2,33 +2,19 @@ package cz.org.appointment.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cz.org.appointment.R;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.ResponseEntity;
-import cz.org.appointment.util.DateUtil;
-import cz.org.appointment.util.JsonUtil;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static cz.org.appointment.MyApplication.APPOINTING;
-import static cz.org.appointment.MyApplication.CANCEL;
-import static cz.org.appointment.MyApplication.appointmentService;
+import cz.org.appointment.util.DateUtilByAndroid;
 
 
 /**
@@ -78,9 +64,9 @@ public class AppointmentInfoAdapter extends BaseAdapter {
 
 
         String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
-        String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
-        String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
-        String createTime = DateUtil.DateToString(item.getCreateDate());
+        String startTime = DateUtilByAndroid.DateToStringWithoutYear(item.getAppointmentDate());
+        String endTime = DateUtilByAndroid.DateToStringOnlyHourMinute(item.getEndDate());
+        String createTime = DateUtilByAndroid.DateToString(item.getCreateDate());
         String state = "";
 
         viewHolder.tvTitle = convertView.findViewById(R.id.tv_title);

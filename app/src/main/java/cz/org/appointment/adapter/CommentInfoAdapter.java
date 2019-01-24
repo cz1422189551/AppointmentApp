@@ -11,7 +11,7 @@ import java.util.List;
 
 import cz.org.appointment.R;
 import cz.org.appointment.entity.Comment;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 
 
 /**
@@ -64,7 +64,7 @@ public class CommentInfoAdapter extends BaseAdapter {
 
         viewHolder.tvTitle.setText(list.get(position).getUser().getName());
         viewHolder.tvContent.setText(list.get(position).getCommentContent());
-        viewHolder.tvTime.setText(DateUtil.DateToString(list.get(position).getTime()));
+        viewHolder.tvTime.setText(DateUtilByAndroid.DateToString(list.get(position).getTime()));
 
 
         return convertView;

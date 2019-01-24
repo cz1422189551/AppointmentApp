@@ -2,14 +2,13 @@ package cz.org.appointment.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class DateUtil {
-    static String TAG = DateUtil.class.getSimpleName();
+public class DateUtilByAndroid {
+    static String TAG = DateUtilByAndroid.class.getSimpleName();
     static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd ");
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     static SimpleDateFormat sdf3 = new SimpleDateFormat("MM-dd HH:mm");
@@ -73,9 +72,9 @@ public class DateUtil {
     public static List<String> currentAvailableTime(Date currentDate, String dateStr) {
         String dateTimeStr = dateStr + closeTimeStr;
         try {
-            Date closeDate = DateUtil.stringToDateWithTime(dateTimeStr);
+            Date closeDate = DateUtilByAndroid.stringToDateWithTime(dateTimeStr);
             long minute = ((closeDate.getTime() - currentDate.getTime()) / 1000) / 60;
-            String s = DateUtil.DateToStringOnlyHourMinute(currentDate);
+            String s = DateUtilByAndroid.DateToStringOnlyHourMinute(currentDate);
             String[] split = s.split(":");
             //控制开始时间startTime
             int startTime = (Integer.valueOf(split[0]));

@@ -1,14 +1,12 @@
 package cz.org.appointment;
 
-import android.text.format.DateUtils;
-
 import org.junit.Test;
 
 import java.text.ParseException;
 import java.util.Date;
 
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 import cz.org.appointment.util.JsonUtil;
 
 import static org.junit.Assert.*;
@@ -24,7 +22,7 @@ public class ExampleUnitTest {
     @Test
     public void test () throws ParseException {
         String time = "2018-12-25  9:00";
-        Date date = DateUtil.stringToDateWithTime(time);
+        Date date = DateUtilByAndroid.stringToDateWithTime(time);
         Appointment appointment = new Appointment();
         appointment.setAppointmentDate(new Date());
         String s = JsonUtil.toJson(appointment);

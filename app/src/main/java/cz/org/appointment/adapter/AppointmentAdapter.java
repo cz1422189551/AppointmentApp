@@ -18,11 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import cz.org.appointment.R;
-import cz.org.appointment.activity.AppointmentActivity;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.Comment;
 import cz.org.appointment.entity.ResponseEntity;
-import cz.org.appointment.util.DateUtil;
+import cz.org.appointment.util.DateUtilByAndroid;
 import cz.org.appointment.util.JsonUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,9 +80,9 @@ public class AppointmentAdapter extends BaseAdapter {
 
 
         String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
-        String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
-        String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
-        String createTime = DateUtil.DateToString(item.getCreateDate());
+        String startTime = DateUtilByAndroid.DateToStringWithoutYear(item.getAppointmentDate());
+        String endTime = DateUtilByAndroid.DateToStringOnlyHourMinute(item.getEndDate());
+        String createTime = DateUtilByAndroid.DateToString(item.getCreateDate());
         String state = "";
 
         viewHolder.tvTitle = convertView.findViewById(R.id.tv_title);

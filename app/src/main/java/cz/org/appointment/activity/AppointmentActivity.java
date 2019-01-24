@@ -23,15 +23,10 @@ import cz.org.appointment.R;
 import cz.org.appointment.adapter.AppointmentAdapter;
 import cz.org.appointment.api.Result;
 import cz.org.appointment.entity.Appointment;
-import cz.org.appointment.entity.ResponseEntity;
-import cz.org.appointment.util.DateUtil;
-import cz.org.appointment.util.JsonUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static cz.org.appointment.MyApplication.APPOINTING;
-import static cz.org.appointment.MyApplication.CANCEL;
 import static cz.org.appointment.MyApplication.appointmentService;
 import static cz.org.appointment.MyApplication.user;
 
@@ -78,9 +73,9 @@ public class AppointmentActivity extends BaseActivity {
 //            @Override
 //            protected void convert(ViewHolder viewHolder, Appointment item, int position) {
 //                String title = item.getLaboratory().getLaboratoryType().getName() + "——" + item.getLaboratory().getName();
-//                String startTime = DateUtil.DateToStringWithoutYear(item.getAppointmentDate());
-//                String endTime = DateUtil.DateToStringOnlyHourMinute(item.getEndDate());
-//                String createTime = DateUtil.DateToString(item.getCreateDate());
+//                String startTime = DateUtilByAndroid.DateToStringWithoutYear(item.getAppointmentDate());
+//                String endTime = DateUtilByAndroid.DateToStringOnlyHourMinute(item.getEndDate());
+//                String createTime = DateUtilByAndroid.DateToString(item.getCreateDate());
 //                String state = "";
 //                switch (item.getState()) {
 //                    case APPOINTING:
@@ -176,6 +171,7 @@ public class AppointmentActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Result<Appointment>> call, Throwable t) {
+
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 if (pageNumber == 1) {
                     Toast.makeText(AppointmentActivity.this, "刷新错误", Toast.LENGTH_SHORT).show();
