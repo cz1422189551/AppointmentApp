@@ -419,7 +419,7 @@ public class AppointmentFragment extends LazyFragment {
         Log.d(TAG, "onFragmentVisibleChange: " + isVisible);
         if (isVisible) {
             initEdit();
-            if (isFirst) {
+            if (isFirst || typeEntityList.size() < 1) {
                 requestData();
             }
         }
