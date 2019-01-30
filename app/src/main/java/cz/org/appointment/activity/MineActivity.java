@@ -171,7 +171,7 @@ public class MineActivity extends BaseActivity {
             //fixme: gender
             User u = new User(
                     id, nameEt.getText().toString(), userName, passwordEt.getText().toString(), telEt.getText().toString(),
-                    gender, userType, addressEt.getText().toString(), classGrade, departmentEt.getText().toString(),
+                    gender, userType, addressEt.getText().toString(), classGradeEt.getText().toString(), departmentEt.getText().toString(),
                     titleEt.getText().toString()
             );
             Map<String, String> map = new HashMap<>();
@@ -183,7 +183,7 @@ public class MineActivity extends BaseActivity {
                     ResponseEntity<User> body = response.body();
                     Toast.makeText(MineActivity.this, body.getMsg(), Toast.LENGTH_SHORT).show();
                     if (body.getData() != null) {
-                        SharedPreferencesUtil.saveData(MineActivity.this, USER_KEY, JsonUtil.toJson(body));
+                        SharedPreferencesUtil.saveData(MineActivity.this, USER_KEY, JsonUtil.toJson(body.getData()));
                         user = body.getData();
                     }
                 }

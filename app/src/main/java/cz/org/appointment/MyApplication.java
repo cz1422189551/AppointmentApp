@@ -63,11 +63,9 @@ public class MyApplication extends Application {
     public static CommentService commentService;
     public static LaboratoryService laboratoryService;
 
-//        public static final String ip = "http://132.232.119.142:8080";
 
-//    public static final String ip = "http://192.168.43.170:8080";
 
-    public static final String ip = "http://192.168.7.134:8080";
+    public static final String ip = "http://192.168.93.134:8080";
 
 
     private static final OkHttpClient client = new OkHttpClient.Builder().
@@ -115,11 +113,4 @@ public class MyApplication extends Application {
             activity.finish();
         }
     }
-
-//    //读取本地用户信息
-//    private User readLocalUserInfo() {
-//        String json = (String) SharedPreferencesUtil.getData(this, "userInfo", "");
-//        if (json == "") return null;
-//        return (User) JsonUtil.fromJson(json, User.class);
-//    }
 }
